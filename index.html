@@ -30,7 +30,7 @@ a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}b
 .btn-light:hover{background:var(--cream);border-color:var(--cream)}
 .section-title{font-size:clamp(32px,4.3vw,56px);line-height:1.12;letter-spacing:-.04em;font-weight:700;margin:0}
 .section-intro{font-size:16px;font-weight:300;line-height:1.65;color:var(--secondary);max-width:400px;margin:0}
-.site-header{height:84px;background:var(--black);border-bottom:1px solid rgba(255,255,255,.13);position:sticky;top:0;z-index:100}
+.site-header{height:84px;background:var(--black);border-bottom:1px solid rgba(255,255,255,.045);position:sticky;top:0;z-index:100}
 .header-inner{display:flex;align-items:center;justify-content:space-between;height:100%;gap:32px}
 .logo{display:inline-flex;align-items:center;flex-shrink:0}
 .logo img{display:block;width:124px;height:auto;max-height:54px;object-fit:contain}
@@ -152,6 +152,21 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 .process .step-icon{display:flex;align-items:center;justify-content:flex-start;width:100%;height:185px;background:transparent!important}
 .process .step-icon img{display:block;object-fit:contain;object-position:left center;width:185px;height:185px;max-width:100%;filter:none!important}
 @media(max-width:700px){.process .step-icon{height:156px}.process .step-icon img{width:156px;height:156px}}
+
+/* Refined selectable product tiles */
+.product-grid{gap:22px}
+.product{position:relative;padding:12px 12px 18px;border:1px solid #e8e8e6;background:#fff;transition:border-color .2s ease,background .2s ease;cursor:pointer}
+.product:hover{border-color:#bfc3ce}
+.product.is-selected{border-color:var(--blue);background:#f8faff;box-shadow:inset 0 0 0 1px var(--blue)}
+.product-color{aspect-ratio:1.15}
+.product-details{padding:18px 7px 0}
+.product-description{margin-bottom:16px}
+.product-controls{justify-content:flex-start;border-top:1px solid rgba(17,17,17,.07);padding-top:16px;min-height:42px}
+.card-select{position:absolute;inset:0;width:100%;height:100%;background:none;border:0;padding:0;cursor:pointer;z-index:1}
+.card-select:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.product-controls .swatches{position:relative;z-index:2}
+.swatch{cursor:pointer}
+@media(max-width:700px){.product-grid{gap:16px}.product{padding:8px 8px 14px}.product-details{padding:14px 5px 0}}
 </style>
 </head>
 <body>
@@ -205,21 +220,28 @@ const hats=[
  {name:"Performance Hat",description:"Lightweight active style",colors:[["White","#F2F2F0"],["Black","#242424"],["Gray","#9B9B99"],["Navy","#28364A"],["Cobalt","#2457FF"]]}
 ];
 const grid=document.getElementById("productGrid"),dialog=document.getElementById("quoteDialog"),hatSelect=document.getElementById("quoteHat"),colorSelect=document.getElementById("quoteColor");
+let selectedHatIndex=-1;
+function currentColor(index){const card=grid.children[index];return card?.querySelector('.swatch[aria-pressed="true"]')?.title||hats[index].colors[0][0]}
 function loadColors(i,selected){colorSelect.replaceChildren();hats[i].colors.forEach(([name])=>colorSelect.add(new Option(name,name)));if(selected&&hats[i].colors.some(([name])=>name===selected))colorSelect.value=selected}
-function openQuote(i=0,c){hatSelect.selectedIndex=i;loadColors(i,c);dialog.showModal()}
+function selectHat(index){
+ selectedHatIndex=index;
+ [...grid.children].forEach((card,i)=>{const active=i===index;card.classList.toggle("is-selected",active);card.querySelector(".card-select").setAttribute("aria-pressed",String(active))});
+ hatSelect.selectedIndex=index;loadColors(index,currentColor(index));
+}
+function openQuote(i=selectedHatIndex<0?0:selectedHatIndex,c){hatSelect.selectedIndex=i;loadColors(i,c||currentColor(i));dialog.showModal()}
 hats.forEach((h,i)=>{
  hatSelect.add(new Option(h.name,h.name));
  const card=document.createElement("article");card.className="product";
- const block=document.createElement("div");block.className="product-color";block.style.setProperty("--product-color",h.colors[0][1]);block.setAttribute("role","img");block.setAttribute("aria-label",h.name+" color placeholder");
+ const block=document.createElement("div");block.className="product-color";block.style.setProperty("--product-color",h.colors[0][1]);block.setAttribute("role","img");block.setAttribute("aria-label",h.name+" — "+h.colors[0][0]+" color placeholder");
  const details=document.createElement("div");details.className="product-details";
- details.innerHTML='<div class="product-line"><h3></h3><div class="price">$12 <span>/ ea</span></div></div><p class="product-description"></p><div class="product-controls"><div class="swatches" role="group"></div><button class="choose-btn" type="button">Select Hat</button></div>';
+ details.innerHTML='<div class="product-line"><h3></h3><div class="price">$12 <span>/ ea</span></div></div><p class="product-description"></p><div class="product-controls"><div class="swatches" role="group"></div></div>';
  details.querySelector("h3").textContent=h.name;details.querySelector(".product-description").textContent=h.description;
  const swatches=details.querySelector(".swatches");swatches.setAttribute("aria-label","Colors for "+h.name);
- h.colors.forEach(([name,hex],j)=>{const b=document.createElement("button");b.type="button";b.className="swatch";b.style.setProperty("--swatch",hex);b.title=name;b.setAttribute("aria-label",name);b.setAttribute("aria-pressed",String(j===0));b.onclick=()=>{swatches.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");block.style.setProperty("--product-color",hex);block.setAttribute("aria-label",h.name+" — "+name)};swatches.appendChild(b)});
- details.querySelector(".choose-btn").onclick=()=>openQuote(i,swatches.querySelector('[aria-pressed="true"]').title);
- card.append(block,details);grid.appendChild(card);
+ h.colors.forEach(([name,hex],j)=>{const b=document.createElement("button");b.type="button";b.className="swatch";b.style.setProperty("--swatch",hex);b.title=name;b.setAttribute("aria-label",name);b.setAttribute("aria-pressed",String(j===0));b.onclick=()=>{swatches.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");block.style.setProperty("--product-color",hex);block.setAttribute("aria-label",h.name+" — "+name+" color placeholder");selectHat(i)};swatches.appendChild(b)});
+ const select=document.createElement("button");select.type="button";select.className="card-select";select.setAttribute("aria-label","Select "+h.name);select.setAttribute("aria-pressed","false");select.onclick=()=>selectHat(i);
+ card.append(block,details,select);grid.appendChild(card);
 });
-hatSelect.onchange=()=>loadColors(hatSelect.selectedIndex);
+hatSelect.onchange=()=>{loadColors(hatSelect.selectedIndex);selectHat(hatSelect.selectedIndex)};
 document.querySelectorAll("[data-open-quote]").forEach(b=>b.onclick=()=>openQuote());
 document.getElementById("closeDialog").onclick=()=>dialog.close();
 dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
