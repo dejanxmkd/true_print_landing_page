@@ -201,6 +201,24 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
  .bottom-pair .process .step p{font-size:13px}
  .bottom-pair .cta-inner{align-items:flex-start;flex-direction:column;gap:24px}
 }
+
+/* Standalone full-width quote banner above black How It Works */
+.cta{background:var(--blue);color:var(--white);padding:80px 0}
+.cta-inner{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:30px}
+.cta h2{max-width:none;font-size:clamp(30px,3.6vw,54px)!important;white-space:nowrap!important}
+.process{background:var(--black);color:#fff;padding:90px 0 100px}
+.process .section-intro,.process .step p{color:rgba(255,255,255,.65)}
+.process .steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,64px)}
+.process .step h3{color:white}
+.process .step-icon{height:185px}
+.process .step-icon img{width:185px;height:185px;filter:none!important}
+@media(max-width:900px){.cta h2{white-space:normal!important}}
+@media(max-width:700px){
+ .cta-inner{flex-direction:column;align-items:flex-start}
+ .process .steps{grid-template-columns:1fr;gap:38px}
+ .process .step-icon{height:156px}
+ .process .step-icon img{width:156px;height:156px}
+}
 </style>
 </head>
 <body>
@@ -221,8 +239,8 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   <div class="section-head"><h2 class="section-title">Choose Your Hat</h2><p class="section-intro">Find your fit. Select a style and choose the color that works for your brand.</p></div>
   <div class="product-grid" id="productGrid"></div>
  </div></section>
- <div class="bottom-pair">
- <section class="process" id="how"><div class="wrap">
+ <section class="cta" id="contact"><div class="wrap cta-inner"><h2 class="cta-one-line">Ready to make your hats?</h2><button class="btn btn-light" data-open-quote type="button">Get a Free Quote</button></div></section>
+<section class="process" id="how"><div class="wrap">
   <div class="section-head"><h2 class="section-title">How It Works</h2><p class="section-intro">From your idea to the final order in three simple steps.</p></div>
   <div class="steps">
 <div class="step"><div class="step-top"><span class="step-icon"><img src="assets/choose-hat.webp" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Choose a Hat</h3><p>Pick the style and color that suit your brand.</p></div>
@@ -230,8 +248,6 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 <div class="step"><div class="step-top"><span class="step-icon"><img src="assets/approve-order.webp" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Approve &amp; Order</h3><p>Review the details and confirm your order.</p></div>
 </div>
  </div></section>
- <section class="cta" id="contact"><div class="wrap cta-inner"><h2 class="cta-one-line">Ready to make your hats?</h2><button class="btn btn-light" data-open-quote type="button">Get a Free Quote</button></div></section>
- </div>
 </main>
 <footer class="footer"><div class="wrap footer-inner"><a class="logo" href="#" aria-label="TruePrint Shop homepage"><img src="logo_true.svg" alt="TruePrint Shop"></a><small>© <span id="year"></span> TruePrint Shop</small></div></footer>
 <dialog id="quoteDialog" aria-labelledby="quoteTitle"><div class="dialog-inner">
