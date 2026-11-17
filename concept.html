@@ -295,6 +295,25 @@ header{height:82px}
  .close-main{padding-bottom:80px}
  .close-section h2{margin-bottom:22px}
 }
+
+/* Unified edge-to-edge editorial container */
+:root{--gutter:clamp(22px,3.25vw,58px);--placeholder:#2A2B2E}
+.wrap,.header-inner{width:100%;max-width:none;margin-inline:0;padding-inline:var(--gutter)}
+.header-inner{justify-content:space-between}
+.portal-image{background:var(--placeholder)}
+.portal-image:before{background:none}
+.hat-visual{background:var(--placeholder);border:1px solid rgba(245,241,232,.06)}
+.hat-card{padding:12px}
+.hat-info{padding:22px 8px 17px}
+.hat-description{margin:10px 0 0}
+.hat-number,.hat-swatches{display:none}
+.releases .wrap,.process .wrap,.close-section .wrap{max-width:none}
+@media(max-width:700px){
+ :root{--gutter:20px}
+ .hat-card{padding:8px}
+ .hat-info{padding:15px 6px 12px}
+ .hat-description{margin:8px 0 0}
+}
 </style>
 </head>
 <body>
@@ -302,7 +321,7 @@ header{height:82px}
  <div class="header-inner">
   <a href="#top" class="brand" aria-label="TruePrint Shop homepage"><img src="logo_true.svg" alt="TruePrint Shop"></a>
   <nav class="nav-links" id="navLinks" aria-label="Main navigation">
-   <a href="#hats">The hats</a><a href="#how">How it works</a><a href="#hats">Styles index</a><a href="#contact">Contact</a>
+   <a href="#top">Home</a><a href="#hats">Hats</a><a href="#how">How it works</a><a href="#contact">Contact</a>
   </nav>
   <button class="menu-btn" id="menuBtn" aria-controls="navLinks" aria-expanded="false">Menu</button>
   <button class="btn btn-blue" type="button" data-quote>Get a quote <span aria-hidden="true">↗</span></button>
@@ -438,29 +457,19 @@ function selectHat(i){
   card.classList.toggle("is-selected",isActive);
   card.querySelector(".hat-card-select").setAttribute("aria-pressed",String(isActive));
  });
- selectedSummary.textContent=hats[i].name+" · "+getChosenColor(i)+" · $12 / ea";
+ selectedSummary.textContent=hats[i].name+" · $12 / ea";
 }
 hats.forEach((hat,i)=>{
  const card=document.createElement("article");card.className="hat-card";
- const visual=document.createElement("div");visual.className="hat-visual";visual.style.backgroundColor=hat.colors[0][1];visual.setAttribute("aria-hidden","true");
- const number=document.createElement("span");number.className="hat-number";number.textContent=String(i+1).padStart(2,"0")+" / 06";
+ const visual=document.createElement("div");visual.className="hat-visual";visual.setAttribute("aria-hidden","true");
  const marker=document.createElement("span");marker.className="hat-selected-mark";marker.setAttribute("aria-hidden","true");marker.textContent="✓";
- visual.append(number,marker);
+ visual.append(marker);
  const info=document.createElement("div");info.className="hat-info";
  const title=document.createElement("h3");title.textContent=hat.name;
  const price=document.createElement("span");price.className="hat-price";price.textContent="$12 / ea";
  const heading=document.createElement("div");heading.className="hat-heading";heading.append(title,price);
  const desc=document.createElement("p");desc.className="hat-description";desc.textContent=hat.description;
- const swatches=document.createElement("div");swatches.className="hat-swatches";swatches.setAttribute("role","group");swatches.setAttribute("aria-label","Colors for "+hat.name);
- hat.colors.forEach(([name,color],j)=>{
-  const swatch=document.createElement("button");swatch.type="button";swatch.className="hat-swatch";swatch.style.setProperty("--swatch",color);swatch.setAttribute("aria-label",name);swatch.setAttribute("title",name);swatch.setAttribute("aria-pressed",String(j===0));
-  swatch.addEventListener("click",()=>{
-   chosenColors[i]=j;visual.style.backgroundColor=color;
-   swatches.querySelectorAll("button").forEach((b,k)=>b.setAttribute("aria-pressed",String(k===j)));
-   selectHat(i);
-  });swatches.append(swatch);
- });
- info.append(heading,desc,swatches);
+ info.append(heading,desc);
  const select=document.createElement("button");select.className="hat-card-select";select.type="button";select.setAttribute("aria-label","Select "+hat.name);select.setAttribute("aria-pressed","false");select.addEventListener("click",()=>selectHat(i));
  card.append(visual,info,select);hatGrid.append(card);hatCards.push(card);
 });
