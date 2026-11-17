@@ -306,7 +306,7 @@ header{height:82px}
 .hat-card{padding:0}
 .hat-info{padding:19px 0 12px}
 .hat-description{margin:10px 0 0}
-.hat-number,.hat-swatches{display:none}
+.hat-number{display:none}
 .releases .wrap,.process .wrap,.close-section .wrap{max-width:none}
 @media(max-width:700px){
  :root{--gutter:20px}
@@ -336,6 +336,28 @@ header{height:82px}
  .header-inner .btn{font-size:13px;min-height:40px;padding:9px 13px}
  .btn{min-height:48px;padding:12px 19px;font-size:14px;gap:12px}
  .close-wordmark{padding-bottom:8px}
+}
+
+/* Color picker overlay: only swatches appear above fixed charcoal placeholders */
+.hat-visual{isolation:isolate}
+.hat-color-panel{position:absolute;z-index:4;left:18px;right:18px;bottom:18px;display:flex;flex-direction:column;gap:14px;padding:16px 17px;background:rgba(15,16,19,.94);border-radius:12px;opacity:0;visibility:hidden;transform:translateY(12px);pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease),visibility .3s}
+.hat-card:hover .hat-color-panel,.hat-card:focus-within .hat-color-panel,.hat-card.is-selected .hat-color-panel{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+.hat-color-heading{display:flex;justify-content:space-between;gap:12px;font-size:11px;font-weight:500;letter-spacing:.04em;color:rgba(245,241,232,.65)}
+.hat-color-name{color:var(--ink);font-weight:600;letter-spacing:0}
+.hat-swatches{display:flex;position:relative;flex-wrap:wrap;align-items:center;gap:11px;z-index:5}
+.hat-swatch{width:25px;height:25px;border:2px solid transparent;border-radius:50%;background:var(--swatch);outline:1px solid rgba(255,255,255,.35);outline-offset:0;padding:0;cursor:pointer;transition:transform .25s var(--ease),outline-color .25s var(--ease)}
+.hat-swatch:hover{transform:scale(1.12)}
+.hat-swatch[aria-pressed=true]{outline:2px solid var(--blue);outline-offset:3px}
+.hat-swatch:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+@media(hover:none),(pointer:coarse){
+ .hat-color-panel{opacity:1;visibility:visible;transform:none;pointer-events:auto;bottom:12px;left:12px;right:12px;padding:12px 13px;gap:10px}
+ .hat-swatch{width:23px;height:23px}
+}
+@media(max-width:700px){
+ .hat-color-panel{left:9px;right:9px;bottom:9px;padding:10px;gap:9px}
+ .hat-color-heading{font-size:10px}
+ .hat-swatches{gap:9px}
+ .hat-swatch{width:21px;height:21px}
 }
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
@@ -481,11 +503,11 @@ function selectHat(i){
   card.classList.toggle("is-selected",isActive);
   card.querySelector(".hat-card-select").setAttribute("aria-pressed",String(isActive));
  });
- selectedSummary.textContent=hats[i].name+" · $12 / ea";
+ selectedSummary.textContent=hats[i].name+" · "+getChosenColor(i)+" · $12 / ea";
 }
 hats.forEach((hat,i)=>{
  const card=document.createElement("article");card.className="hat-card";
- const visual=document.createElement("div");visual.className="hat-visual";visual.setAttribute("aria-hidden","true");
+ const visual=document.createElement("div");visual.className="hat-visual";
  const marker=document.createElement("span");marker.className="hat-selected-mark";marker.setAttribute("aria-hidden","true");marker.textContent="✓";
  visual.append(marker);
  const info=document.createElement("div");info.className="hat-info";
@@ -493,6 +515,24 @@ hats.forEach((hat,i)=>{
  const price=document.createElement("span");price.className="hat-price";price.textContent="$12 / ea";
  const heading=document.createElement("div");heading.className="hat-heading";heading.append(title,price);
  const desc=document.createElement("p");desc.className="hat-description";desc.textContent=hat.description;
+ const swatchPanel=document.createElement("div");swatchPanel.className="hat-color-panel";
+ const swatchTop=document.createElement("div");swatchTop.className="hat-color-heading";
+ const swatchCaption=document.createElement("span");swatchCaption.textContent="Choose color";
+ const swatchName=document.createElement("span");swatchName.className="hat-color-name";swatchName.textContent=hat.colors[0][0];
+ swatchTop.append(swatchCaption,swatchName);
+ const swatches=document.createElement("div");swatches.className="hat-swatches";swatches.setAttribute("role","group");swatches.setAttribute("aria-label","Choose color for "+hat.name);
+ hat.colors.forEach(([name,hex],j)=>{
+  const swatch=document.createElement("button");swatch.type="button";swatch.className="hat-swatch";
+  swatch.style.setProperty("--swatch",hex);swatch.title=name;swatch.setAttribute("aria-label",name);
+  swatch.setAttribute("aria-pressed",String(j===0));
+  swatch.addEventListener("click",e=>{
+   e.stopPropagation();chosenColors[i]=j;swatchName.textContent=name;
+   swatches.querySelectorAll(".hat-swatch").forEach((el,k)=>el.setAttribute("aria-pressed",String(k===j)));
+   selectHat(i);
+  });
+  swatches.append(swatch);
+ });
+ swatchPanel.append(swatchTop,swatches);visual.append(swatchPanel);
  info.append(heading,desc);
  const select=document.createElement("button");select.className="hat-card-select";select.type="button";select.setAttribute("aria-label","Select "+hat.name);select.setAttribute("aria-pressed","false");select.addEventListener("click",()=>selectHat(i));
  card.append(visual,info,select);hatGrid.append(card);hatCards.push(card);
