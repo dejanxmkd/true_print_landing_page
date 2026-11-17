@@ -13,7 +13,7 @@
 :root{
   --blue:#2457FF;--black:#111111;--cream:#F5F1E8;--white:#FFFFFF;
   --ink:#111111;--secondary:#65635e;--line:#dedbd4;--surface:#f0eee8;
-  --content:1280px;--gutter:clamp(20px,4.5vw,72px);
+  --content:100%;--gutter:clamp(20px,2.5vw,48px);
   --ease:cubic-bezier(.16,1,.3,1)
 }
 *{box-sizing:border-box}
@@ -21,7 +21,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}button{cursor:pointer}
 :focus-visible{outline:2px solid var(--blue);outline-offset:4px}
-.wrap{max-width:calc(var(--content) + var(--gutter)*2);padding-inline:var(--gutter);margin-inline:auto}
+.wrap{width:100%;max-width:none;padding-inline:var(--gutter);margin-inline:auto}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:14px 26px;border:1px solid var(--blue);border-radius:0;background:var(--blue);color:#fff;font-size:14px;font-weight:600;line-height:1.3;transition:background .2s ease,border-color .2s ease}
 .btn:hover{background:#1645de;border-color:#1645de}
 .btn-dark{background:var(--black);border-color:var(--black)}
