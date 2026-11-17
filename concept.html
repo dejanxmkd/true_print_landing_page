@@ -435,24 +435,6 @@ header{height:82px}
 .header-inner .brand img{filter:none}
 .portal-marketing .brand-period{color:var(--blue)}
 
-/* How it works — more room and consistent editorial alignment for explanatory copy */
-.process-head,.roster-row{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,.8fr);column-gap:clamp(40px,6vw,120px)}
-.process-head{align-items:end}
-.process-head .body-copy{justify-self:start;width:100%;max-width:490px;margin:0;font-size:clamp(16px,1.18vw,19px);line-height:1.7;text-align:left}
-.roster-row{align-items:center;padding-block:clamp(34px,3.5vw,58px)}
-.roster-row p{justify-self:start;max-width:490px;width:100%;font-size:clamp(15px,1.06vw,17px);line-height:1.65;text-align:left}
-@media(max-width:950px){
- .process-head,.roster-row{grid-template-columns:minmax(0,1.2fr) minmax(0,.9fr);column-gap:clamp(24px,4vw,60px)}
- .process-head .body-copy{font-size:16px}
- .roster-row p{font-size:15px}
-}
-@media(max-width:700px){
- .process-head{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
- .process-head .body-copy{max-width:490px}
- .roster-row{grid-template-columns:1fr;gap:15px;padding-block:30px}
- .roster-row p{max-width:470px;font-size:14px;text-align:left}
-}
-
 /* Closing CTA: match the heading, body-copy scale and grid rhythm of How it works */
 .close-section{padding-top:var(--section-space);padding-bottom:32px}
 .close-main{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,.8fr);column-gap:clamp(40px,6vw,120px);align-items:end;padding-bottom:clamp(78px,8vw,120px)}
@@ -526,11 +508,11 @@ header{height:82px}
 <!-- 04 Process -->
 <section class="process" id="how" aria-labelledby="processTitle">
  <div class="wrap">
-  <div class="process-head"><div><h2 class="display reveal" id="processTitle">How it<br>works<span style="color:var(--blue)">.</span></h2></div><p class="body-copy reveal">From the first idea to the final order, without the complicated part.</p></div>
+  <div class="process-head"><div><h2 class="display reveal" id="processTitle">How it<br>works<span style="color:var(--blue)">.</span></h2></div><p class="body-copy reveal">From choosing the right hat to approving the final details, we make the process simple. Three clear steps to bring your design to life.</p></div>
   <div class="roster">
-   <div class="roster-row reveal"><div class="roster-title"><span class="eyebrow">01 / Select</span><h3>Choose a hat</h3></div><p>Pick the style and color that suit your brand.</p></div>
-   <div class="roster-row reveal"><div class="roster-title"><span class="eyebrow">02 / Create</span><h3>Send your logo</h3></div><p>Share your artwork and tell us what you have in mind.</p></div>
-   <div class="roster-row reveal"><div class="roster-title"><span class="eyebrow">03 / Confirm</span><h3>Approve &amp; order</h3></div><p>Review the details and confirm your order.</p></div>
+   <div class="roster-row reveal"><div class="roster-title"><span class="eyebrow">01 / Select</span><h3>Choose a hat</h3></div><p>Explore our hat styles and choose the fit, shape, and color that best represent your brand, team, or event. Start with the look that feels right for you.</p></div>
+   <div class="roster-row reveal"><div class="roster-title"><span class="eyebrow">02 / Create</span><h3>Send your logo</h3></div><p>Send us your logo or artwork and tell us how you want your hats to look. We’ll use your ideas to prepare the details for your custom order.</p></div>
+   <div class="roster-row reveal"><div class="roster-title"><span class="eyebrow">03 / Confirm</span><h3>Approve &amp; order</h3></div><p>Take a final look at your selected hat, color, and artwork details. Once everything looks right, approve your order and we’ll take it from there.</p></div>
   </div>
  </div>
 </section>
