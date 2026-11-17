@@ -358,7 +358,7 @@ header{height:82px}
 .hat-color-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;color:rgba(245,241,232,.58);font-family:'Sora',sans-serif;font-size:10px;font-weight:500;letter-spacing:.13em;text-transform:uppercase}
 .hat-color-name{color:var(--ink);font-family:'Syne',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.02em;text-transform:none}
 .hat-swatches{display:flex;align-items:center;flex-wrap:wrap;gap:13px;position:relative;z-index:5}
-.hat-swatch{width:26px;height:26px;border:0;border-radius:50%;padding:0;background:var(--swatch);outline:1px solid rgba(245,241,232,.26);outline-offset:0;cursor:pointer;transition:transform .3s var(--ease),outline-color .25s ease,outline-offset .25s ease}
+.hat-swatch{width:26px;height:26px;border:0;border-radius:50%;padding:0;background:var(--swatch);outline:0;cursor:pointer;transition:transform .3s var(--ease),outline-color .25s ease,outline-offset .25s ease}
 .hat-swatch:hover{transform:scale(1.15)}
 .hat-swatch[aria-pressed=true]{outline:2px solid var(--blue);outline-offset:4px}
 .hat-swatch:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
@@ -411,6 +411,13 @@ header{height:82px}
  .roster-title .eyebrow{font-size:11px}
  .roster-row p{text-align:left;font-size:13px}
 }
+
+/* Swatches are genuine interactive targets above the image selection layer */
+.hat-visual>.hat-card-select{inset:0;z-index:1}
+.hat-visual>.hat-color-panel{z-index:4}
+.hat-color-panel .hat-swatch{position:relative;z-index:5;pointer-events:auto;-webkit-tap-highlight-color:transparent}
+.hat-color-panel .hat-swatch:not([aria-pressed=true]){outline:none;box-shadow:none}
+.hat-swatch:focus-visible{outline:2px solid var(--ink)!important;outline-offset:4px}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -592,7 +599,8 @@ hats.forEach((hat,i)=>{
  swatchPanel.append(swatchTop,swatches);visual.append(swatchPanel);
  info.append(heading,desc);
  const select=document.createElement("button");select.className="hat-card-select";select.type="button";select.setAttribute("aria-label","Select "+hat.name);select.setAttribute("aria-pressed","false");select.addEventListener("click",()=>selectHat(i));
- card.append(visual,info,select);hatGrid.append(card);hatCards.push(card);
+ visual.insertBefore(select,visual.firstChild);
+ card.append(visual,info);hatGrid.append(card);hatCards.push(card);
 });
 document.getElementById("chooseSelected").addEventListener("click",()=>openQuote());
 const dialog=document.getElementById("quoteDialog");
