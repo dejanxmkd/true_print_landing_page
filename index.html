@@ -1,100 +1,200 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#F5F1E8">
-<meta name="description" content="Premium custom embroidered hats for businesses, teams, events and brands. TruePrint Shop.">
-<title>TruePrint Shop — Custom Hats. Made Better.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="description" content="TruePrint Shop — custom embroidered hats for businesses, teams, events and brands.">
+<title>TruePrint Shop — Custom Hats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--blue:#2457ff;--black:#111;--cream:#f5f1e8;--muted:#666;--line:#deddd8;--page:1440px}*{box-sizing:border-box}
-html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--black);font-family:Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased}button,input,select,textarea{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}img,svg{display:block}button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
-.wrap{width:min(var(--page),calc(100% - 96px));margin:auto}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.btn{appearance:none;border:0;border-radius:0;background:var(--blue);color:white;min-height:50px;padding:0 26px;display:inline-flex;gap:28px;align-items:center;justify-content:space-between;font-size:14px;font-weight:700;letter-spacing:0;transition:background .2s ease}.btn:hover{background:#1241dd}.btn .arr{font-size:22px;font-weight:300}.btn.invert{background:var(--cream);color:var(--black)}.btn.invert:hover{background:#fff}.btn.outline{background:transparent;border:1px solid #ccc;color:var(--black)}.btn.outline:hover{border-color:var(--black)}
-.site-header{height:82px;background:var(--cream);border-bottom:1px solid #dddcd7;position:relative;z-index:10}.site-header .wrap{height:100%;display:flex;align-items:center;justify-content:space-between;gap:30px}.brand{display:flex;align-items:baseline;gap:10px;white-space:nowrap}.brand strong{font-weight:800;letter-spacing:-.065em;font-size:28px;font-style:italic}.brand strong span{color:var(--blue)}.brand em{font-size:10px;font-style:normal;font-weight:700;letter-spacing:.35em}.navigation{display:flex;align-items:center;gap:42px;margin-left:auto}.navigation a{font-size:13px;font-weight:500}.navigation a:hover{color:var(--blue)}.header-cta{height:44px;min-height:44px;padding:0 22px;margin-left:20px}.menu-btn{display:none;background:none;border:0;font-size:27px}
-.hero{min-height:600px;background:var(--black);color:white;overflow:hidden}.hero-grid{min-height:600px;display:grid;grid-template-columns:46% 54%;align-items:center}.hero-copy{padding:75px 25px 75px 0;position:relative;z-index:2}.hero .eyebrow{color:#bdbdbd;display:flex;align-items:center;gap:12px}.hero .eyebrow:before{content:"";width:24px;height:2px;background:var(--blue)}.hero h1{font-weight:700;font-size:clamp(52px,6vw,96px);letter-spacing:-.045em;line-height:1.02;margin:28px 0 20px}.hero h1 span{color:var(--blue)}.hero p{font-size:clamp(15px,1.25vw,18px);font-weight:300;line-height:1.65;color:#d2d2d2;max-width:445px;margin:0 0 32px}.hero-note{font-size:11px;font-weight:400;letter-spacing:.12em;color:#999;margin-top:58px}.hero-stage{position:relative;height:100%;min-height:600px;display:flex;align-items:center;justify-content:center;isolation:isolate}.hero-stage:before{content:"";position:absolute;inset:0 -250px 0 0;z-index:-2;background:radial-gradient(ellipse at 60% 50%,#303337 0%,#181a1d 40%,#111 70%)}.hero-stage:after{content:"";position:absolute;width:610px;height:610px;max-width:90%;max-height:90%;border:1px solid rgba(255,255,255,.12);border-radius:50%;z-index:-1}.hero-stage svg{width:115%;max-width:810px;filter:drop-shadow(0 28px 22px rgba(0,0,0,.45));transform:rotate(-8deg) translate(-4%,4%)}.hero-caption{position:absolute;bottom:26px;right:0;color:#aaa;font-size:11px;letter-spacing:.11em}
-.catalog{padding:104px 0 112px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:32px;margin-bottom:38px}.section-head h2{font-size:clamp(37px,4.3vw,64px);font-weight:700;letter-spacing:-.04em;line-height:1.05;margin:12px 0 0}.section-head p{max-width:325px;font-size:15px;font-weight:300;line-height:1.65;color:#5e5e5e;margin:0}.product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:42px 20px}.product{min-width:0}.art{aspect-ratio:1.2;background:#e9e7e2;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}.art:before{content:"";position:absolute;width:80%;height:80%;border:1px solid rgba(0,0,0,.045);border-radius:50%}.cap-mount{width:100%;display:flex;align-items:center;justify-content:center}.art svg{width:104%;height:auto;max-height:96%;filter:drop-shadow(0 18px 10px rgba(0,0,0,.13));transition:transform .35s ease}.product:hover .art svg{transform:translateY(-5px) scale(1.035)}.art-tag{position:absolute;left:16px;top:16px;font-size:10px;letter-spacing:.12em;font-weight:700;color:#6a6a6a}.art-num{position:absolute;right:16px;top:13px;font-size:12px;color:#999}.product-body{padding:22px 0 0}.product-title-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px}.product h3{font-size:20px;font-weight:700;letter-spacing:-.025em;line-height:1.25;margin:0}.product-price{font-size:14px;white-space:nowrap;font-weight:700}.product-price small{font-weight:400;color:#777;font-size:11px}.product-desc{font-size:13px;color:#777;font-weight:300;margin:9px 0 17px}.product-foot{display:flex;align-items:center;justify-content:space-between;gap:15px;border-top:1px solid var(--line);padding-top:16px}.swatches{display:flex;gap:9px}.swatch{width:21px;height:21px;border-radius:50%;border:2px solid var(--cream);outline:1px solid #bbb;background:var(--color);padding:0}.swatch[aria-pressed=true]{outline:2px solid var(--blue);outline-offset:2px}.select-link{background:none;border:0;padding:4px 0;text-transform:uppercase;font-size:11px;letter-spacing:.08em;font-weight:700;color:var(--black)}.select-link:hover{color:var(--blue)}
-.process{background:#fff;padding:100px 0 110px}.process .section-head{margin-bottom:65px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}.step{border-top:1px solid #c8c8c8;padding-top:20px;min-width:0}.step-num{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--blue)}.step-icon{height:78px;margin:50px 0 23px;color:var(--black)}.step-icon svg{width:72px;height:72px;stroke:var(--black)}.step h3{font-size:24px;font-weight:700;letter-spacing:-.02em;margin:0 0 12px}.step p{font-size:14px;font-weight:300;color:#676767;line-height:1.65;max-width:275px;margin:0}
-.final-cta{background:var(--blue);color:#fff;padding:85px 0}.final-inner{display:flex;align-items:center;justify-content:space-between;gap:35px}.final-cta .eyebrow{color:#dce5ff}.final-cta h2{font-size:clamp(35px,4.7vw,66px);line-height:1.08;letter-spacing:-.035em;margin:12px 0 0}.footer{padding:26px 0;background:var(--cream)}.footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px}.footer small{font-size:11px;color:#777}.footer .brand strong{font-size:22px}
-dialog{width:min(500px,calc(100% - 28px));max-height:90vh;overflow:auto;border:0;border-radius:0;padding:0;background:var(--cream);box-shadow:0 20px 90px #0008}dialog::backdrop{background:rgba(0,0,0,.65)}.dialog-inner{padding:34px}.dialog-header{display:flex;justify-content:space-between;align-items:start;gap:20px}.dialog-header h2{font-size:31px;letter-spacing:-.03em;margin:8px 0 24px}.close{border:0;background:transparent;font-size:28px;padding:0 5px}.field{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:700;margin-bottom:15px}.field input,.field select,.field textarea{width:100%;min-height:47px;padding:12px;border:1px solid #cfcfcf;background:white;color:var(--black);border-radius:0;font-size:14px}.field textarea{min-height:88px;resize:vertical}.dialog-actions{display:flex;gap:10px;flex-wrap:wrap}.dialog-actions .btn{flex:1}.dialog-note{font-size:11px;color:#777;line-height:1.55;margin:15px 0 0}.toast{position:fixed;z-index:100;bottom:22px;left:50%;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:var(--black);color:white;padding:14px 20px;font-size:12px;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:1100px){.wrap{width:calc(100% - 56px)}.hero-grid{grid-template-columns:49% 51%}.hero h1{font-size:clamp(50px,6vw,75px)}.hero-stage svg{width:125%}.product h3{font-size:18px}.product-title-row{align-items:start;flex-direction:column;gap:5px}}
-@media(max-width:760px){.wrap{width:calc(100% - 36px)}.site-header{height:70px}.site-header .wrap{gap:16px}.brand strong{font-size:24px}.brand em{font-size:9px}.navigation{display:none;position:absolute;top:70px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--line);padding:24px 18px;flex-direction:column;align-items:start;gap:22px}.navigation.open{display:flex}.menu-btn{display:block;margin-left:auto}.header-cta{display:none}.hero-grid{display:flex;flex-direction:column;align-items:stretch;min-height:780px}.hero-copy{padding:67px 0 5px}.hero h1{font-size:clamp(50px,12vw,74px);margin:25px 0 19px}.hero-note{display:none}.hero-stage{min-height:355px;height:355px}.hero-stage svg{width:100%;max-width:550px;transform:rotate(-8deg) translate(0,0)}.hero-stage:after{width:300px;height:300px}.hero-caption{bottom:8px;right:0}.catalog{padding:78px 0 85px}.section-head{align-items:start;flex-direction:column;gap:18px;margin-bottom:28px}.section-head h2{font-size:43px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 14px}.art{aspect-ratio:.92}.art-tag{font-size:9px;left:9px;top:10px}.art-num{top:9px;right:10px}.product-body{padding-top:15px}.product h3{font-size:16px}.product-price{font-size:13px}.product-desc{font-size:12px}.product-foot{flex-direction:column;align-items:start;gap:16px}.swatches{gap:8px}.swatch{width:19px;height:19px}.process{padding:80px 0}.process .section-head{margin-bottom:38px}.steps{grid-template-columns:1fr;gap:40px}.step-icon{margin:20px 0}.step h3{font-size:23px}.final-cta{padding:70px 0}.final-inner{align-items:start;flex-direction:column;gap:30px}.final-cta h2{font-size:42px}.footer .wrap{align-items:start;flex-direction:column}.dialog-inner{padding:24px}}
-@media(max-width:400px){.product-grid{grid-template-columns:1fr}.art{aspect-ratio:1.3}.product-foot{flex-direction:row;align-items:center}.hero{min-height:0}.hero-grid{min-height:740px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
-.brand-logo{width:196px;height:auto;display:block}.footer .brand-logo{width:160px}@media(max-width:760px){.brand-logo{width:160px}}@media(max-width:400px){.brand-logo{width:145px}}
-
-/* Official Icon Monks duotone icon family — https://www.iconmonks.co/?weight=duotone */
-.im-icon{display:inline-block;object-fit:contain;flex-shrink:0;vertical-align:middle}
-.action-icon{width:21px;height:21px;filter:brightness(0) invert(1)}
-.btn.invert .action-icon,.btn.outline .action-icon{filter:none}
-.inline-icon{width:16px;height:16px;display:inline-block;margin-left:5px}
-.process-icon{width:70px;height:70px;filter:none}
-.menu-icon,.close-icon{width:27px;height:27px}
-.step-icon{display:flex;align-items:center}
-.select-link{display:inline-flex;align-items:center;gap:5px}
-
-/* Flat color-only placeholders and correctly scaled original logo */
-.brand-logo{width:128px!important;height:auto!important;max-height:55px;object-fit:contain}
-.footer .brand-logo{width:112px!important;height:auto!important}
-.site-header .brand{flex:0 0 auto;max-width:128px}
-.hero-stage{background:#252934;min-height:600px}
-.hero-stage::before,.hero-stage::after{display:none!important;content:none!important}
-.hero-stage svg,.hero-caption{display:none!important}
-.art{background:#e9e7e2;border:0}
-.art::before,.art-tag,.art-num,.cap-mount{display:none!important}
-@media(max-width:760px){
-.brand-logo{width:110px!important;max-height:46px}
-.site-header .brand{max-width:110px}
-.hero-stage{min-height:355px;height:355px}
+:root{
+  --blue:#2457FF;--black:#111111;--cream:#F5F1E8;--white:#FFFFFF;
+  --ink:#111111;--secondary:#65635e;--line:#dedbd4;--surface:#f0eee8;
+  --content:1280px;--gutter:clamp(20px,4.5vw,72px);
+  --ease:cubic-bezier(.16,1,.3,1)
 }
-@media(max-width:400px){.brand-logo{width:104px!important}.site-header .brand{max-width:104px}}
-</style></head>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+.wrap{max-width:calc(var(--content) + var(--gutter)*2);padding-inline:var(--gutter);margin-inline:auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:14px 26px;border:1px solid var(--blue);border-radius:0;background:var(--blue);color:#fff;font-size:14px;font-weight:600;line-height:1.3;transition:background .2s ease,border-color .2s ease}
+.btn:hover{background:#1645de;border-color:#1645de}
+.btn-dark{background:var(--black);border-color:var(--black)}
+.btn-dark:hover{background:#333;border-color:#333}
+.btn-light{background:var(--white);border-color:var(--white);color:var(--ink)}
+.btn-light:hover{background:var(--cream);border-color:var(--cream)}
+.section-title{font-size:clamp(32px,4.3vw,56px);line-height:1.12;letter-spacing:-.04em;font-weight:700;margin:0}
+.section-intro{font-size:16px;font-weight:300;line-height:1.65;color:var(--secondary);max-width:400px;margin:0}
+.site-header{height:84px;background:var(--cream);border-bottom:1px solid var(--line);position:relative;z-index:20}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:100%;gap:32px}
+.logo{display:inline-flex;align-items:center;flex-shrink:0}
+.logo img{display:block;width:124px;height:auto;max-height:54px;object-fit:contain}
+.nav{display:flex;align-items:center;gap:38px;margin-left:auto}
+.nav a{font-size:14px;font-weight:500;color:var(--ink);transition:color .2s}
+.nav a:hover{color:var(--blue)}
+.nav-quote{margin-left:10px}
+.menu-toggle{display:none;background:none;border:0;color:var(--ink);font-size:14px;font-weight:600;padding:12px}
+.hero{background:var(--cream)}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center;min-height:620px;padding-block:70px}
+.hero-content{padding-block:40px}
+.hero h1{font-size:clamp(52px,6.5vw,92px);font-weight:700;line-height:1.03;letter-spacing:-.065em;margin:0 0 24px;max-width:660px}
+.hero h1 span{color:var(--blue)}
+.hero p{font-size:clamp(16px,1.45vw,19px);font-weight:300;line-height:1.65;max-width:475px;margin:0 0 34px;color:#474641}
+.hero-placeholder{width:100%;aspect-ratio:1/1;background:var(--blue)}
+.collection{padding-block:100px 112px;background:var(--white)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:34px;margin-bottom:42px}
+.product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:50px 24px}
+.product{min-width:0}
+.product-color{width:100%;aspect-ratio:1.15;background:var(--product-color,#d1bea0);transition:background-color .25s}
+.product-details{padding-top:20px}
+.product-line{display:flex;align-items:start;justify-content:space-between;gap:14px}
+.product h3{font-size:20px;font-weight:600;line-height:1.35;letter-spacing:-.03em;margin:0}
+.price{font-size:14px;font-weight:600;white-space:nowrap;padding-top:5px}
+.price span{font-size:12px;font-weight:400;color:var(--secondary)}
+.product-description{font-size:13px;font-weight:400;color:var(--secondary);line-height:1.5;margin:7px 0 22px}
+.product-controls{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid #e9e9e9;padding-top:17px}
+.swatches{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.swatch{width:22px;height:22px;border:2px solid white;border-radius:50%;padding:0;outline:1px solid #d6d6d6;background:var(--swatch);transition:transform .2s var(--ease)}
+.swatch[aria-pressed=true]{outline:2px solid var(--blue);outline-offset:2px}
+.choose-btn{border:0;background:none;padding:6px 0;color:var(--blue);font-size:12px;font-weight:700;white-space:nowrap}
+.choose-btn:hover{text-decoration:underline;text-underline-offset:4px}
+.process{background:var(--cream);padding-block:100px 110px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:58px}
+.step{border-top:1px solid #bfbcb6;padding-top:32px}
+.step h3{font-size:24px;font-weight:600;letter-spacing:-.035em;line-height:1.3;margin:0 0 12px}
+.step p{max-width:310px;font-size:15px;font-weight:300;line-height:1.7;color:var(--secondary);margin:0}
+.cta{padding-block:90px;background:var(--blue);color:var(--white)}
+.cta-inner{display:flex;align-items:center;justify-content:space-between;gap:36px}
+.cta h2{font-size:clamp(34px,4.7vw,60px);line-height:1.12;font-weight:700;letter-spacing:-.045em;margin:0;max-width:670px}
+.footer{padding-block:34px;background:var(--black);color:var(--white)}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.footer .logo img{width:110px;filter:brightness(0) invert(1)}
+.footer small{font-size:12px;font-weight:300;color:#bcbcbc}
+dialog{width:min(530px,calc(100% - 30px));border:0;border-radius:0;padding:0;max-height:90dvh;overflow:auto;background:var(--cream);box-shadow:0 35px 100px #0005}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+.dialog-inner{padding:36px}
+.dialog-head{display:flex;justify-content:space-between;align-items:start;gap:20px;margin-bottom:26px}
+.dialog-head h2{font-size:30px;font-weight:700;letter-spacing:-.04em;line-height:1.2;margin:0}
+.close{border:0;background:none;font-size:26px;font-weight:300;line-height:1;min-width:30px}
+.field{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;font-size:13px;font-weight:600}
+.field input,.field select,.field textarea{width:100%;border:1px solid #cccac3;border-radius:0;background:#fff;color:var(--black);padding:13px;min-height:49px;font-size:14px;font-weight:400}
+.field textarea{resize:vertical;min-height:95px}
+.dialog-actions{display:flex;gap:12px;flex-wrap:wrap}.dialog-actions .btn{flex:1}
+.form-note{font-size:12px;font-weight:300;color:var(--secondary);line-height:1.6;margin:16px 0 0}
+.toast{position:fixed;bottom:24px;left:50%;z-index:100;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--black);color:white;padding:13px 19px;font-size:13px;transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1020px){
+ .hero-inner{min-height:560px;gap:35px}
+ .hero h1{font-size:clamp(46px,6.1vw,68px)}
+ .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .section-head{align-items:start;flex-direction:column}
+}
+@media(max-width:700px){
+ .site-header{height:70px}.header-inner{gap:14px}.logo img{width:106px;max-height:45px}
+ .nav{display:none;position:absolute;top:70px;left:0;right:0;background:var(--cream);padding:24px var(--gutter);border-bottom:1px solid var(--line);flex-direction:column;align-items:start;gap:25px}
+ .nav.open{display:flex}
+ .menu-toggle{display:block;margin-left:auto}
+ .nav-quote{margin-left:0;min-height:42px;padding-inline:15px}
+ .hero-inner{grid-template-columns:1fr;padding-block:60px 65px;gap:34px;min-height:0}
+ .hero-content{padding:0}.hero h1{font-size:clamp(47px,11vw,70px);margin-bottom:20px}
+ .hero p{font-size:16px;margin-bottom:26px}
+ .hero-placeholder{aspect-ratio:1.4}
+ .collection,.process{padding-block:74px 82px}
+ .section-head{margin-bottom:28px;gap:16px}
+ .section-title{font-size:37px}
+ .product-grid{gap:35px 15px}
+ .product h3{font-size:17px}.product-line{flex-direction:column;gap:3px}
+ .price{padding-top:0;font-size:13px}.product-description{font-size:12px}
+ .product-controls{align-items:start;flex-direction:column}
+ .steps{grid-template-columns:1fr;gap:36px;margin-top:38px}
+ .step{padding-top:22px}.step h3{font-size:22px}
+ .cta{padding-block:72px}.cta-inner{flex-direction:column;align-items:start;gap:28px}
+ .footer-inner{flex-direction:column;align-items:start}
+ .dialog-inner{padding:24px}
+}
+@media(max-width:390px){.product-grid{grid-template-columns:1fr}.product-controls{flex-direction:row;align-items:center}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+</style>
+</head>
 <body>
-<header class="site-header"><div class="wrap"><a class="brand" href="#" aria-label="TruePrint Shop homepage"><img src="logo_true.svg" alt="TruePrint Shop" class="brand-logo"></a>
-<nav class="navigation" id="nav" aria-label="Main menu"><a href="#hats">Hats</a><a href="#how">How It Works</a><a href="#quote">Contact</a></nav>
-<button class="btn header-cta" type="button" data-quote>Get a Quote <img class="im-icon action-icon" src="https://www.iconmonks.co/svg/duotone/arrow-right-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></button>
-<button class="menu-btn" type="button" id="menu" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav"><img class="im-icon menu-icon" src="https://www.iconmonks.co/svg/duotone/list-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></button>
-</div></header>
+<header class="site-header">
+ <div class="wrap header-inner">
+  <a class="logo" href="#" aria-label="TruePrint Shop homepage"><img src="logo_true.svg" alt="TruePrint Shop"></a>
+  <nav class="nav" id="nav" aria-label="Main navigation"><a href="#hats">Hats</a><a href="#how">How It Works</a><a href="#contact">Contact</a></nav>
+  <button class="btn nav-quote" type="button" data-open-quote>Get a Quote</button>
+  <button class="menu-toggle" id="menu" type="button" aria-label="Toggle menu" aria-controls="nav" aria-expanded="false">Menu</button>
+ </div>
+</header>
 <main>
-<section class="hero"><div class="wrap hero-grid"><div class="hero-copy"><h1>Custom Hats.<br><span>Made Better.</span></h1><p>Premium embroidered hats for businesses, teams, events, and brands.</p><a class="btn" href="#hats">Start Your Hat Design <img class="im-icon action-icon" src="https://www.iconmonks.co/svg/duotone/arrow-right-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></a><div class="hero-note">MADE TO REPRESENT WHAT MATTERS TO YOU.</div></div><div class="hero-stage" aria-hidden="true"></div></div></section>
-<section class="catalog" id="hats"><div class="wrap"><div class="section-head"><div><h2>Choose Your Hat.</h2></div><p>Six silhouettes to make your own. Pick a style, choose a color, and start with your logo.</p></div><div class="product-grid" id="products"></div></div></section>
-<section class="process" id="how"><div class="wrap"><div class="section-head"><div><h2>How It Works.</h2></div><p>Three easy steps from the first idea to your custom order.</p></div><div class="steps">
-<article class="step"><div class="step-icon"><img class="im-icon process-icon" src="https://www.iconmonks.co/svg/duotone/shopping-cart-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></div><h3>Choose a Hat</h3><p>Select your preferred style and color.</p></article>
-<article class="step"><div class="step-icon"><img class="im-icon process-icon" src="https://www.iconmonks.co/svg/duotone/upload-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></div><h3>Send Your Logo</h3><p>Share your artwork and the details of your design.</p></article>
-<article class="step"><div class="step-icon"><img class="im-icon process-icon" src="https://www.iconmonks.co/svg/duotone/check-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></div><h3>Approve & Order</h3><p>Review the design and confirm your order.</p></article>
-</div></div></section>
-<section class="final-cta" id="quote"><div class="wrap final-inner"><div><div class="eyebrow">LET'S GET STARTED</div><h2>Ready to Make<br>Your Hats?</h2></div><button class="btn invert" type="button" data-quote>Get a Free Quote <img class="im-icon action-icon" src="https://www.iconmonks.co/svg/duotone/arrow-right-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></button></div></section>
+ <section class="hero"><div class="wrap hero-inner">
+  <div class="hero-content"><h1>Custom Hats.<br><span>Made Better.</span></h1><p>Premium embroidered hats for businesses, teams, events, and brands.</p><a class="btn" href="#hats">Start Your Hat Design</a></div>
+  <div class="hero-placeholder" aria-hidden="true"></div>
+ </div></section>
+ <section class="collection" id="hats"><div class="wrap">
+  <div class="section-head"><h2 class="section-title">Choose Your Hat</h2><p class="section-intro">Find your fit. Select a style and choose the color that works for your brand.</p></div>
+  <div class="product-grid" id="productGrid"></div>
+ </div></section>
+ <section class="process" id="how"><div class="wrap">
+  <div class="section-head"><h2 class="section-title">How It Works</h2><p class="section-intro">From your idea to the final order in three simple steps.</p></div>
+  <div class="steps"><div class="step"><h3>Choose a Hat</h3><p>Pick the style and color that suit your brand.</p></div><div class="step"><h3>Send Your Logo</h3><p>Share your artwork and tell us what you have in mind.</p></div><div class="step"><h3>Approve &amp; Order</h3><p>Review the details and confirm your order.</p></div></div>
+ </div></section>
+ <section class="cta" id="contact"><div class="wrap cta-inner"><h2>Ready to make your hats?</h2><button class="btn btn-light" data-open-quote type="button">Get a Free Quote</button></div></section>
 </main>
-<footer class="footer"><div class="wrap"><a class="brand" href="#"><img src="logo_true.svg" alt="TruePrint Shop" class="brand-logo"></a><small>© <span id="year"></span> TRUEPRINT SHOP</small></div></footer>
-<dialog id="quoteDialog" aria-labelledby="dialogTitle"><div class="dialog-inner"><div class="dialog-header"><div><div class="eyebrow">TRUEPRINT SHOP</div><h2 id="dialogTitle">Request a Quote</h2></div><button class="close" id="close" type="button" aria-label="Close"><img class="im-icon close-icon" src="https://www.iconmonks.co/svg/duotone/x-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></button></div><form id="quoteForm">
-<label class="field">Hat model<select id="model" required></select></label><label class="field">Color<select id="color" required></select></label>
-<label class="field">Quantity<input id="qty" type="number" min="1" value="24" required></label>
-<label class="field">Design details<textarea id="details" placeholder="Describe your logo or embroidery idea..."></textarea></label>
-<div class="dialog-actions"><button class="btn" type="submit">Copy Details <img class="im-icon action-icon" src="https://www.iconmonks.co/svg/duotone/arrow-right-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></button><button class="btn outline" type="button" id="download">Download</button></div>
-<p class="dialog-note">Your quote details are prepared locally. No request is sent until you share it with the shop.</p></form></div></dialog><div class="toast" id="toast" role="status" aria-live="polite"></div>
+<footer class="footer"><div class="wrap footer-inner"><a class="logo" href="#" aria-label="TruePrint Shop homepage"><img src="logo_true.svg" alt="TruePrint Shop"></a><small>© <span id="year"></span> TruePrint Shop</small></div></footer>
+<dialog id="quoteDialog" aria-labelledby="quoteTitle"><div class="dialog-inner">
+ <div class="dialog-head"><h2 id="quoteTitle">Get a Quote</h2><button class="close" id="closeDialog" type="button" aria-label="Close">×</button></div>
+ <form id="quoteForm">
+  <label class="field">Hat style<select id="quoteHat" required></select></label>
+  <label class="field">Color<select id="quoteColor" required></select></label>
+  <label class="field">Quantity<input id="quoteQty" type="number" min="1" value="24" required></label>
+  <label class="field">Design details<textarea id="quoteDetails" placeholder="Tell us about your logo or embroidery idea"></textarea></label>
+  <div class="dialog-actions"><button class="btn" type="submit">Copy Details</button><button class="btn btn-dark" type="button" id="downloadQuote">Download</button></div>
+  <p class="form-note">This prepares your quote details. It does not send a request or place an order.</p>
+ </form>
+</div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
-// Visual hat illustrations are editable placeholders, not supplier product photographs.
 const hats=[
-{title:"The Standard Dad Hat",subtitle:"Classic, everyday fit",kind:"dad",color:"#c2a77e",colors:[["Sand","#c2a77e"],["Black","#252525"],["Gray","#888d90"],["Navy","#293851"],["Olive","#6b735c"]]},
-{title:"The Cord Hat",subtitle:"Vintage corduroy texture",kind:"cord",color:"#99663e",colors:[["Brown","#99663e"],["Black","#252525"],["Tan","#d2b68d"],["Forest","#355243"],["Navy","#293851"]]},
-{title:"Waffle Snapback Hat",subtitle:"Structured, textured finish",kind:"waffle",color:"#dfd1b7",colors:[["Cream","#dfd1b7"],["Black","#252525"],["Gray","#888d90"],["Navy","#293851"],["Blue","#6487a4"]]},
-{title:"The Cloud Hat",subtitle:"Soft, relaxed profile",kind:"cloud",color:"#293851",colors:[["Navy","#293851"],["Black","#252525"],["Gray","#888d90"],["White","#f4f4f2"],["Blue","#6487a4"]]},
-{title:"7 Panel Drylux",subtitle:"Clean, performance style",kind:"panel",color:"#515558",colors:[["Charcoal","#515558"],["Black","#252525"],["Gray","#999"],["White","#f4f4f2"],["Navy","#293851"]]},
-{title:"Performance Hat",subtitle:"Lightweight, breathable fit",kind:"performance",color:"#f0f0ed",colors:[["White","#f0f0ed"],["Black","#252525"],["Gray","#999"],["Navy","#293851"],["Cobalt","#2457ff"]]}
+ {name:"The Standard Dad Hat",description:"Classic everyday style",colors:[["Sand","#C5B395"],["Black","#242424"],["Gray","#9B9B99"],["Navy","#28364A"],["Olive","#737965"]]},
+ {name:"The Cord Hat",description:"Soft corduroy style",colors:[["Brown","#9E744F"],["Black","#242424"],["Tan","#CDB38E"],["Forest","#345445"],["Navy","#28364A"]]},
+ {name:"Waffle Snapback Hat",description:"Structured, textured style",colors:[["Cream","#E4D9C8"],["Black","#242424"],["Gray","#9B9B99"],["Navy","#28364A"],["Blue","#7190AD"]]},
+ {name:"The Cloud Hat",description:"Comfortable relaxed fit",colors:[["Navy","#28364A"],["Black","#242424"],["Gray","#9B9B99"],["White","#F2F2F0"],["Blue","#7190AD"]]},
+ {name:"7 Panel Drylux",description:"Clean modern profile",colors:[["Charcoal","#595C5D"],["Black","#242424"],["Gray","#9B9B99"],["White","#F2F2F0"],["Navy","#28364A"]]},
+ {name:"Performance Hat",description:"Lightweight active style",colors:[["White","#F2F2F0"],["Black","#242424"],["Gray","#9B9B99"],["Navy","#28364A"],["Cobalt","#2457FF"]]}
 ];
-const grid=document.getElementById("products"),model=document.getElementById("model"),color=document.getElementById("color"),dialog=document.getElementById("quoteDialog");
-function colorsFor(i,preferred){color.replaceChildren();hats[i].colors.forEach(([name])=>color.add(new Option(name,name)));if(preferred)color.value=preferred}
-function openQuote(i=0,preferred){model.selectedIndex=i;colorsFor(i,preferred);dialog.showModal()}
-hats.forEach((hat,i)=>{model.add(new Option(hat.title,hat.title));const card=document.createElement("article");card.className="product";card.innerHTML='<div class="art" style="background:'+hat.color+'"></div><div class="product-body"><div class="product-title-row"><h3>'+hat.title+'</h3><div class="product-price">$12 <small>/ ea</small></div></div><p class="product-desc">'+hat.subtitle+'</p><div class="product-foot"><div class="swatches" role="group" aria-label="Color options for '+hat.title+'"></div><button type="button" class="select-link">SELECT STYLE <img class="im-icon inline-icon" src="https://www.iconmonks.co/svg/duotone/arrow-right-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></button></div></div>';
-const swatches=card.querySelector(".swatches");hat.colors.forEach(([name,hex],j)=>{const b=document.createElement("button");b.className="swatch";b.type="button";b.title=name;b.setAttribute("aria-label",name);b.setAttribute("aria-pressed",j===0?"true":"false");b.style.setProperty("--color",hex);b.onclick=()=>{swatches.querySelectorAll(".swatch").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");card.querySelector(".art").style.backgroundColor=hex};swatches.appendChild(b)});card.querySelector(".select-link").onclick=()=>openQuote(i,swatches.querySelector('[aria-pressed="true"]').title);grid.appendChild(card)});
-
-model.onchange=()=>colorsFor(model.selectedIndex);
-document.querySelectorAll("[data-quote]").forEach(b=>b.onclick=()=>openQuote());
-document.getElementById("close").onclick=()=>dialog.close();dialog.onclick=e=>{if(e.target===dialog)dialog.close()};
-const menu=document.getElementById("menu"),nav=document.getElementById("nav");menu.onclick=()=>{const v=nav.classList.toggle("open");menu.setAttribute("aria-expanded",String(v))};nav.querySelectorAll("a").forEach(a=>a.onclick=()=>{nav.classList.remove("open");menu.setAttribute("aria-expanded","false")});
-function requestText(){return ["TRUEPRINT SHOP — QUOTE REQUEST","Model: "+model.value,"Color: "+color.value,"Quantity: "+document.getElementById("qty").value,"Design: "+(document.getElementById("details").value||"Not specified")].join("\n")}
-const toast=document.getElementById("toast");function notify(message){toast.textContent=message;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),3000)}
-document.getElementById("quoteForm").onsubmit=async e=>{e.preventDefault();try{await navigator.clipboard.writeText(requestText());notify("Quote details copied.")}catch{notify("Use Download to save your quote details.")}};
-document.getElementById("download").onclick=()=>{if(!document.getElementById("qty").reportValidity())return;const blob=new Blob([requestText()],{type:"text/plain;charset=utf-8"}),u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download="trueprint-quote.txt";a.click();URL.revokeObjectURL(u);notify("Quote details downloaded.")};
+const grid=document.getElementById("productGrid"),dialog=document.getElementById("quoteDialog"),hatSelect=document.getElementById("quoteHat"),colorSelect=document.getElementById("quoteColor");
+function loadColors(i,selected){colorSelect.replaceChildren();hats[i].colors.forEach(([name])=>colorSelect.add(new Option(name,name)));if(selected&&hats[i].colors.some(([name])=>name===selected))colorSelect.value=selected}
+function openQuote(i=0,c){hatSelect.selectedIndex=i;loadColors(i,c);dialog.showModal()}
+hats.forEach((h,i)=>{
+ hatSelect.add(new Option(h.name,h.name));
+ const card=document.createElement("article");card.className="product";
+ const block=document.createElement("div");block.className="product-color";block.style.setProperty("--product-color",h.colors[0][1]);block.setAttribute("role","img");block.setAttribute("aria-label",h.name+" color placeholder");
+ const details=document.createElement("div");details.className="product-details";
+ details.innerHTML='<div class="product-line"><h3></h3><div class="price">$12 <span>/ ea</span></div></div><p class="product-description"></p><div class="product-controls"><div class="swatches" role="group"></div><button class="choose-btn" type="button">Select Hat</button></div>';
+ details.querySelector("h3").textContent=h.name;details.querySelector(".product-description").textContent=h.description;
+ const swatches=details.querySelector(".swatches");swatches.setAttribute("aria-label","Colors for "+h.name);
+ h.colors.forEach(([name,hex],j)=>{const b=document.createElement("button");b.type="button";b.className="swatch";b.style.setProperty("--swatch",hex);b.title=name;b.setAttribute("aria-label",name);b.setAttribute("aria-pressed",String(j===0));b.onclick=()=>{swatches.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");block.style.setProperty("--product-color",hex);block.setAttribute("aria-label",h.name+" — "+name)};swatches.appendChild(b)});
+ details.querySelector(".choose-btn").onclick=()=>openQuote(i,swatches.querySelector('[aria-pressed="true"]').title);
+ card.append(block,details);grid.appendChild(card);
+});
+hatSelect.onchange=()=>loadColors(hatSelect.selectedIndex);
+document.querySelectorAll("[data-open-quote]").forEach(b=>b.onclick=()=>openQuote());
+document.getElementById("closeDialog").onclick=()=>dialog.close();
+dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
+const menu=document.getElementById("menu"),nav=document.getElementById("nav");
+menu.onclick=()=>{const open=nav.classList.toggle("open");menu.setAttribute("aria-expanded",String(open))};
+nav.querySelectorAll("a").forEach(a=>a.onclick=()=>{nav.classList.remove("open");menu.setAttribute("aria-expanded","false")});
+function quoteText(){return ["TRUEPRINT SHOP — QUOTE REQUEST","Hat: "+hatSelect.value,"Color: "+colorSelect.value,"Quantity: "+document.getElementById("quoteQty").value,"Design details: "+(document.getElementById("quoteDetails").value||"Not specified")].join("\n")}
+const toast=document.getElementById("toast");
+function notify(t){toast.textContent=t;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),2800)}
+document.getElementById("quoteForm").onsubmit=async e=>{e.preventDefault();try{await navigator.clipboard.writeText(quoteText());notify("Quote details copied.")}catch{notify("Please use Download to save your details.")}};
+document.getElementById("downloadQuote").onclick=()=>{if(!document.getElementById("quoteQty").reportValidity())return;const blob=new Blob([quoteText()],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="trueprint-quote.txt";a.click();URL.revokeObjectURL(url);notify("Quote details downloaded.")};
 document.getElementById("year").textContent=new Date().getFullYear();
-</script></body></html>
+</script>
+</body>
+</html>
