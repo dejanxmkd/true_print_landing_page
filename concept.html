@@ -452,6 +452,30 @@ header{height:82px}
  .roster-row{grid-template-columns:1fr;gap:15px;padding-block:30px}
  .roster-row p{max-width:470px;font-size:14px;text-align:left}
 }
+
+/* Closing CTA: match the heading, body-copy scale and grid rhythm of How it works */
+.close-section{padding-top:var(--section-space);padding-bottom:32px}
+.close-main{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,.8fr);column-gap:clamp(40px,6vw,120px);align-items:end;padding-bottom:clamp(78px,8vw,120px)}
+.close-section h2{font-family:'Syne',sans-serif;font-size:clamp(46px,6.6vw,112px);font-weight:700;line-height:.96;letter-spacing:-.03em;max-width:880px;margin:0 0 clamp(24px,2.6vw,40px)}
+.close-section .close-main p{font-family:'Sora',sans-serif;font-size:clamp(16px,1.18vw,19px);line-height:1.7;color:var(--muted);max-width:490px;margin:0}
+.close-actions{justify-content:flex-start;align-items:center;gap:14px;padding:0 0 4px}
+.close-actions .btn{font-size:clamp(14px,1.05vw,16px);font-weight:500;min-height:52px}
+.footer-line{font-family:'Sora',sans-serif;font-size:13px;font-weight:400;line-height:1.6;letter-spacing:0;padding-block:24px;align-items:center}
+.footer-line a{font-size:13px;font-weight:500}
+@media(max-width:950px){
+ .close-main{grid-template-columns:minmax(0,1.2fr) minmax(0,.9fr);column-gap:clamp(24px,4vw,60px)}
+ .close-section .close-main p{font-size:16px}
+ .close-actions{align-items:flex-start;justify-content:flex-start}
+}
+@media(max-width:700px){
+ .close-main{display:flex;flex-direction:column;align-items:flex-start;gap:36px;padding-bottom:72px}
+ .close-section h2{font-size:clamp(44px,9vw,72px);margin-bottom:24px}
+ .close-section .close-main p{font-size:16px;max-width:490px}
+ .close-actions{gap:12px;justify-content:flex-start;padding:0}
+ .close-actions .btn{min-height:48px;font-size:14px}
+ .footer-line{gap:12px 20px;padding-block:22px;font-size:12px}
+ .footer-line a{font-size:12px}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
