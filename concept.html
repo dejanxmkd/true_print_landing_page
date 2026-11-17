@@ -434,6 +434,24 @@ header{height:82px}
 /* Supplied original-color nav SVG; blue period in hero headline */
 .header-inner .brand img{filter:none}
 .portal-marketing .brand-period{color:var(--blue)}
+
+/* How it works — more room and consistent editorial alignment for explanatory copy */
+.process-head,.roster-row{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,.8fr);column-gap:clamp(40px,6vw,120px)}
+.process-head{align-items:end}
+.process-head .body-copy{justify-self:start;width:100%;max-width:490px;margin:0;font-size:clamp(16px,1.18vw,19px);line-height:1.7;text-align:left}
+.roster-row{align-items:center;padding-block:clamp(34px,3.5vw,58px)}
+.roster-row p{justify-self:start;max-width:490px;width:100%;font-size:clamp(15px,1.06vw,17px);line-height:1.65;text-align:left}
+@media(max-width:950px){
+ .process-head,.roster-row{grid-template-columns:minmax(0,1.2fr) minmax(0,.9fr);column-gap:clamp(24px,4vw,60px)}
+ .process-head .body-copy{font-size:16px}
+ .roster-row p{font-size:15px}
+}
+@media(max-width:700px){
+ .process-head{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
+ .process-head .body-copy{max-width:490px}
+ .roster-row{grid-template-columns:1fr;gap:15px;padding-block:30px}
+ .roster-row p{max-width:470px;font-size:14px;text-align:left}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
