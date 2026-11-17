@@ -32,6 +32,22 @@ dialog{width:min(500px,calc(100% - 28px));max-height:90vh;overflow:auto;border:0
 .menu-icon,.close-icon{width:27px;height:27px}
 .step-icon{display:flex;align-items:center}
 .select-link{display:inline-flex;align-items:center;gap:5px}
+
+/* Flat color-only placeholders and correctly scaled original logo */
+.brand-logo{width:128px!important;height:auto!important;max-height:55px;object-fit:contain}
+.footer .brand-logo{width:112px!important;height:auto!important}
+.site-header .brand{flex:0 0 auto;max-width:128px}
+.hero-stage{background:#252934;min-height:600px}
+.hero-stage::before,.hero-stage::after{display:none!important;content:none!important}
+.hero-stage svg,.hero-caption{display:none!important}
+.art{background:#e9e7e2;border:0}
+.art::before,.art-tag,.art-num,.cap-mount{display:none!important}
+@media(max-width:760px){
+.brand-logo{width:110px!important;max-height:46px}
+.site-header .brand{max-width:110px}
+.hero-stage{min-height:355px;height:355px}
+}
+@media(max-width:400px){.brand-logo{width:104px!important}.site-header .brand{max-width:104px}}
 </style></head>
 <body>
 <header class="site-header"><div class="wrap"><a class="brand" href="#" aria-label="TruePrint Shop homepage"><img src="logo_true.svg" alt="TruePrint Shop" class="brand-logo"></a>
@@ -40,7 +56,7 @@ dialog{width:min(500px,calc(100% - 28px));max-height:90vh;overflow:auto;border:0
 <button class="menu-btn" type="button" id="menu" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav"><img class="im-icon menu-icon" src="https://www.iconmonks.co/svg/duotone/list-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></button>
 </div></header>
 <main>
-<section class="hero"><div class="wrap hero-grid"><div class="hero-copy"><div class="eyebrow">TRUEPRINT SHOP / EMBROIDERED HEADWEAR</div><h1>Custom Hats.<br><span>Made Better.</span></h1><p>Premium embroidered hats for businesses, teams, events, and brands.</p><a class="btn" href="#hats">Start Your Hat Design <img class="im-icon action-icon" src="https://www.iconmonks.co/svg/duotone/arrow-right-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></a><div class="hero-note">MADE TO REPRESENT WHAT MATTERS TO YOU.</div></div><div class="hero-stage" id="heroHat"><span class="hero-caption">YOUR BRAND. YOUR HAT.</span></div></div></section>
+<section class="hero"><div class="wrap hero-grid"><div class="hero-copy"><div class="eyebrow">TRUEPRINT SHOP / EMBROIDERED HEADWEAR</div><h1>Custom Hats.<br><span>Made Better.</span></h1><p>Premium embroidered hats for businesses, teams, events, and brands.</p><a class="btn" href="#hats">Start Your Hat Design <img class="im-icon action-icon" src="https://www.iconmonks.co/svg/duotone/arrow-right-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></a><div class="hero-note">MADE TO REPRESENT WHAT MATTERS TO YOU.</div></div><div class="hero-stage" aria-hidden="true"></div></div></section>
 <section class="catalog" id="hats"><div class="wrap"><div class="section-head"><div><div class="eyebrow">01 / COLLECTION</div><h2>Choose Your Hat.</h2></div><p>Six silhouettes to make your own. Pick a style, choose a color, and start with your logo.</p></div><div class="product-grid" id="products"></div></div></section>
 <section class="process" id="how"><div class="wrap"><div class="section-head"><div><div class="eyebrow">02 / SIMPLE PROCESS</div><h2>How It Works.</h2></div><p>Three easy steps from the first idea to your custom order.</p></div><div class="steps">
 <article class="step"><div class="step-num">01 / CHOOSE</div><div class="step-icon"><img class="im-icon process-icon" src="https://www.iconmonks.co/svg/duotone/shopping-cart-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></div><h3>Choose a Hat</h3><p>Select your preferred style and color.</p></article>
@@ -66,19 +82,12 @@ const hats=[
 {title:"7 Panel Drylux",subtitle:"Clean, performance style",kind:"panel",color:"#515558",colors:[["Charcoal","#515558"],["Black","#252525"],["Gray","#999"],["White","#f4f4f2"],["Navy","#293851"]]},
 {title:"Performance Hat",subtitle:"Lightweight, breathable fit",kind:"performance",color:"#f0f0ed",colors:[["White","#f0f0ed"],["Black","#252525"],["Gray","#999"],["Navy","#293851"],["Cobalt","#2457ff"]]}
 ];
-function capSVG(hex,kind,uid,hero=false){
-const isFlat=kind==="panel"||kind==="waffle";
-const g="g"+uid,clip="clip"+uid,texture="tex"+uid,shadow="shadow"+uid;
-const stitches=kind==="cord"?Array.from({length:25},(_,i)=>'<path d="M'+(135+i*10)+' 74 Q'+(120+i*10)+' 150 '+(125+i*9)+' 252" stroke="#fff" opacity=".14" stroke-width="2" fill="none"/>').join(""):kind==="waffle"?'<path d="M85 120h275M85 140h275M85 160h275M85 180h275M85 200h275M85 220h275M120 75v185M142 75v185M164 75v185M186 75v185M208 75v185M230 75v185M252 75v185M274 75v185M296 75v185M318 75v185M340 75v185" stroke="#fff" opacity=".12" stroke-width="1.4"/>':"";
-const vents=kind==="panel"||kind==="performance"?Array.from({length:19},(_,i)=>'<circle cx="'+(275+(i%5)*14)+'" cy="'+(127+Math.floor(i/5)*16)+'" r="2.2" fill="#111" opacity=".33"/>').join(""):"";
-return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 390" role="img" aria-label="'+kind+' hat illustration"><defs><linearGradient id="'+g+'" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".45"/><stop offset=".42" stop-color="#fff" stop-opacity=".02"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient><clipPath id="'+clip+'"><path d="M101 238 Q93 124 168 88 Q235 49 316 86 Q367 112 383 228 L344 266 L139 276Z"/></clipPath><filter id="'+shadow+'"><feGaussianBlur stdDeviation="13"/></filter></defs><ellipse cx="275" cy="336" rx="185" ry="20" fill="#111" opacity=".18" filter="url(#'+shadow+')"/><path d="M102 242 Q90 133 166 90 Q229 51 312 86 Q369 112 383 229 L342 264 L135 274Z" fill="'+hex+'" stroke="#111" stroke-opacity=".18" stroke-width="2"/><g clip-path="url(#'+clip+')">'+stitches+vents+'<path d="M105 94H380V285H105Z" fill="url(#'+g+')"/><path d="M240 66 Q234 144 249 263" stroke="#000" stroke-opacity=".22" stroke-width="2" fill="none"/><path d="M162 93 Q141 164 146 262M314 89 Q341 163 348 254" stroke="#000" stroke-opacity=".18" stroke-width="2" fill="none"/></g><path d="M99 239 Q228 208 382 230 Q421 240 468 267 Q441 290 360 310 Q218 336 45 297 Q58 265 99 239Z" fill="'+hex+'" stroke="#111" stroke-opacity=".24" stroke-width="2"/><path d="M46 295 Q253 334 464 268" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="3"/><path d="M79 274 Q265 305 431 266M85 282 Q258 314 443 271" fill="none" stroke="#fff" stroke-opacity=".38" stroke-width="1.4"/><path d="M99 239 Q242 209 382 230" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2"/><ellipse cx="243" cy="74" rx="9" ry="5" fill="'+hex+'" stroke="#111" stroke-opacity=".3"/>'+(hero?'<g transform="translate(170 168) rotate(-3)"><text font-family="Inter,Arial" font-weight="800" font-style="italic" font-size="29" letter-spacing="-2" fill="#fff">TruePrint</text><path d="M0 5H129" stroke="#2457ff" stroke-width="4"/><text x="93" y="24" font-family="Inter,Arial" font-size="9" letter-spacing="4" font-weight="700" fill="#fff">SHOP</text></g>':'')+'</svg>';
-}
 const grid=document.getElementById("products"),model=document.getElementById("model"),color=document.getElementById("color"),dialog=document.getElementById("quoteDialog");
 function colorsFor(i,preferred){color.replaceChildren();hats[i].colors.forEach(([name])=>color.add(new Option(name,name)));if(preferred)color.value=preferred}
 function openQuote(i=0,preferred){model.selectedIndex=i;colorsFor(i,preferred);dialog.showModal()}
-hats.forEach((hat,i)=>{model.add(new Option(hat.title,hat.title));const card=document.createElement("article");card.className="product";card.innerHTML='<div class="art"><span class="art-tag">TRUEPRINT / HATS</span><span class="art-num">0'+(i+1)+'</span><div class="cap-mount">'+capSVG(hat.color,hat.kind,i)+'</div></div><div class="product-body"><div class="product-title-row"><h3>'+hat.title+'</h3><div class="product-price">$12 <small>/ ea</small></div></div><p class="product-desc">'+hat.subtitle+'</p><div class="product-foot"><div class="swatches" role="group" aria-label="Color options for '+hat.title+'"></div><button type="button" class="select-link">SELECT STYLE <img class="im-icon inline-icon" src="https://www.iconmonks.co/svg/duotone/arrow-right-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></button></div></div>';
-const swatches=card.querySelector(".swatches");hat.colors.forEach(([name,hex],j)=>{const b=document.createElement("button");b.className="swatch";b.type="button";b.title=name;b.setAttribute("aria-label",name);b.setAttribute("aria-pressed",j===0?"true":"false");b.style.setProperty("--color",hex);b.onclick=()=>{swatches.querySelectorAll(".swatch").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");card.querySelector(".cap-mount").innerHTML=capSVG(hex,hat.kind,i)};swatches.appendChild(b)});card.querySelector(".select-link").onclick=()=>openQuote(i,swatches.querySelector('[aria-pressed="true"]').title);grid.appendChild(card)});
-document.getElementById("heroHat").insertAdjacentHTML("afterbegin",capSVG("#171b23","dad","hero",true));
+hats.forEach((hat,i)=>{model.add(new Option(hat.title,hat.title));const card=document.createElement("article");card.className="product";card.innerHTML='<div class="art" style="background:'+hat.color+'"></div><div class="product-body"><div class="product-title-row"><h3>'+hat.title+'</h3><div class="product-price">$12 <small>/ ea</small></div></div><p class="product-desc">'+hat.subtitle+'</p><div class="product-foot"><div class="swatches" role="group" aria-label="Color options for '+hat.title+'"></div><button type="button" class="select-link">SELECT STYLE <img class="im-icon inline-icon" src="https://www.iconmonks.co/svg/duotone/arrow-right-duotone.svg" width="20" height="20" alt="" aria-hidden="true"></button></div></div>';
+const swatches=card.querySelector(".swatches");hat.colors.forEach(([name,hex],j)=>{const b=document.createElement("button");b.className="swatch";b.type="button";b.title=name;b.setAttribute("aria-label",name);b.setAttribute("aria-pressed",j===0?"true":"false");b.style.setProperty("--color",hex);b.onclick=()=>{swatches.querySelectorAll(".swatch").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");card.querySelector(".art").style.backgroundColor=hex};swatches.appendChild(b)});card.querySelector(".select-link").onclick=()=>openQuote(i,swatches.querySelector('[aria-pressed="true"]').title);grid.appendChild(card)});
+
 model.onchange=()=>colorsFor(model.selectedIndex);
 document.querySelectorAll("[data-quote]").forEach(b=>b.onclick=()=>openQuote());
 document.getElementById("close").onclick=()=>dialog.close();dialog.onclick=e=>{if(e.target===dialog)dialog.close()};
