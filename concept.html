@@ -458,6 +458,102 @@ header{height:82px}
  .footer-line{gap:12px 20px;padding-block:22px;font-size:12px}
  .footer-line a{font-size:12px}
 }
+
+/* Responsive polish — mobile-only, desktop layout is untouched */
+.mobile-nav-quote{display:none}
+@media(max-width:700px){
+ :root{--gutter:clamp(18px,5vw,24px);--section-space:clamp(72px,13vw,98px)}
+ html{scroll-padding-top:70px}
+ body{overflow-x:clip}
+ header{height:70px}
+ .header-inner{gap:12px;width:100%;padding-inline:var(--gutter)}
+ .brand{min-width:0;flex:0 1 auto}
+ .brand img{width:clamp(108px,31vw,133px);max-width:100%;height:auto;max-height:53px;object-fit:contain}
+ .header-inner>.btn{display:none}
+ .menu-btn{display:flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;height:44px;padding:0;margin:0 0 0 auto;border:0;background:transparent;color:var(--ink);cursor:pointer}
+ .burger-lines{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:24px;height:24px}
+ .burger-lines span{display:block;width:24px;height:2px;background:currentColor;border-radius:2px;transition:transform .3s var(--ease),opacity .2s ease}
+ .menu-btn[aria-expanded=true] .burger-lines span:first-child{transform:translateY(8px) rotate(45deg)}
+ .menu-btn[aria-expanded=true] .burger-lines span:nth-child(2){opacity:0}
+ .menu-btn[aria-expanded=true] .burger-lines span:last-child{transform:translateY(-8px) rotate(-45deg)}
+ .nav-links{display:flex;visibility:hidden;opacity:0;pointer-events:none;position:absolute;inset:70px 0 auto;top:70px;width:100%;min-height:calc(100dvh - 70px);max-height:calc(100dvh - 70px);overflow-y:auto;background:var(--ground);border-bottom:0;padding:clamp(28px,7vw,50px) var(--gutter) max(32px,env(safe-area-inset-bottom));flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;transform:translateY(-10px);transition:opacity .28s var(--ease),transform .28s var(--ease),visibility .28s;z-index:120}
+ .nav-links.open{display:flex;visibility:visible;opacity:1;pointer-events:auto;transform:translateY(0)}
+ .nav-links>a{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(26px,8vw,38px);line-height:1.3;letter-spacing:-.035em;text-transform:none;color:var(--ink);padding:14px 0;min-height:56px}
+ .nav-links>a:hover{color:var(--blue)}
+ .nav-links .mobile-nav-quote{display:inline-flex;align-self:flex-start;min-height:50px;margin-top:26px;padding:12px 22px;gap:20px;font-family:'Sora',sans-serif;font-size:15px;letter-spacing:0}
+ html.mobile-nav-open,html.mobile-nav-open body{overflow:hidden}
+ .portal{height:205svh}
+ .portal-stage{height:100svh;min-height:0}
+ .portal-title-inner.portal-marketing{width:100%;max-width:100%;font-size:clamp(25px,7.2vw,48px);padding-inline:12px;gap:12px;line-height:1}
+ .portal-marketing .portal-half{max-width:100%;white-space:nowrap}
+ .portal-image{background-position:center center}
+ .portal-image-label{left:var(--gutter);right:var(--gutter);bottom:clamp(60px,11vh,112px);max-width:300px;font-size:clamp(14px,4vw,18px)}
+ .portal-dot{width:6px;height:6px}
+ .releases,.process{padding-block:var(--section-space)}
+ .collection-intro{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+ .collection-intro .display{font-size:clamp(42px,11.5vw,70px);line-height:1.02;overflow-wrap:break-word}
+ .collection-intro .body-copy{max-width:520px;margin:0;font-size:15px;line-height:1.7}
+ .collection-header{padding-bottom:26px}
+ .hat-grid{grid-template-columns:1fr;gap:34px;margin-top:28px}
+ .hat-card{min-width:0;max-width:100%}
+ .hat-visual{aspect-ratio:1/1;min-width:0}
+ .hat-color-panel,.hat-card:hover .hat-color-panel,.hat-card:focus-within .hat-color-panel{left:0;right:0;bottom:0;min-height:0;height:116px;padding:18px 20px 20px;gap:16px}
+ .hat-color-heading{font-size:12px}
+ .hat-color-name{font-size:17px}
+ .hat-swatches{gap:14px}
+ .hat-swatch{width:27px;height:27px;min-width:27px;min-height:27px}
+ .hat-info{padding:18px 0 0}
+ .hat-heading{gap:9px}
+ .hat-heading h3{font-size:clamp(25px,6.6vw,33px)}
+ .hat-price{font-size:clamp(21px,5.4vw,26px)}
+ .hat-description{font-size:14px;line-height:1.6;margin:9px 0 0}
+ .hat-selected-mark{width:34px;height:34px;right:16px;top:16px}
+ .collection-bottom{display:flex;flex-direction:column;align-items:flex-start;gap:26px;margin-top:45px;padding:0}
+ .selected-name{font-size:clamp(24px,6vw,32px)}
+ .selected-meta{font-size:14px}
+ .collection-bottom .btn{min-height:50px}
+ .process-head{display:flex;flex-direction:column;align-items:flex-start;gap:23px;margin-bottom:36px}
+ .process-head .display{font-size:clamp(51px,13vw,75px)}
+ .process-head .body-copy{max-width:500px;font-size:15px;line-height:1.7}
+ .roster-row{display:grid;grid-template-columns:1fr;gap:14px;padding-block:30px}
+ .roster-title{gap:12px}
+ .roster-title .eyebrow{font-size:11px}
+ .roster-title h3{font-size:clamp(30px,8vw,44px);line-height:1.1}
+ .roster-row p{grid-column:1;max-width:490px;width:100%;font-size:14px;line-height:1.7;text-align:left}
+ .close-section{padding-top:var(--section-space);padding-bottom:24px}
+ .close-main{display:flex;flex-direction:column;align-items:flex-start;gap:32px;padding-bottom:64px}
+ .close-section h2{font-size:clamp(43px,11vw,68px);line-height:1.03;overflow-wrap:break-word}
+ .close-section .close-main p{max-width:500px;font-size:15px;line-height:1.7}
+ .close-actions{display:flex;flex-wrap:wrap;gap:12px;width:100%;align-items:flex-start}
+ .close-actions .btn{min-height:48px;max-width:100%;padding-inline:18px}
+ .footer-line{display:grid;grid-template-columns:1fr auto;gap:12px 20px;align-items:center;font-size:12px;line-height:1.6;padding-block:22px}
+ .footer-line span:nth-child(2){grid-column:1/-1;grid-row:1}
+ .footer-line span:first-child{grid-column:1;grid-row:2}
+ .footer-line a{grid-column:2;grid-row:2;font-size:12px;white-space:nowrap}
+ dialog{width:calc(100% - 24px);max-width:480px;max-height:calc(100dvh - 28px);padding:clamp(18px,5vw,26px);margin:auto;border-radius:14px}
+ .dialog-top h2{font-size:clamp(25px,7vw,32px)}
+ .dialog-top button{width:42px;height:42px;display:grid;place-items:center}
+ .field{font-size:12px;margin-bottom:16px}
+ .field input,.field select,.field textarea{font-size:16px;min-height:47px}
+ .dialog-actions{flex-direction:column;align-items:stretch}
+ .dialog-actions .btn{width:100%;min-height:48px}
+ .toast{bottom:max(16px,env(safe-area-inset-bottom));max-width:calc(100vw - 28px);font-size:13px;white-space:normal}
+}
+@media(max-width:350px){
+ .portal-title-inner.portal-marketing{font-size:7vw}
+ .collection-intro .display{font-size:40px}
+ .roster-title h3{font-size:29px}
+ .close-section h2{font-size:40px}
+ .nav-links>a{font-size:26px}
+}
+@media(min-width:701px) and (max-width:1050px){
+ .hat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+ .hat-card{min-width:0}
+ .hat-heading h3{font-size:clamp(19px,2.6vw,28px)}
+ .hat-visual{min-width:0}
+ .hat-color-panel{padding-left:15px;padding-right:15px}
+}
+@media(prefers-reduced-motion:reduce){.nav-links,.burger-lines span{transition:none}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -466,9 +562,9 @@ header{height:82px}
  <div class="header-inner">
   <a href="#top" class="brand" aria-label="TruePrint Shop homepage"><img src="logo_true_blue.svg" alt="TruePrint Shop"></a>
   <nav class="nav-links" id="navLinks" aria-label="Main navigation">
-   <a href="#top">Home</a><a href="#hats">Hats</a><a href="#how">How it works</a><a href="#contact">Contact</a>
+   <a href="#top">Home</a><a href="#hats">Hats</a><a href="#how">How it works</a><a href="#contact">Contact</a><button class="btn btn-blue mobile-nav-quote" type="button" data-quote>Get a quote <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></button>
   </nav>
-  <button class="menu-btn" id="menuBtn" aria-controls="navLinks" aria-expanded="false">Menu</button>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation" aria-controls="navLinks" aria-expanded="false"><span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span></button>
   <button class="btn btn-blue" type="button" data-quote>Get a quote <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></button>
  </div>
 </header>
@@ -672,8 +768,22 @@ document.getElementById("downloadQuote").addEventListener("click",()=>{
  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="trueprint-quote.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
 const menuBtn=document.getElementById("menuBtn"),links=document.getElementById("navLinks");
-menuBtn.addEventListener("click",()=>{const open=links.classList.toggle("open");menuBtn.setAttribute("aria-expanded",String(open))});
-links.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{links.classList.remove("open");menuBtn.setAttribute("aria-expanded","false")}));
+function closeMobileNav(){
+ links.classList.remove("open");
+ menuBtn.setAttribute("aria-expanded","false");
+ menuBtn.setAttribute("aria-label","Open navigation");
+ document.documentElement.classList.remove("mobile-nav-open");
+}
+menuBtn.addEventListener("click",()=>{
+ const open=links.classList.toggle("open");
+ menuBtn.setAttribute("aria-expanded",String(open));
+ menuBtn.setAttribute("aria-label",open?"Close navigation":"Open navigation");
+ document.documentElement.classList.toggle("mobile-nav-open",open);
+});
+links.querySelectorAll("a,button").forEach(el=>el.addEventListener("click",closeMobileNav));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMobileNav()});
+document.addEventListener("click",e=>{if(!e.target.closest("header")&&links.classList.contains("open"))closeMobileNav()});
+window.addEventListener("resize",()=>{if(window.innerWidth>700)closeMobileNav()},{passive:true});
 
 document.getElementById("year").textContent=new Date().getFullYear();
 </script>
