@@ -119,6 +119,22 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 }
 @media(max-width:390px){.product-grid{grid-template-columns:1fr}.product-controls{flex-direction:row;align-items:center}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+
+/* How It Works — grouped, restrained icon treatment */
+.process .steps{gap:0;margin-top:52px;background:rgba(255,255,255,.44);border:1px solid var(--line)}
+.process .step{border-top:0;min-width:0;padding:34px 38px 38px;position:relative}
+.process .step+.step{border-left:1px solid var(--line)}
+.process .step-top{margin-bottom:30px}
+.process .step-icon{display:flex;align-items:center;justify-content:center;width:56px;height:56px;background:#e5eaff}
+.process .step-icon img{width:30px;height:30px;display:block}
+.process .step h3{font-size:21px;font-weight:600;letter-spacing:-.025em;margin-bottom:11px}
+.process .step p{font-size:14px;max-width:300px}
+@media(max-width:700px){
+ .process .steps{margin-top:32px;display:grid;grid-template-columns:1fr}
+ .process .step{padding:29px 26px}
+ .process .step+.step{border-left:0;border-top:1px solid var(--line)}
+ .process .step-top{margin-bottom:18px}
+}
 </style>
 </head>
 <body>
@@ -141,7 +157,11 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
  </div></section>
  <section class="process" id="how"><div class="wrap">
   <div class="section-head"><h2 class="section-title">How It Works</h2><p class="section-intro">From your idea to the final order in three simple steps.</p></div>
-  <div class="steps"><div class="step"><h3>Choose a Hat</h3><p>Pick the style and color that suit your brand.</p></div><div class="step"><h3>Send Your Logo</h3><p>Share your artwork and tell us what you have in mind.</p></div><div class="step"><h3>Approve &amp; Order</h3><p>Review the details and confirm your order.</p></div></div>
+  <div class="steps">
+<div class="step"><div class="step-top"><span class="step-icon"><img src="https://www.iconmonks.co/svg/duotone/shopping-cart-duotone.svg" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Choose a Hat</h3><p>Pick the style and color that suit your brand.</p></div>
+<div class="step"><div class="step-top"><span class="step-icon"><img src="https://www.iconmonks.co/svg/duotone/upload-duotone.svg" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Send Your Logo</h3><p>Share your artwork and tell us what you have in mind.</p></div>
+<div class="step"><div class="step-top"><span class="step-icon"><img src="https://www.iconmonks.co/svg/duotone/check-duotone.svg" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Approve &amp; Order</h3><p>Review the details and confirm your order.</p></div>
+</div>
  </div></section>
  <section class="cta" id="contact"><div class="wrap cta-inner"><h2>Ready to make your hats?</h2><button class="btn btn-light" data-open-quote type="button">Get a Free Quote</button></div></section>
 </main>
