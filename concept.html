@@ -378,6 +378,16 @@ header{height:82px}
  .hat-color-panel,.hat-card:hover .hat-color-panel,.hat-card:focus-within .hat-color-panel{height:auto;min-height:100px;padding:14px 12px 18px;gap:12px}
 }
 @media(prefers-reduced-motion:reduce){.hat-color-panel,.hat-swatch{transition:none}}
+
+/* Supplied two-part TruePrint SVG portal, scroll-reversible */
+.portal-title-inner{width:min(94vw,1680px);height:auto;display:flex;align-items:center;justify-content:center;gap:0;font-size:initial;letter-spacing:normal!important;line-height:1;transform:scale(1)}
+.portal-half{flex:0 0 auto;display:block;min-width:0}
+.portal-half:first-child{width:46.877%}
+.portal-half:last-child{width:53.123%}
+.portal-half img{display:block;width:100%;height:auto;max-width:none;user-select:none;-webkit-user-drag:none}
+.motion-ok .portal-title-inner{transform:scale(1);letter-spacing:normal}
+.close-section{padding-bottom:32px}
+@media(max-width:700px){.portal-title-inner{width:98vw}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -403,7 +413,7 @@ header{height:82px}
   <div class="portal-panel right" id="panelRight"></div>
   <span class="portal-dot" id="dotA" aria-hidden="true"></span>
   <span class="portal-dot second" id="dotB" aria-hidden="true"></span>
-  <div class="portal-title" aria-hidden="true"><div class="portal-title-inner" id="portalTitle"><span class="portal-half" id="wordLeft">TRUE</span><span class="portal-half" id="wordRight">PRINT.</span></div></div>
+  <div class="portal-title" role="img" aria-label="TruePrint Shop"><div class="portal-title-inner" id="portalTitle"><span class="portal-half" id="wordLeft"><img src="assets/part-01.svg" alt="" draggable="false"></span><span class="portal-half" id="wordRight"><img src="assets/part-02.svg" alt="" draggable="false"></span></div></div>
   
   
   
@@ -440,9 +450,9 @@ header{height:82px}
 <section class="close-section" id="contact" aria-labelledby="closeTitle">
  <div class="wrap">
   <div class="close-main"><div><h2 class="reveal" id="closeTitle">Ready to make<br>your hats<span style="color:var(--blue)">?</span></h2><p class="reveal">Choose a style, share your artwork, and start your quote.</p></div><div class="close-actions reveal"><a class="btn" href="#hats">Explore styles <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></a><button class="btn btn-blue" data-quote>Get a free quote <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></button></div></div>
-  <div class="footer-line"><span>© <span id="year"></span> TruePrint Shop</span><span>Custom embroidered hats</span><a href="#top">Back to top <icon-monks name="arrow-up" size="16" aria-hidden="true"></icon-monks></a></div>
+  <div class="footer-line"><span>© <span id="year"></span></span><span>Custom embroidered hats</span><a href="#top">Back to top <icon-monks name="arrow-up" size="16" aria-hidden="true"></icon-monks></a></div>
  </div>
- <div class="close-wordmark" aria-hidden="true"><span class="wordmark-fit">TRUE<span>PRINT</span>.</span></div>
+ 
 </section>
 </main>
 <dialog id="quoteDialog" aria-labelledby="quoteTitle">
@@ -492,10 +502,9 @@ function paintScroll(){
  panelLeft.style.transform="translate3d(-"+shift+"%,0,0)";
  panelRight.style.transform="translate3d("+shift+"%,0,0)";
  portalImage.style.transform="scale("+(1.22-.22*eased).toFixed(4)+")";
- portalTitle.style.transform="scale("+(1+eased*.25).toFixed(4)+")";
- portalTitle.style.letterSpacing=(-.055-.04*eased).toFixed(4)+"em";
- wordLeft.style.transform="translate3d("+(-eased*52)+"%,0,0)";
- wordRight.style.transform="translate3d("+(eased*52)+"%,0,0)";
+ portalTitle.style.transform="scale("+(1+eased*.17).toFixed(4)+")";
+ wordLeft.style.transform="translate3d("+(-eased*160)+"%,0,0)";
+ wordRight.style.transform="translate3d("+(eased*160)+"%,0,0)";
  dotA.style.transform="translate3d("+(-eased*38)+"vw,"+(-eased*32)+"vh,0)";
  dotB.style.transform="translate3d("+(eased*38)+"vw,"+(eased*32)+"vh,0)";
  dotA.style.opacity=String(1-eased);
@@ -582,17 +591,6 @@ const menuBtn=document.getElementById("menuBtn"),links=document.getElementById("
 menuBtn.addEventListener("click",()=>{const open=links.classList.toggle("open");menuBtn.setAttribute("aria-expanded",String(open))});
 links.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{links.classList.remove("open");menuBtn.setAttribute("aria-expanded","false")}));
 
-const fullWidthWordmark=document.querySelector(".close-wordmark .wordmark-fit");
-function fitFullWidthWordmark(){
- if(!fullWidthWordmark)return;
- const available=Math.max(1,window.innerWidth-Math.max(20,window.innerWidth*.026));
- fullWidthWordmark.style.fontSize="100px";
- const measured=fullWidthWordmark.getBoundingClientRect().width;
- if(measured>0)fullWidthWordmark.style.fontSize=(100*available/measured).toFixed(2)+"px";
-}
-fitFullWidthWordmark();
-window.addEventListener("resize",fitFullWidthWordmark,{passive:true});
-if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitFullWidthWordmark);
 document.getElementById("year").textContent=new Date().getFullYear();
 </script>
 </body>
