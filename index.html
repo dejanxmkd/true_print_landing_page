@@ -146,6 +146,12 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 .process .step-icon img{width:42px;height:42px;filter:brightness(0) saturate(100%) invert(27%) sepia(98%) saturate(3870%) hue-rotate(226deg) brightness(101%) contrast(101%)}
 @media(max-width:700px){.process .steps{grid-template-columns:1fr;gap:42px;margin-top:38px}.process .step{padding:0!important}.process .step+.step{border:0!important}.process .step-top{margin-bottom:16px}}
 .site-header .logo img{filter:brightness(0) invert(1)}
+
+/* Three soft 3D process illustrations, floating freely above text */
+.process .step-top{margin-bottom:20px!important}
+.process .step-icon{display:flex;align-items:center;justify-content:flex-start;width:100%;height:185px;background:transparent!important}
+.process .step-icon img{display:block;object-fit:contain;object-position:left center;width:185px;height:185px;max-width:100%;filter:none!important}
+@media(max-width:700px){.process .step-icon{height:156px}.process .step-icon img{width:156px;height:156px}}
 </style>
 </head>
 <body>
@@ -169,9 +175,9 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
  <section class="process" id="how"><div class="wrap">
   <div class="section-head"><h2 class="section-title">How It Works</h2><p class="section-intro">From your idea to the final order in three simple steps.</p></div>
   <div class="steps">
-<div class="step"><div class="step-top"><span class="step-icon"><img src="https://www.iconmonks.co/svg/duotone/shopping-cart-duotone.svg" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Choose a Hat</h3><p>Pick the style and color that suit your brand.</p></div>
-<div class="step"><div class="step-top"><span class="step-icon"><img src="https://www.iconmonks.co/svg/duotone/upload-duotone.svg" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Send Your Logo</h3><p>Share your artwork and tell us what you have in mind.</p></div>
-<div class="step"><div class="step-top"><span class="step-icon"><img src="https://www.iconmonks.co/svg/duotone/check-duotone.svg" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Approve &amp; Order</h3><p>Review the details and confirm your order.</p></div>
+<div class="step"><div class="step-top"><span class="step-icon"><img src="assets/choose-hat.webp" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Choose a Hat</h3><p>Pick the style and color that suit your brand.</p></div>
+<div class="step"><div class="step-top"><span class="step-icon"><img src="assets/send-logo.webp" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Send Your Logo</h3><p>Share your artwork and tell us what you have in mind.</p></div>
+<div class="step"><div class="step-top"><span class="step-icon"><img src="assets/approve-order.webp" width="30" height="30" alt="" aria-hidden="true" loading="lazy"></span></div><h3>Approve &amp; Order</h3><p>Review the details and confirm your order.</p></div>
 </div>
  </div></section>
  <section class="cta" id="contact"><div class="wrap cta-inner"><h2 class="cta-one-line">Ready to make your hats?</h2><button class="btn btn-light" data-open-quote type="button">Get a Free Quote</button></div></section>
