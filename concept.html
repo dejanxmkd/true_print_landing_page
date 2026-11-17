@@ -575,50 +575,63 @@ header{height:82px}
  html.mobile-nav-open,html.mobile-nav-open body{overflow:hidden}
 }
 
-/* Sticky multi-product selection drawer — shared desktop and mobile */
-.selection-dock{position:fixed;inset:auto 0 0;z-index:95;background:var(--blue);color:#fff;transform:translateY(110%);opacity:0;visibility:hidden;pointer-events:none;transition:transform .45s var(--ease),opacity .3s ease,visibility .45s}
+/* Selection drawer — attached top tab, single show/hide control */
+.selection-dock{
+ position:fixed;inset:auto 0 0;z-index:95;background:var(--blue);color:#fff;
+ transform:translateY(calc(100% + 62px));opacity:0;visibility:hidden;pointer-events:none;
+ transition:transform .45s var(--ease),opacity .3s ease,visibility .45s;
+}
 .selection-dock.is-visible{transform:translateY(0);opacity:1;visibility:visible;pointer-events:auto}
-.selection-dock-panel{padding:18px var(--gutter) max(18px,env(safe-area-inset-bottom))}
-.selection-dock-inner{display:flex;flex-direction:column;gap:15px;width:100%}
-.selection-dock-top{display:flex;justify-content:space-between;align-items:center;gap:20px}
-.selection-dock-label{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;letter-spacing:-.02em}
-.selection-dock-toggle,.selection-dock-peek{appearance:none;border:0;background:transparent;color:#fff;display:flex;align-items:center;gap:9px;font-family:'Sora',sans-serif;font-weight:600;font-size:13px;cursor:pointer}
-.selection-dock-toggle{padding:8px 0 8px 14px}
-.selection-dock-toggle icon-monks,.selection-dock-peek icon-monks{width:18px;height:18px;display:inline-flex}
-.selection-dock-peek{display:none;width:100%;min-height:54px;padding:12px var(--gutter);justify-content:space-between;font-size:14px}
-.selection-dock.is-collapsed .selection-dock-panel{display:none}
-.selection-dock.is-collapsed .selection-dock-peek{display:flex}
-.selection-dock-items{max-height:min(36dvh,330px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
-.selection-dock-product{display:flex;align-items:center;gap:15px;padding:11px 0;min-width:0}
-.selection-dock-product+.selection-dock-product{border-top:1px solid rgba(255,255,255,.24)}
+.selection-dock-peek{
+ position:absolute;right:var(--gutter);bottom:100%;min-height:44px;display:flex;
+ align-items:center;justify-content:center;gap:12px;
+ padding:10px 18px;background:var(--blue);color:#fff;
+ border:1px solid rgba(255,255,255,.45);border-bottom:0;
+ border-radius:12px 12px 0 0;
+ font-family:'Sora',sans-serif;font-size:13px;font-weight:600;
+ cursor:pointer;white-space:nowrap;
+}
+.selection-dock-peek icon-monks{display:flex;width:18px;height:18px}
+.selection-dock-panel{padding:17px var(--gutter) max(18px,env(safe-area-inset-bottom))}
+.selection-dock-inner{display:flex;flex-direction:column;gap:13px;width:100%}
+.selection-dock-label{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.02em}
+.selection-dock-items{max-height:min(34dvh,300px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.selection-dock-product{display:flex;align-items:center;gap:16px;padding:12px 0;min-width:0}
+.selection-dock-product+.selection-dock-product{border-top:1px solid rgba(255,255,255,.22)}
 .selection-dock-swatch{display:block;width:48px;height:48px;flex:0 0 48px;border-radius:7px;background:var(--placeholder)}
-.selection-dock-copy{display:flex;flex:1 1 auto;min-width:0;flex-direction:column;gap:5px}
-.selection-dock-name{font-family:'Syne',sans-serif;font-size:clamp(18px,1.5vw,23px);line-height:1.2;letter-spacing:-.025em;font-weight:700;color:#fff;overflow-wrap:anywhere}
-.selection-dock-details{font-size:13px;line-height:1.4;color:rgba(255,255,255,.86)}
-.selection-dock-remove{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border:0;border-radius:50%;background:rgba(255,255,255,.13);color:#fff;cursor:pointer;transition:background .2s ease}
-.selection-dock-remove:hover{background:rgba(255,255,255,.25)}
+.selection-dock-copy{display:flex;flex:1 1 auto;min-width:0;flex-direction:column;gap:4px}
+.selection-dock-name{font-family:'Syne',sans-serif;font-size:clamp(18px,1.5vw,23px);font-weight:700;line-height:1.2;letter-spacing:-.025em;color:#fff;overflow-wrap:anywhere}
+.selection-dock-details{font-family:'Sora',sans-serif;font-size:13px;line-height:1.45;color:rgba(255,255,255,.85)}
+.selection-dock-remove{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.13);color:#fff;cursor:pointer}
+.selection-dock-remove:hover{background:rgba(255,255,255,.24)}
 .selection-dock-remove icon-monks{display:flex;width:19px;height:19px}
-.selection-dock .selection-dock-cta{align-self:flex-end;display:flex;align-items:center;justify-content:center;gap:20px;min-height:52px;padding:13px 26px;border:0;background:#fff;color:var(--ground);font-size:15px;font-weight:600}
+.selection-dock .selection-dock-cta{align-self:flex-end;display:flex;align-items:center;justify-content:center;gap:20px;min-height:52px;padding:13px 26px;border:0;background:#fff;color:var(--ground);font-family:'Sora',sans-serif;font-size:15px;font-weight:600}
 .selection-dock .selection-dock-cta:hover{background:var(--ink);color:var(--ground)}
+.selection-dock.is-collapsed{min-height:5px}
+.selection-dock.is-collapsed .selection-dock-panel{display:none}
 html.has-selection body{padding-bottom:90px}
 body:has(dialog[open]) .selection-dock,html.mobile-nav-open .selection-dock{opacity:0;pointer-events:none}
-html.has-selection .toast{bottom:210px}
+html.has-selection .toast{bottom:155px}
 .quote-selected-items{margin-bottom:18px}
 .quote-selected-items:not([hidden]){display:grid;gap:8px}
 .quote-selected-items p{margin:0;font-size:14px;line-height:1.5;color:var(--ink)}
 #quoteSingleFields[hidden]{display:none}
+/* Card press opens the palette but never selects a product */
+.hat-card.is-choosing .hat-color-panel{height:132px;padding:22px 22px 24px;opacity:1;visibility:visible;pointer-events:auto}
 @media(max-width:700px){
+ .selection-dock-peek{right:var(--gutter);min-height:43px;padding:10px 15px;font-size:12px}
  .selection-dock-panel{padding:12px var(--gutter) max(16px,env(safe-area-inset-bottom))}
  .selection-dock-label{font-size:16px}
- .selection-dock-items{max-height:min(31dvh,290px)}
- .selection-dock-product{gap:12px;padding:9px 0}
+ .selection-dock-items{max-height:min(30dvh,270px)}
+ .selection-dock-product{gap:12px;padding:10px 0}
  .selection-dock-swatch{width:42px;height:42px;flex-basis:42px}
  .selection-dock-name{font-size:17px}
  .selection-dock-details{font-size:12px}
- .selection-dock .selection-dock-cta{align-self:stretch;width:100%;min-height:50px;justify-content:center}
  .selection-dock-remove{width:40px;height:40px;flex-basis:40px}
- html.has-selection body{padding-bottom:80px}
- html.has-selection .toast{bottom:220px}
+ .selection-dock .selection-dock-cta{align-self:stretch;width:100%;min-height:50px}
+ .hat-card.is-choosing .hat-color-panel{height:116px;padding:18px 20px 20px}
+ html.has-selection body{padding-bottom:70px}
+ html.has-selection .toast{bottom:190px}
  .close-actions{width:100%}
  .close-actions .btn{width:100%;min-height:52px;justify-content:space-between;padding-inline:22px}
  .nav-links .mobile-nav-quote{width:100%;align-self:stretch;justify-content:space-between;min-height:52px}
@@ -689,15 +702,12 @@ html.has-selection .toast{bottom:210px}
 </section>
 </main>
 <aside class="selection-dock" id="selectionDock" aria-label="Selected products" aria-hidden="true" inert>
- <button class="selection-dock-peek" id="selectionDockPeek" type="button" aria-controls="selectionDockPanel" aria-expanded="false">
-  <span id="selectionDockPeekLabel">Show selection</span><icon-monks name="chevron-up" size="18" aria-hidden="true"></icon-monks>
+ <button class="selection-dock-peek" id="selectionDockPeek" type="button" aria-controls="selectionDockPanel" aria-expanded="true">
+  <span id="selectionDockPeekLabel">Hide selection</span><icon-monks name="chevron-down" size="18" aria-hidden="true"></icon-monks>
  </button>
  <div class="selection-dock-panel" id="selectionDockPanel">
   <div class="selection-dock-inner">
-   <div class="selection-dock-top">
-    <span class="selection-dock-label" id="selectionDockCount">Your selection</span>
-    <button class="selection-dock-toggle" id="selectionDockHide" type="button" aria-controls="selectionDockPanel" aria-expanded="true">Hide <icon-monks name="chevron-down" size="18" aria-hidden="true"></icon-monks></button>
-   </div>
+   <span class="selection-dock-label" id="selectionDockCount">Your selection</span>
    <div class="selection-dock-items" id="selectionDockItems" aria-live="polite" aria-relevant="additions removals"></div>
    <button class="btn selection-dock-cta" id="chooseSelected" type="button">Get a quote <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></button>
   </div>
@@ -778,7 +788,6 @@ const dockItems=document.getElementById("selectionDockItems");
 const dockCount=document.getElementById("selectionDockCount");
 const dockPeek=document.getElementById("selectionDockPeek");
 const dockPeekLabel=document.getElementById("selectionDockPeekLabel");
-const dockHide=document.getElementById("selectionDockHide");
 let current=-1;
 const chosenColors=hats.map(h=>0);
 const selectedHats=new Set();
@@ -789,7 +798,8 @@ function setDockCollapsed(collapsed){
  dockCollapsed=collapsed;
  selectionDock.classList.toggle("is-collapsed",collapsed);
  dockPeek.setAttribute("aria-expanded",String(!collapsed));
- dockHide.setAttribute("aria-expanded",String(!collapsed));
+ dockPeekLabel.textContent=(collapsed?"Show":"Hide")+" selection ("+selectedHats.size+")";
+ dockPeek.querySelector("icon-monks").setAttribute("name",collapsed?"chevron-up":"chevron-down");
  dockItems.inert=collapsed;
  document.getElementById("chooseSelected").disabled=collapsed;
 }
@@ -800,7 +810,7 @@ function refreshDock(){
  selectionDock.setAttribute("aria-hidden",String(size===0));
  document.documentElement.classList.toggle("has-selection",size>0);
  dockCount.textContent=size+" "+(size===1?"hat":"hats")+" selected";
- dockPeekLabel.textContent="Show selection ("+size+")";
+ dockPeekLabel.textContent=(dockCollapsed?"Show":"Hide")+" selection ("+size+")";
  dockItems.replaceChildren();
  selectedHats.forEach(i=>{
   const row=document.createElement("div");row.className="selection-dock-product";
@@ -832,8 +842,7 @@ function selectHat(i){
  refreshDock();
  notify(hats[i].name+" selected");
 }
-dockPeek.addEventListener("click",()=>setDockCollapsed(false));
-dockHide.addEventListener("click",()=>setDockCollapsed(true));
+dockPeek.addEventListener("click",()=>setDockCollapsed(!dockCollapsed));
 hats.forEach((hat,i)=>{
  const card=document.createElement("article");card.className="hat-card";
  const visual=document.createElement("div");visual.className="hat-visual";
@@ -847,24 +856,25 @@ hats.forEach((hat,i)=>{
  const swatchPanel=document.createElement("div");swatchPanel.className="hat-color-panel";
  const swatchTop=document.createElement("div");swatchTop.className="hat-color-heading";
  const swatchCaption=document.createElement("span");swatchCaption.textContent="Choose color";
- const swatchName=document.createElement("span");swatchName.className="hat-color-name";swatchName.textContent=hat.colors[0][0];
+ const swatchName=document.createElement("span");swatchName.className="hat-color-name";swatchName.textContent="Pick one";
  swatchTop.append(swatchCaption,swatchName);
  const swatches=document.createElement("div");swatches.className="hat-swatches";swatches.setAttribute("role","group");swatches.setAttribute("aria-label","Choose color for "+hat.name);
  hat.colors.forEach(([name,hex],j)=>{
   const swatch=document.createElement("button");swatch.type="button";swatch.className="hat-swatch";
   swatch.style.setProperty("--swatch",hex);swatch.title=name;swatch.setAttribute("aria-label",name);
-  swatch.setAttribute("aria-pressed",String(j===0));
+  swatch.setAttribute("aria-pressed","false");
   swatch.addEventListener("click",e=>{
    e.stopPropagation();chosenColors[i]=j;swatchName.textContent=name;
    visual.style.backgroundColor=hex;
    swatches.querySelectorAll(".hat-swatch").forEach((el,k)=>el.setAttribute("aria-pressed",String(k===j)));
+   card.classList.remove("is-choosing");select.setAttribute("aria-expanded","false");
    selectHat(i);
   });
   swatches.append(swatch);
  });
  swatchPanel.append(swatchTop,swatches);visual.append(swatchPanel);
  info.append(heading,desc);
- const select=document.createElement("button");select.className="hat-card-select";select.type="button";select.setAttribute("aria-label","Select "+hat.name);select.setAttribute("aria-pressed","false");select.addEventListener("click",()=>selectHat(i));
+ const select=document.createElement("button");select.className="hat-card-select";select.type="button";select.setAttribute("aria-label","Choose color for "+hat.name);select.addEventListener("click",()=>{card.classList.toggle("is-choosing");select.setAttribute("aria-expanded",String(card.classList.contains("is-choosing")))});
  visual.insertBefore(select,visual.firstChild);
  card.append(visual,info);hatGrid.append(card);hatCards.push(card);
 });
@@ -889,7 +899,7 @@ function openQuote(){
  dialog.showModal();
 }
 document.querySelectorAll("[data-quote]").forEach(b=>b.addEventListener("click",openQuote));
-quoteHat.addEventListener("change",()=>{selectHat(quoteHat.selectedIndex);loadColors(quoteHat.selectedIndex)});
+quoteHat.addEventListener("change",()=>loadColors(quoteHat.selectedIndex));
 document.getElementById("closeQuote").addEventListener("click",()=>dialog.close());
 dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
 function quoteText(){
