@@ -236,12 +236,28 @@ dialog::backdrop{background:rgba(0,0,0,.76);-webkit-backdrop-filter:blur(8px);ba
 @media(max-width:1050px){.hat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.collection-intro{align-items:start;flex-direction:column}.collection-intro .body-copy{max-width:560px}}
 @media(max-width:700px){.hat-grid{gap:12px}.hat-card{padding:6px}.hat-info{padding:13px 5px 10px}.hat-heading{flex-direction:column;gap:5px}.hat-heading h3{font-size:17px}.hat-description{font-size:11px;margin:8px 0 16px}.hat-swatch{width:17px;height:17px}.collection-bottom{align-items:start;flex-direction:column}.releases{padding:90px 0 105px}}
 @media(max-width:390px){.hat-grid{grid-template-columns:1fr}}
+
+/* Larger navigation and official TruePrint logo */
+header{height:82px}
+.header-inner{gap:36px}
+.brand{display:inline-flex;align-items:center;flex-shrink:0}
+.brand img{display:block;width:132px;height:auto;max-height:56px;object-fit:contain;filter:brightness(0) invert(1)}
+.nav-links{gap:34px}
+.nav-links a{font-size:12px}
+.header-inner .btn{min-height:44px;padding:11px 22px;font-size:12px}
+@media(max-width:700px){
+ header{height:70px}
+ .header-inner{gap:13px}
+ .brand img{width:109px;max-height:47px}
+ .nav-links{top:70px}
+ .header-inner .btn{min-height:39px;padding:8px 13px;font-size:11px}
+}
 </style>
 </head>
 <body>
 <header>
  <div class="header-inner">
-  <a href="#top" class="brand" aria-label="TruePrint Shop homepage">TRUEPRINT<em>.</em></a>
+  <a href="#top" class="brand" aria-label="TruePrint Shop homepage"><img src="logo_true.svg" alt="TruePrint Shop"></a>
   <nav class="nav-links" id="navLinks" aria-label="Main navigation">
    <a href="#hats">The hats</a><a href="#how">How it works</a><a href="#hats">Styles index</a><a href="#contact">Contact</a>
   </nav>
