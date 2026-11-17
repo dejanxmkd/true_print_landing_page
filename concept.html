@@ -399,6 +399,18 @@ header{height:82px}
 .toast{left:50%;bottom:32px;width:max-content;max-width:calc(100vw - 40px);padding:15px 24px;border-radius:999px;background:var(--blue);color:#fff;font-family:'Sora',sans-serif;font-size:14px;font-weight:600;line-height:1.4;letter-spacing:-.015em;text-align:center;transform:translate(-50%,32px);opacity:0;box-shadow:none;transition:opacity .35s var(--ease),transform .35s var(--ease)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-width:700px){.collection-bottom{gap:24px}.selected-name{font-size:clamp(22px,5vw,30px)}.toast{bottom:20px;padding:13px 20px;font-size:13px}}
+
+/* Put step labels directly above their titles — no isolated left column */
+.roster-row{grid-template-columns:minmax(0,1fr) minmax(220px,.42fr);align-items:end;column-gap:clamp(24px,5vw,90px)}
+.roster-title{display:flex;flex-direction:column;align-items:flex-start;gap:13px;min-width:0}
+.roster-title .eyebrow{display:block;margin:0;font-size:12px;line-height:1.3;letter-spacing:.13em}
+.roster-title h3{margin:0}
+@media(max-width:700px){
+ .roster-row{grid-template-columns:1fr;gap:16px;align-items:start}
+ .roster-title{gap:10px}
+ .roster-title .eyebrow{font-size:11px}
+ .roster-row p{text-align:left;font-size:13px}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -451,9 +463,9 @@ header{height:82px}
  <div class="wrap">
   <div class="process-head"><div><h2 class="display reveal" id="processTitle">How it<br>works<span style="color:var(--blue)">.</span></h2></div><p class="body-copy reveal">From the first idea to the final order, without the complicated part.</p></div>
   <div class="roster">
-   <div class="roster-row reveal"><span class="eyebrow">01 / Select</span><h3>Choose a hat</h3><p>Pick the style and color that suit your brand.</p></div>
-   <div class="roster-row reveal"><span class="eyebrow">02 / Create</span><h3>Send your logo</h3><p>Share your artwork and tell us what you have in mind.</p></div>
-   <div class="roster-row reveal"><span class="eyebrow">03 / Confirm</span><h3>Approve &amp; order</h3><p>Review the details and confirm your order.</p></div>
+   <div class="roster-row reveal"><div class="roster-title"><span class="eyebrow">01 / Select</span><h3>Choose a hat</h3></div><p>Pick the style and color that suit your brand.</p></div>
+   <div class="roster-row reveal"><div class="roster-title"><span class="eyebrow">02 / Create</span><h3>Send your logo</h3></div><p>Share your artwork and tell us what you have in mind.</p></div>
+   <div class="roster-row reveal"><div class="roster-title"><span class="eyebrow">03 / Confirm</span><h3>Approve &amp; order</h3></div><p>Review the details and confirm your order.</p></div>
   </div>
  </div>
 </section>
