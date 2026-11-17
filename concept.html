@@ -574,6 +574,49 @@ header{height:82px}
  .nav-links .mobile-nav-quote{display:inline-flex;align-self:flex-start;min-height:50px;margin-top:28px;padding:12px 24px;font-family:'Sora',sans-serif;font-size:15px;letter-spacing:0}
  html.mobile-nav-open,html.mobile-nav-open body{overflow:hidden}
 }
+
+/* Unified selected-product dock — replaces the block under the catalogue */
+.selection-dock{
+ position:fixed;inset:auto 0 0;z-index:95;
+ background:var(--blue);color:#fff;
+ padding:16px var(--gutter) max(16px,env(safe-area-inset-bottom));
+ transform:translate3d(0,110%,0);opacity:0;visibility:hidden;pointer-events:none;
+ transition:transform .5s var(--ease),opacity .35s ease,visibility .5s;
+}
+.selection-dock.is-visible{transform:translate3d(0,0,0);opacity:1;visibility:visible;pointer-events:auto}
+.selection-dock-inner{width:100%;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.selection-dock-product{display:flex;align-items:center;gap:18px;min-width:0}
+.selection-dock-swatch{display:block;width:58px;height:58px;flex:0 0 58px;border-radius:8px;background:var(--placeholder)}
+.selection-dock-copy{display:flex;flex-direction:column;gap:5px;min-width:0}
+.selection-dock-eyebrow{display:flex;align-items:center;gap:7px;font-family:'Sora',sans-serif;font-size:11px;font-weight:600;letter-spacing:.025em;color:rgba(255,255,255,.8)}
+.selection-dock-eyebrow icon-monks{display:inline-flex;width:14px;height:14px}
+.selection-dock-name{display:block;font-family:'Syne',sans-serif;font-size:clamp(20px,2vw,29px);font-weight:700;line-height:1.16;letter-spacing:-.03em;color:#fff;overflow-wrap:anywhere}
+.selection-dock-details{font-family:'Sora',sans-serif;font-size:13px;line-height:1.4;color:rgba(255,255,255,.86)}
+.selection-dock .selection-dock-cta{display:inline-flex;flex-shrink:0;min-height:54px;padding:14px 26px;border:0;border-radius:999px;background:#fff;color:var(--ground);font-family:'Sora',sans-serif;font-weight:600;font-size:15px}
+.selection-dock .selection-dock-cta:hover{background:#F5F1E8;color:var(--ground)}
+html.has-selection body{padding-bottom:104px}
+body:has(dialog[open]) .selection-dock,html.mobile-nav-open .selection-dock{opacity:0;pointer-events:none}
+html.has-selection .toast{bottom:132px}
+@media(max-width:700px){
+ .selection-dock{padding:16px var(--gutter) max(18px,env(safe-area-inset-bottom));}
+ .selection-dock-inner{display:flex;flex-direction:column;align-items:stretch;gap:16px}
+ .selection-dock-product{gap:13px}
+ .selection-dock-swatch{width:48px;height:48px;flex-basis:48px}
+ .selection-dock-eyebrow{font-size:10px}
+ .selection-dock-name{font-size:clamp(18px,5.4vw,24px)}
+ .selection-dock-details{font-size:12px}
+ .selection-dock .selection-dock-cta{width:100%;min-height:50px;justify-content:center;font-size:15px}
+ html.has-selection body{padding-bottom:186px}
+ html.has-selection .toast{bottom:200px}
+ /* Consistent edge-to-edge mobile call-to-action buttons */
+ .close-actions{width:100%}
+ .close-actions .btn{width:100%;min-height:52px;justify-content:space-between;padding-inline:22px}
+ .nav-links .mobile-nav-quote{width:100%;align-self:stretch;justify-content:space-between;min-height:52px}
+}
+@media(min-width:701px) and (max-width:1000px){
+ .nav-links .mobile-nav-quote{width:100%;align-self:stretch;justify-content:space-between}
+}
+@media(prefers-reduced-motion:reduce){.selection-dock{transition:none}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -615,10 +658,6 @@ header{height:82px}
    <div class="collection-intro"><h2 class="display reveal" id="releasesTitle">Choose your hat<span class="blue-dot">.</span></h2><p class="body-copy reveal">Eight styles. Pick the shape and color that work for your brand, team or event. Select a card to make it yours.</p></div>
   </div>
   <div class="hat-grid reveal" id="hatGrid" role="group" aria-label="Choose one hat style"></div>
-  <div class="collection-bottom">
-   <div class="selected-preview" id="selectedSummary" aria-live="polite" aria-atomic="true"><span class="selected-kicker">Your selection</span><span class="selected-name" id="selectedHatName">Choose your hat</span><span class="selected-meta" id="selectedHatMeta">Select a style above to get started</span></div>
-   <button class="btn btn-blue" id="chooseSelected" type="button">Get a quote <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></button>
-  </div>
  </div>
 </section>
 <!-- 04 Process -->
@@ -641,6 +680,20 @@ header{height:82px}
  
 </section>
 </main>
+<aside class="selection-dock" id="selectionDock" aria-label="Selected hat" aria-hidden="true" inert>
+ <div class="selection-dock-inner">
+  <div class="selection-dock-product" aria-live="polite" aria-atomic="true">
+   <span class="selection-dock-swatch" id="selectionDockSwatch" aria-hidden="true"></span>
+   <span class="selection-dock-copy">
+    <span class="selection-dock-eyebrow"><icon-monks name="check" size="14" aria-hidden="true"></icon-monks> Selected hat</span>
+    <strong class="selection-dock-name" id="selectedHatName"></strong>
+    <span class="selection-dock-details" id="selectedHatMeta"></span>
+   </span>
+  </div>
+  <button class="btn selection-dock-cta" id="chooseSelected" type="button">Get a quote <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></button>
+ </div>
+</aside>
+
 <dialog id="quoteDialog" aria-labelledby="quoteTitle">
  <div class="dialog-top"><h2 id="quoteTitle">Get a quote</h2><button type="button" id="closeQuote" aria-label="Close dialog">×</button></div>
  <form id="quoteForm">
@@ -707,7 +760,8 @@ if(!prefersReduced.matches){
  document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 }
 const hatGrid=document.getElementById("hatGrid");
-const selectedSummary=document.getElementById("selectedSummary");
+const selectionDock=document.getElementById("selectionDock");
+const selectionDockSwatch=document.getElementById("selectionDockSwatch");
 const selectedHatName=document.getElementById("selectedHatName");
 const selectedHatMeta=document.getElementById("selectedHatMeta");
 let current=-1;
@@ -723,6 +777,11 @@ function selectHat(i){
  });
  selectedHatName.textContent=hats[i].name;
  selectedHatMeta.textContent=getChosenColor(i)+"  ·  $12 / ea";
+ selectionDockSwatch.style.backgroundColor=hats[i].colors[chosenColors[i]][1];
+ selectionDock.classList.add("is-visible");
+ selectionDock.removeAttribute("inert");
+ selectionDock.setAttribute("aria-hidden","false");
+ document.documentElement.classList.add("has-selection");
  notify(hats[i].name+" selected");
 }
 hats.forEach((hat,i)=>{
