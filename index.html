@@ -229,11 +229,12 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 .footer small{color:rgba(255,255,255,.8)}
 .footer .logo img{filter:brightness(0) invert(1)}
 
-/* Softer premium corners for interactive product cards and CTAs */
-.product{border-radius:14px;overflow:hidden;corner-shape:superellipse(5)}
-.product-color{border-radius:8px;corner-shape:superellipse(5)}
-.card-select{border-radius:14px;corner-shape:superellipse(5)}
-.btn{border-radius:10px;corner-shape:superellipse(5)}
+/* Figma-style 100% corner smoothing: continuous superellipse corners.
+   Standard radius remains the fallback where corner-shape is unsupported. */
+.product{border-radius:26px;overflow:hidden;corner-shape:squircle}
+.product-color{border-radius:19px;corner-shape:squircle}
+.card-select{border-radius:26px;corner-shape:squircle}
+.btn{border-radius:16px;corner-shape:squircle}
 
 </style>
 </head>
