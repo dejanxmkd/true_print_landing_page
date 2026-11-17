@@ -167,6 +167,40 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 .product-controls .swatches{position:relative;z-index:2}
 .swatch{cursor:pointer}
 @media(max-width:700px){.product-grid{gap:16px}.product{padding:8px 8px 14px}.product-details{padding:14px 5px 0}}
+
+/* Integrated How It Works + Quote: black process area beside cobalt CTA */
+.bottom-pair{display:grid;grid-template-columns:minmax(0,2.15fr) minmax(315px,.85fr);align-items:stretch}
+.bottom-pair .process{background:var(--black);color:var(--white);padding:80px 0 90px}
+.bottom-pair .process>.wrap{max-width:none;margin:0;padding:0 clamp(32px,4.5vw,86px)}
+.bottom-pair .process .section-head{align-items:start;flex-direction:column;gap:16px;margin-bottom:10px}
+.bottom-pair .process .section-intro,.bottom-pair .step p{color:rgba(255,255,255,.65)}
+.bottom-pair .process .steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2.2vw,34px);margin-top:28px}
+.bottom-pair .process .step-icon{height:clamp(112px,12vw,160px)}
+.bottom-pair .process .step-icon img{width:clamp(112px,12vw,160px);height:clamp(112px,12vw,160px)}
+.bottom-pair .process .step h3{font-size:clamp(17px,1.55vw,23px);color:#fff}
+.bottom-pair .process .step p{font-size:13px;line-height:1.6}
+.bottom-pair .cta{display:flex;align-items:center;background:var(--blue);padding:80px 0}
+.bottom-pair .cta>.wrap{max-width:none;margin:0;padding:0 clamp(30px,3.4vw,66px);width:100%}
+.bottom-pair .cta-inner{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:32px}
+.bottom-pair .cta h2{font-size:clamp(30px,3vw,49px)!important;line-height:1.13;white-space:normal!important;max-width:440px}
+@media(max-width:1050px){
+ .bottom-pair{grid-template-columns:1fr}
+ .bottom-pair .process{padding:72px 0 76px}
+ .bottom-pair .process>.wrap,.bottom-pair .cta>.wrap{max-width:calc(var(--content) + var(--gutter)*2);margin:auto;padding-inline:var(--gutter)}
+ .bottom-pair .process .steps{gap:24px}
+ .bottom-pair .cta{padding:64px 0}
+ .bottom-pair .cta-inner{flex-direction:row;align-items:center;justify-content:space-between}
+ .bottom-pair .cta h2{font-size:clamp(32px,4vw,48px)!important}
+}
+@media(max-width:700px){
+ .bottom-pair .process .steps{grid-template-columns:1fr;gap:32px}
+ .bottom-pair .process .step{display:grid;grid-template-columns:105px minmax(0,1fr);column-gap:18px;align-items:center}
+ .bottom-pair .process .step-top{grid-row:span 2;margin:0!important}
+ .bottom-pair .process .step-icon,.bottom-pair .process .step-icon img{height:105px;width:105px}
+ .bottom-pair .process .step h3{font-size:20px;margin:0 0 5px}
+ .bottom-pair .process .step p{font-size:13px}
+ .bottom-pair .cta-inner{align-items:flex-start;flex-direction:column;gap:24px}
+}
 </style>
 </head>
 <body>
@@ -187,6 +221,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   <div class="section-head"><h2 class="section-title">Choose Your Hat</h2><p class="section-intro">Find your fit. Select a style and choose the color that works for your brand.</p></div>
   <div class="product-grid" id="productGrid"></div>
  </div></section>
+ <div class="bottom-pair">
  <section class="process" id="how"><div class="wrap">
   <div class="section-head"><h2 class="section-title">How It Works</h2><p class="section-intro">From your idea to the final order in three simple steps.</p></div>
   <div class="steps">
@@ -196,6 +231,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 </div>
  </div></section>
  <section class="cta" id="contact"><div class="wrap cta-inner"><h2 class="cta-one-line">Ready to make your hats?</h2><button class="btn btn-light" data-open-quote type="button">Get a Free Quote</button></div></section>
+ </div>
 </main>
 <footer class="footer"><div class="wrap footer-inner"><a class="logo" href="#" aria-label="TruePrint Shop homepage"><img src="logo_true.svg" alt="TruePrint Shop"></a><small>© <span id="year"></span> TruePrint Shop</small></div></footer>
 <dialog id="quoteDialog" aria-labelledby="quoteTitle"><div class="dialog-inner">
