@@ -591,6 +591,7 @@ hats.forEach((hat,i)=>{
   swatch.setAttribute("aria-pressed",String(j===0));
   swatch.addEventListener("click",e=>{
    e.stopPropagation();chosenColors[i]=j;swatchName.textContent=name;
+   visual.style.backgroundColor=hex;
    swatches.querySelectorAll(".hat-swatch").forEach((el,k)=>el.setAttribute("aria-pressed",String(k===j)));
    selectHat(i);
   });
