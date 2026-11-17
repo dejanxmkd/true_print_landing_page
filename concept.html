@@ -8,12 +8,12 @@
 <title>TruePrint Shop — A different way to make hats</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--ground:#0A0A0D;--ground2:#111114;--ink:#F5F1E8;--muted:rgba(245,241,232,.55);--blue:#2457FF;--rule:rgba(245,241,232,.14);--ease:cubic-bezier(.16,1,.3,1);--gutter:clamp(24px,5vw,88px)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:75px}
-body{margin:0;background:var(--ground);color:var(--ink);font-family:Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:'Sora',Arial,sans-serif;-webkit-font-smoothing:antialiased}
 body:has(dialog[open]){overflow:hidden}
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit}
@@ -252,6 +252,14 @@ header{height:82px}
  .nav-links{top:70px}
  .header-inner .btn{min-height:39px;padding:8px 13px;font-size:11px}
 }
+
+/* Original prompt typography: Syne display + Sora interface */
+.portal-title-inner,.display,.statement h2,.roster-row h3,.hat-heading h3,.close-section h2,.close-wordmark,.dialog-top h2{font-family:'Syne',sans-serif}
+.portal-title-inner,.close-wordmark{font-weight:800}
+.display,.close-section h2,.roster-row h3,.hat-heading h3{font-weight:700}
+.portal-title-inner{letter-spacing:-.03em}
+.display,.close-section h2{letter-spacing:-.03em}
+.hat-heading h3,.roster-row h3{letter-spacing:-.02em}
 </style>
 </head>
 <body>
@@ -277,10 +285,10 @@ header{height:82px}
   <span class="portal-dot" id="dotA" aria-hidden="true"></span>
   <span class="portal-dot second" id="dotB" aria-hidden="true"></span>
   <div class="portal-title" aria-hidden="true"><div class="portal-title-inner" id="portalTitle"><span class="portal-half" id="wordLeft">TRUE</span><span class="portal-half" id="wordRight">PRINT.</span></div></div>
-  <span class="portal-corner tl">TruePrint Shop / Custom hats</span>
-  <span class="portal-corner tr">Made for your brand</span>
-  <span class="portal-corner bl">01 / Scroll to open</span>
-  <span class="portal-corner br">Choose a style. Make it yours.</span>
+  
+  
+  
+  
   <div class="portal-progress" aria-hidden="true"><span id="portalBar"></span></div>
  </div>
 </section>
@@ -288,7 +296,7 @@ header{height:82px}
 <section class="releases" id="hats" aria-labelledby="releasesTitle">
  <div class="wrap">
   <div class="collection-header">
-   <div class="eyebrow reveal"><span class="section-number">02</span> The collection / 06 styles</div>
+   
    <div class="collection-intro"><h2 class="display reveal" id="releasesTitle">Choose your hat<span class="blue-dot">.</span></h2><p class="body-copy reveal">Six styles. Pick the shape and color that work for your brand, team or event. Select a card to make it yours.</p></div>
   </div>
   <div class="hat-grid reveal" id="hatGrid" role="group" aria-label="Choose one hat style"></div>
@@ -301,7 +309,7 @@ header{height:82px}
 <!-- 04 Process -->
 <section class="process" id="how" aria-labelledby="processTitle">
  <div class="wrap">
-  <div class="process-head"><div><div class="eyebrow reveal"><span class="section-number">03</span> Three simple steps</div><h2 class="display reveal" id="processTitle" style="margin-top:22px">How it<br>works<span style="color:var(--blue)">.</span></h2></div><p class="body-copy reveal">From the first idea to the final order, without the complicated part.</p></div>
+  <div class="process-head"><div><h2 class="display reveal" id="processTitle" style="margin-top:22px">How it<br>works<span style="color:var(--blue)">.</span></h2></div><p class="body-copy reveal">From the first idea to the final order, without the complicated part.</p></div>
   <div class="roster">
    <div class="roster-row reveal"><span class="eyebrow">01 / Select</span><h3>Choose a hat</h3><p>Pick the style and color that suit your brand.</p></div>
    <div class="roster-row reveal"><span class="eyebrow">02 / Create</span><h3>Send your logo</h3><p>Share your artwork and tell us what you have in mind.</p></div>
@@ -312,7 +320,7 @@ header{height:82px}
 <!-- 06 Close -->
 <section class="close-section" id="contact" aria-labelledby="closeTitle">
  <div class="wrap">
-  <div class="close-main"><div><div class="eyebrow reveal"><span class="section-number">04</span> Your brand, your hat</div><h2 class="reveal" id="closeTitle">Ready to make<br>your hats<span style="color:var(--blue)">?</span></h2><p class="reveal">Choose a style, share your artwork, and start your quote.</p></div><div class="close-actions reveal"><a class="btn" href="#hats">Explore styles <span aria-hidden="true">↗</span></a><button class="btn btn-blue" data-quote>Get a free quote <span aria-hidden="true">↗</span></button></div></div>
+  <div class="close-main"><div><h2 class="reveal" id="closeTitle">Ready to make<br>your hats<span style="color:var(--blue)">?</span></h2><p class="reveal">Choose a style, share your artwork, and start your quote.</p></div><div class="close-actions reveal"><a class="btn" href="#hats">Explore styles <span aria-hidden="true">↗</span></a><button class="btn btn-blue" data-quote>Get a free quote <span aria-hidden="true">↗</span></button></div></div>
   <div class="footer-line"><span>© <span id="year"></span> TruePrint Shop</span><span>Custom embroidered hats</span><a href="#top">Back to top ↑</a></div>
  </div>
  <div class="close-wordmark" aria-hidden="true">TRUE<span>PRINT</span>.</div>
