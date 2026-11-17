@@ -30,22 +30,22 @@ a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}b
 .btn-light:hover{background:var(--cream);border-color:var(--cream)}
 .section-title{font-size:clamp(32px,4.3vw,56px);line-height:1.12;letter-spacing:-.04em;font-weight:700;margin:0}
 .section-intro{font-size:16px;font-weight:300;line-height:1.65;color:var(--secondary);max-width:400px;margin:0}
-.site-header{height:84px;background:var(--cream);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:100}
+.site-header{height:84px;background:var(--black);border-bottom:1px solid rgba(255,255,255,.13);position:sticky;top:0;z-index:100}
 .header-inner{display:flex;align-items:center;justify-content:space-between;height:100%;gap:32px}
 .logo{display:inline-flex;align-items:center;flex-shrink:0}
 .logo img{display:block;width:124px;height:auto;max-height:54px;object-fit:contain}
 .nav{display:flex;align-items:center;gap:38px;margin-left:auto}
-.nav a{font-size:14px;font-weight:500;color:var(--ink);transition:color .2s}
+.nav a{font-size:14px;font-weight:500;color:var(--white);transition:color .2s}
 .nav a:hover{color:var(--blue)}
 .nav-quote{margin-left:10px}
-.menu-toggle{display:none;background:none;border:0;color:var(--ink);font-size:14px;font-weight:600;padding:12px}
-.hero{background:var(--cream)}
+.menu-toggle{display:none;background:none;border:0;color:var(--white);font-size:14px;font-weight:600;padding:12px}
+.hero{background:var(--black);color:var(--white)}
 .hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center;min-height:620px;padding-block:70px}
 .hero-content{padding-block:40px}
 .hero h1{font-size:clamp(52px,6.5vw,92px);font-weight:700;line-height:1.03;letter-spacing:-.065em;margin:0 0 24px;max-width:660px}
 .hero h1 span{color:var(--blue)}
-.hero p{font-size:clamp(16px,1.45vw,19px);font-weight:300;line-height:1.65;max-width:475px;margin:0 0 34px;color:#474641}
-.hero-placeholder{width:100%;aspect-ratio:1/1;background:var(--blue)}
+.hero p{font-size:clamp(16px,1.45vw,19px);font-weight:300;line-height:1.65;max-width:475px;margin:0 0 34px;color:rgba(255,255,255,.78)}
+.hero-placeholder{width:100%;aspect-ratio:1/1;background:#262626}
 .collection{padding-block:100px 112px;background:var(--white)}
 .section-head{display:flex;align-items:end;justify-content:space-between;gap:34px;margin-bottom:42px}
 .product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:50px 24px}
@@ -96,7 +96,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 }
 @media(max-width:700px){
  .site-header{height:70px}.header-inner{gap:14px}.logo img{width:106px;max-height:45px}
- .nav{display:none;position:absolute;top:70px;left:0;right:0;background:var(--cream);padding:24px var(--gutter);border-bottom:1px solid var(--line);flex-direction:column;align-items:start;gap:25px}
+ .nav{display:none;position:absolute;top:70px;left:0;right:0;background:var(--black);padding:24px var(--gutter);border-bottom:1px solid rgba(255,255,255,.13);flex-direction:column;align-items:start;gap:25px}
  .nav.open{display:flex}
  .menu-toggle{display:block;margin-left:auto}
  .nav-quote{margin-left:0;min-height:42px;padding-inline:15px}
@@ -145,6 +145,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 .process .step-icon{width:auto;height:52px;display:flex;justify-content:flex-start;align-items:center;background:transparent!important}
 .process .step-icon img{width:42px;height:42px;filter:brightness(0) saturate(100%) invert(27%) sepia(98%) saturate(3870%) hue-rotate(226deg) brightness(101%) contrast(101%)}
 @media(max-width:700px){.process .steps{grid-template-columns:1fr;gap:42px;margin-top:38px}.process .step{padding:0!important}.process .step+.step{border:0!important}.process .step-top{margin-bottom:16px}}
+.site-header .logo img{filter:brightness(0) invert(1)}
 </style>
 </head>
 <body>
