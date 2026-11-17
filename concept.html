@@ -320,7 +320,25 @@ header{height:82px}
 .hat-card.is-selected .hat-heading h3{color:var(--ink)}
 @media(max-width:1050px){.hat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:390px){.hat-grid{grid-template-columns:1fr}}
+
+/* Buttons use the same readable body text scale; Icon Monks icons */
+.btn{font-size:clamp(14px,1.05vw,16px);min-height:52px;padding:14px 25px;gap:18px;font-weight:500;letter-spacing:-.01em}
+.header-inner .btn{font-size:14px;min-height:46px;padding:11px 21px}
+.btn icon-monks{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:18px;height:18px}
+.footer-line a{display:inline-flex;align-items:center;gap:8px}
+.footer-line icon-monks{display:inline-flex;width:16px;height:16px}
+/* Full-width closing wordmark, precisely fitted by measured text width */
+.close-section{overflow:hidden}
+.close-wordmark{width:100%;max-width:100%;text-align:center;overflow:visible;transform:none;font-family:'Syne',sans-serif;font-weight:800;line-height:1;letter-spacing:0;font-size:100px;padding:0 0 14px}
+.close-wordmark .wordmark-fit{display:inline-block;white-space:nowrap;line-height:.88;letter-spacing:-.065em;color:var(--ink)}
+.close-wordmark .wordmark-fit>span{color:var(--blue)}
+@media(max-width:700px){
+ .header-inner .btn{font-size:13px;min-height:40px;padding:9px 13px}
+ .btn{min-height:48px;padding:12px 19px;font-size:14px;gap:12px}
+ .close-wordmark{padding-bottom:8px}
+}
 </style>
+<script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
 <body>
 <header>
@@ -330,7 +348,7 @@ header{height:82px}
    <a href="#top">Home</a><a href="#hats">Hats</a><a href="#how">How it works</a><a href="#contact">Contact</a>
   </nav>
   <button class="menu-btn" id="menuBtn" aria-controls="navLinks" aria-expanded="false">Menu</button>
-  <button class="btn btn-blue" type="button" data-quote>Get a quote <span aria-hidden="true">↗</span></button>
+  <button class="btn btn-blue" type="button" data-quote>Get a quote <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></button>
  </div>
 </header>
 <main id="top">
@@ -381,9 +399,9 @@ header{height:82px}
 <section class="close-section" id="contact" aria-labelledby="closeTitle">
  <div class="wrap">
   <div class="close-main"><div><h2 class="reveal" id="closeTitle">Ready to make<br>your hats<span style="color:var(--blue)">?</span></h2><p class="reveal">Choose a style, share your artwork, and start your quote.</p></div><div class="close-actions reveal"><a class="btn" href="#hats">Explore styles <span aria-hidden="true">↗</span></a><button class="btn btn-blue" data-quote>Get a free quote <span aria-hidden="true">↗</span></button></div></div>
-  <div class="footer-line"><span>© <span id="year"></span> TruePrint Shop</span><span>Custom embroidered hats</span><a href="#top">Back to top ↑</a></div>
+  <div class="footer-line"><span>© <span id="year"></span> TruePrint Shop</span><span>Custom embroidered hats</span><a href="#top">Back to top <icon-monks name="arrow-up" size="16" aria-hidden="true"></icon-monks></a></div>
  </div>
- <div class="close-wordmark" aria-hidden="true">TRUE<span>PRINT</span>.</div>
+ <div class="close-wordmark" aria-hidden="true"><span class="wordmark-fit">TRUE<span>PRINT</span>.</span></div>
 </section>
 </main>
 <dialog id="quoteDialog" aria-labelledby="quoteTitle">
@@ -502,6 +520,18 @@ document.getElementById("downloadQuote").addEventListener("click",()=>{
 const menuBtn=document.getElementById("menuBtn"),links=document.getElementById("navLinks");
 menuBtn.addEventListener("click",()=>{const open=links.classList.toggle("open");menuBtn.setAttribute("aria-expanded",String(open))});
 links.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{links.classList.remove("open");menuBtn.setAttribute("aria-expanded","false")}));
+
+const fullWidthWordmark=document.querySelector(".close-wordmark .wordmark-fit");
+function fitFullWidthWordmark(){
+ if(!fullWidthWordmark)return;
+ const available=Math.max(1,window.innerWidth-Math.max(20,window.innerWidth*.026));
+ fullWidthWordmark.style.fontSize="100px";
+ const measured=fullWidthWordmark.getBoundingClientRect().width;
+ if(measured>0)fullWidthWordmark.style.fontSize=(100*available/measured).toFixed(2)+"px";
+}
+fitFullWidthWordmark();
+window.addEventListener("resize",fitFullWidthWordmark,{passive:true});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitFullWidthWordmark);
 document.getElementById("year").textContent=new Date().getFullYear();
 </script>
 </body>
