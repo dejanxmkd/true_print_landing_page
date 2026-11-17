@@ -338,27 +338,46 @@ header{height:82px}
  .close-wordmark{padding-bottom:8px}
 }
 
-/* Color picker overlay: only swatches appear above fixed charcoal placeholders */
+
+/* Integrated color drawer — a seamless extension of the image surface */
 .hat-visual{isolation:isolate}
-.hat-color-panel{position:absolute;z-index:4;left:18px;right:18px;bottom:18px;display:flex;flex-direction:column;gap:14px;padding:16px 17px;background:rgba(15,16,19,.94);border-radius:12px;opacity:0;visibility:hidden;transform:translateY(12px);pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease),visibility .3s}
-.hat-card:hover .hat-color-panel,.hat-card:focus-within .hat-color-panel,.hat-card.is-selected .hat-color-panel{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
-.hat-color-heading{display:flex;justify-content:space-between;gap:12px;font-size:11px;font-weight:500;letter-spacing:.04em;color:rgba(245,241,232,.65)}
-.hat-color-name{color:var(--ink);font-weight:600;letter-spacing:0}
-.hat-swatches{display:flex;position:relative;flex-wrap:wrap;align-items:center;gap:11px;z-index:5}
-.hat-swatch{width:25px;height:25px;border:2px solid transparent;border-radius:50%;background:var(--swatch);outline:1px solid rgba(255,255,255,.35);outline-offset:0;padding:0;cursor:pointer;transition:transform .25s var(--ease),outline-color .25s var(--ease)}
-.hat-swatch:hover{transform:scale(1.12)}
-.hat-swatch[aria-pressed=true]{outline:2px solid var(--blue);outline-offset:3px}
-.hat-swatch:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.hat-color-panel{
+ position:absolute;z-index:4;inset:auto 0 0;
+ display:flex;flex-direction:column;justify-content:flex-end;
+ gap:18px;padding:0 22px;
+ height:0;overflow:hidden;
+ background:#343538;
+ opacity:0;visibility:hidden;pointer-events:none;
+ transition:height .55s var(--ease),padding .55s var(--ease),opacity .32s ease,visibility .55s;
+}
+.hat-card:hover .hat-color-panel,
+.hat-card:focus-within .hat-color-panel{
+ height:132px;padding:22px 22px 24px;
+ opacity:1;visibility:visible;pointer-events:auto;
+}
+.hat-color-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;color:rgba(245,241,232,.58);font-family:'Sora',sans-serif;font-size:10px;font-weight:500;letter-spacing:.13em;text-transform:uppercase}
+.hat-color-name{color:var(--ink);font-family:'Syne',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.02em;text-transform:none}
+.hat-swatches{display:flex;align-items:center;flex-wrap:wrap;gap:13px;position:relative;z-index:5}
+.hat-swatch{width:26px;height:26px;border:0;border-radius:50%;padding:0;background:var(--swatch);outline:1px solid rgba(245,241,232,.26);outline-offset:0;cursor:pointer;transition:transform .3s var(--ease),outline-color .25s ease,outline-offset .25s ease}
+.hat-swatch:hover{transform:scale(1.15)}
+.hat-swatch[aria-pressed=true]{outline:2px solid var(--blue);outline-offset:4px}
+.hat-swatch:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 @media(hover:none),(pointer:coarse){
- .hat-color-panel{opacity:1;visibility:visible;transform:none;pointer-events:auto;bottom:12px;left:12px;right:12px;padding:12px 13px;gap:10px}
- .hat-swatch{width:23px;height:23px}
+ .hat-color-panel{height:auto;min-height:108px;padding:17px 16px 20px;opacity:1;visibility:visible;pointer-events:auto;gap:15px}
+ .hat-card:hover .hat-color-panel,.hat-card:focus-within .hat-color-panel{height:auto;padding:17px 16px 20px}
+ .hat-swatch{width:25px;height:25px}
 }
 @media(max-width:700px){
- .hat-color-panel{left:9px;right:9px;bottom:9px;padding:10px;gap:9px}
- .hat-color-heading{font-size:10px}
- .hat-swatches{gap:9px}
- .hat-swatch{width:21px;height:21px}
+ .hat-card:hover .hat-color-panel,.hat-card:focus-within .hat-color-panel{height:112px;padding:16px 13px 18px;gap:14px}
+ .hat-color-heading{font-size:9px}
+ .hat-color-name{font-size:15px}
+ .hat-swatches{gap:11px}
+ .hat-swatch{width:23px;height:23px}
 }
+@media(max-width:700px) and (hover:none),(max-width:700px) and (pointer:coarse){
+ .hat-color-panel,.hat-card:hover .hat-color-panel,.hat-card:focus-within .hat-color-panel{height:auto;min-height:100px;padding:14px 12px 18px;gap:12px}
+}
+@media(prefers-reduced-motion:reduce){.hat-color-panel,.hat-swatch{transition:none}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
