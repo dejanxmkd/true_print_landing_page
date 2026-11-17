@@ -638,6 +638,52 @@ html.has-selection .toast{bottom:155px}
 }
 @media(min-width:701px) and (max-width:1000px){.nav-links .mobile-nav-quote{width:100%;align-self:stretch;justify-content:space-between}}
 @media(prefers-reduced-motion:reduce){.selection-dock{transition:none}}
+
+/* Cart row layout: quote beside the bottom/first choice; later choices stack upward */
+.selection-dock-peek{left:50%;right:auto;transform:translateX(-50%)}
+.selection-dock-inner{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) auto;
+ grid-template-rows:auto minmax(0,auto);
+ column-gap:clamp(16px,3vw,40px);
+ row-gap:10px;
+ align-items:end;
+}
+.selection-dock-label{grid-column:1/-1;grid-row:1}
+.selection-dock-items{
+ grid-column:1;grid-row:2;
+ display:flex;flex-direction:column;
+ min-width:0;
+}
+.selection-dock-product{min-width:0;flex-shrink:0}
+.selection-dock .selection-dock-cta{
+ grid-column:2;grid-row:2;
+ align-self:end;justify-self:end;
+ margin-bottom:9px;
+ flex-shrink:0;white-space:nowrap;
+}
+@media(max-width:700px){
+ .selection-dock-peek{left:50%;right:auto}
+ .selection-dock-inner{grid-template-columns:minmax(0,1fr) auto;column-gap:10px;row-gap:7px}
+ .selection-dock-product{gap:7px;padding:8px 0}
+ .selection-dock-remove{width:30px;height:34px;flex:0 0 30px;background:transparent}
+ .selection-dock-swatch{width:30px;height:34px;flex:0 0 30px;border-radius:5px}
+ .selection-dock-name{font-size:clamp(13px,3.7vw,17px);line-height:1.2}
+ .selection-dock-details{font-size:11px}
+ .selection-dock .selection-dock-cta{
+  width:auto;min-height:44px;max-width:145px;
+  padding:10px 13px;gap:7px;
+  font-size:12px;margin-bottom:3px;
+ }
+ .selection-dock .selection-dock-cta icon-monks{width:16px;height:16px}
+}
+@media(max-width:370px){
+ .selection-dock-inner{column-gap:6px}
+ .selection-dock-product{gap:5px}
+ .selection-dock-remove{width:27px;flex-basis:27px}
+ .selection-dock-swatch{width:27px;flex-basis:27px}
+ .selection-dock .selection-dock-cta{padding-inline:10px;font-size:11px;gap:5px}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -827,7 +873,7 @@ function refreshDock(){
    if(current===i)current=selectedHats.size?Array.from(selectedHats).at(-1):-1;
    refreshDock();
   });
-  row.append(swatch,copy,remove);dockItems.append(row);
+  row.append(remove,swatch,copy);dockItems.prepend(row);
  });
  hatCards.forEach((card,i)=>{
   const active=selectedHats.has(i);
