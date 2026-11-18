@@ -684,6 +684,37 @@ html.has-selection .toast{bottom:155px}
  .selection-dock-swatch{width:27px;flex-basis:27px}
  .selection-dock .selection-dock-cta{padding-inline:10px;font-size:11px;gap:5px}
 }
+
+/* Dedicated mobile-only native modal color picker — desktop hover remains unchanged */
+.color-sheet{display:none}
+@media(max-width:700px){
+ .hat-color-panel,.hat-card:hover .hat-color-panel,.hat-card:focus-within .hat-color-panel,.hat-card.is-choosing .hat-color-panel{display:none!important}
+ .hat-card .hat-visual{cursor:pointer}
+ .color-sheet:not([open]){display:none}
+ .color-sheet[open]{
+  display:block;position:fixed;inset:auto 0 0;top:auto;bottom:0;
+  width:100%;max-width:none;max-height:min(78dvh,680px);height:auto;
+  margin:0;padding:0 0 max(24px,env(safe-area-inset-bottom));
+  border:0;border-radius:24px 24px 0 0;background:var(--ground2);color:var(--ink);
+  overflow-y:auto;overscroll-behavior:contain;
+  transform:translateY(var(--sheet-pull,0px));
+  box-shadow:0 -18px 70px rgba(0,0,0,.35);
+ }
+ .color-sheet::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+ .color-sheet-grab{height:44px;display:flex;align-items:flex-start;justify-content:center;padding-top:12px;touch-action:none;cursor:grab}
+ .color-sheet-handle{display:block;width:42px;height:5px;border-radius:999px;background:rgba(245,241,232,.35)}
+ .color-sheet-content{padding:12px var(--gutter) 0}
+ .color-sheet-eyebrow{margin:0 0 12px;font-family:'Sora',sans-serif;font-size:13px;font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0}
+ .color-sheet-content h2{margin:0 0 28px;font-family:'Syne',sans-serif;font-size:clamp(27px,8vw,38px);font-weight:700;letter-spacing:-.035em;line-height:1.1;color:var(--ink)}
+ .color-sheet-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .color-sheet-option{display:flex;align-items:center;gap:12px;min-height:60px;width:100%;padding:12px 13px;border:1px solid rgba(245,241,232,.10);border-radius:12px;background:rgba(255,255,255,.035);color:var(--ink);font-family:'Sora',sans-serif;font-size:14px;font-weight:500;text-align:left;cursor:pointer}
+ .color-sheet-option.is-current{border-color:var(--blue)}
+ .color-sheet-option icon-monks{margin-left:auto;display:inline-flex;color:var(--blue);flex-shrink:0}
+ .color-sheet-dot{display:block;width:28px;height:28px;flex:0 0 28px;border-radius:50%}
+ .color-sheet-option:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+}
+@media(max-width:350px){.color-sheet-options{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.color-sheet[open]{scroll-behavior:auto}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -760,6 +791,14 @@ html.has-selection .toast{bottom:155px}
  </div>
 </aside>
 
+<dialog id="colorSheet" class="color-sheet" aria-labelledby="colorSheetTitle">
+ <div class="color-sheet-grab" id="colorSheetGrab" aria-label="Swipe down to close"><span class="color-sheet-handle" aria-hidden="true"></span></div>
+ <div class="color-sheet-content">
+  <p class="color-sheet-eyebrow">Choose color</p>
+  <h2 id="colorSheetTitle"></h2>
+  <div id="colorSheetOptions" class="color-sheet-options" role="group" aria-label="Available hat colors"></div>
+ </div>
+</dialog>
 <dialog id="quoteDialog" aria-labelledby="quoteTitle">
  <div class="dialog-top"><h2 id="quoteTitle">Get a quote</h2><button type="button" id="closeQuote" aria-label="Close dialog">×</button></div>
  <form id="quoteForm">
@@ -889,6 +928,64 @@ function selectHat(i){
  notify(hats[i].name+" selected");
 }
 dockPeek.addEventListener("click",()=>setDockCollapsed(!dockCollapsed));
+const colorSheet=document.getElementById("colorSheet");
+const colorSheetTitle=document.getElementById("colorSheetTitle");
+const colorSheetOptions=document.getElementById("colorSheetOptions");
+const colorSheetGrab=document.getElementById("colorSheetGrab");
+const mobileColorScreen=matchMedia("(max-width:700px)");
+let colorSheetReturnFocus=null;
+function closeColorSheet(){
+ if(!colorSheet.open)return;
+ colorSheet.close();
+ colorSheet.style.removeProperty("--sheet-pull");
+ if(colorSheetReturnFocus?.isConnected)colorSheetReturnFocus.focus({preventScroll:true});
+}
+function openColorSheet(i,trigger){
+ if(!mobileColorScreen.matches)return;
+ if(colorSheet.open)closeColorSheet();
+ colorSheetReturnFocus=trigger;
+ colorSheetTitle.textContent=hats[i].name;
+ colorSheetOptions.replaceChildren();
+ hats[i].colors.forEach(([name,hex],j)=>{
+  const option=document.createElement("button");option.type="button";option.className="color-sheet-option";
+  option.setAttribute("aria-label","Choose "+name);
+  const dot=document.createElement("span");dot.className="color-sheet-dot";dot.style.backgroundColor=hex;
+  const label=document.createElement("span");label.textContent=name;
+  option.append(dot,label);
+  if(selectedHats.has(i)&&chosenColors[i]===j){
+   option.classList.add("is-current");
+   const check=document.createElement("icon-monks");check.setAttribute("name","check");check.setAttribute("size","19");check.setAttribute("aria-hidden","true");option.append(check);
+  }
+  option.addEventListener("click",()=>{
+   const card=hatCards[i];
+   chosenColors[i]=j;
+   card.querySelector(".hat-visual").style.backgroundColor=hex;
+   card.querySelector(".hat-color-name").textContent=name;
+   card.querySelectorAll(".hat-swatch").forEach((sw,k)=>sw.setAttribute("aria-pressed",String(k===j)));
+   selectHat(i);
+   closeColorSheet();
+  });
+  colorSheetOptions.append(option);
+ });
+ colorSheet.showModal();
+}
+colorSheet.addEventListener("click",e=>{if(e.target===colorSheet)closeColorSheet()});
+let sheetStartY=0,sheetPulling=false;
+colorSheetGrab.addEventListener("touchstart",e=>{sheetStartY=e.touches[0].clientY;sheetPulling=true},{passive:true});
+colorSheetGrab.addEventListener("touchmove",e=>{
+ if(!sheetPulling)return;
+ const delta=Math.max(0,e.touches[0].clientY-sheetStartY);
+ colorSheet.style.setProperty("--sheet-pull",Math.min(delta,350)+"px");
+ if(delta>0&&e.cancelable)e.preventDefault();
+},{passive:false});
+colorSheetGrab.addEventListener("touchend",e=>{
+ if(!sheetPulling)return;sheetPulling=false;
+ const delta=e.changedTouches[0].clientY-sheetStartY;
+ if(delta>90)closeColorSheet();
+ else colorSheet.style.removeProperty("--sheet-pull");
+},{passive:true});
+colorSheetGrab.addEventListener("touchcancel",()=>{sheetPulling=false;colorSheet.style.removeProperty("--sheet-pull")});
+window.addEventListener("resize",()=>{if(!mobileColorScreen.matches&&colorSheet.open)closeColorSheet()},{passive:true});
 hats.forEach((hat,i)=>{
  const card=document.createElement("article");card.className="hat-card";
  const visual=document.createElement("div");visual.className="hat-visual";
@@ -920,7 +1017,7 @@ hats.forEach((hat,i)=>{
  });
  swatchPanel.append(swatchTop,swatches);visual.append(swatchPanel);
  info.append(heading,desc);
- const select=document.createElement("button");select.className="hat-card-select";select.type="button";select.setAttribute("aria-label","Choose color for "+hat.name);select.addEventListener("click",()=>{card.classList.toggle("is-choosing");select.setAttribute("aria-expanded",String(card.classList.contains("is-choosing")))});
+ const select=document.createElement("button");select.className="hat-card-select";select.type="button";select.setAttribute("aria-label","Choose color for "+hat.name);select.addEventListener("click",()=>{if(mobileColorScreen.matches){openColorSheet(i,select);return}card.classList.toggle("is-choosing");select.setAttribute("aria-expanded",String(card.classList.contains("is-choosing")))});
  visual.insertBefore(select,visual.firstChild);
  card.append(visual,info);hatGrid.append(card);hatCards.push(card);
 });
