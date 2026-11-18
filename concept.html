@@ -1491,6 +1491,30 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
   white-space:nowrap;
  }
 }
+
+/* White number badge for the blue Show / Hide selection handle. */
+.selection-dock .selection-dock-peek .selection-dock-count{
+ position:absolute;left:12px;top:50%;
+ transform:translateY(-50%);
+ display:grid;place-items:center;
+ width:27px;height:27px;min-width:27px;
+ padding:0 3px;
+ border-radius:50%;
+ background:#fff;color:#0A0A0D;
+ font-family:'Sora',sans-serif;
+ font-size:12px;font-weight:600;
+ line-height:1;letter-spacing:-.02em;
+ writing-mode:horizontal-tb;text-orientation:mixed;
+ font-variant-numeric:tabular-nums;
+}
+@media(min-width:701px){
+ .selection-dock .selection-dock-peek .selection-dock-count{
+  position:static;left:auto;top:auto;transform:none;
+  flex:0 0 27px;margin-top:7px;
+  width:27px;height:27px;
+  writing-mode:horizontal-tb;
+ }
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -1632,7 +1656,7 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
 <div class="selection-backdrop" id="selectionBackdrop" aria-hidden="true"></div>
 <aside class="selection-dock" id="selectionDock" aria-label="Selected products" aria-hidden="true" inert>
  <button class="selection-dock-peek" id="selectionDockPeek" type="button" aria-controls="selectionDockPanel" aria-expanded="true">
-  <span id="selectionDockPeekLabel">Hide selection</span><icon-monks name="chevron-down" size="18" aria-hidden="true"></icon-monks>
+  <span id="selectionDockPeekLabel">Hide selection</span><span class="selection-dock-count" id="selectionDockBadge" aria-hidden="true">0</span><icon-monks name="chevron-down" size="18" aria-hidden="true"></icon-monks>
  </button>
  <div class="selection-dock-panel" id="selectionDockPanel">
   <div class="selection-dock-inner">
@@ -1753,6 +1777,7 @@ window.addEventListener("resize",updateDockOverflow,{passive:true});
 const dockCount=document.getElementById("selectionDockCount");
 const dockPeek=document.getElementById("selectionDockPeek");
 const dockPeekLabel=document.getElementById("selectionDockPeekLabel");
+const dockBadge=document.getElementById("selectionDockBadge");
 const selectionBackdrop=document.getElementById("selectionBackdrop");
 const selectedColors=hats.map(()=>new Set());
 // Track when each hat/color combination is newly added, independently of the catalog order.
@@ -1770,7 +1795,9 @@ function setDockCollapsed(collapsed){
  selectionDock.classList.toggle("is-collapsed",collapsed);
  selectionBackdrop.classList.toggle("is-active",!collapsed&&selectionCount()>0);
  dockPeek.setAttribute("aria-expanded",String(!collapsed));
- dockPeekLabel.textContent=(collapsed?"Show":"Hide")+" selection ("+selectionCount()+")";
+ dockPeekLabel.textContent=(collapsed?"Show":"Hide")+" selection";
+ dockBadge.textContent=String(selectionCount());
+ dockPeek.setAttribute("aria-label",(collapsed?"Show":"Hide")+" selection, "+selectionCount()+" colors");
  dockPeek.querySelector("icon-monks").setAttribute("name",window.innerWidth>700?(collapsed?"chevron-left":"chevron-right"):(collapsed?"chevron-up":"chevron-down"));
  dockItems.inert=collapsed;
  document.getElementById("chooseSelected").disabled=collapsed;
@@ -1796,7 +1823,9 @@ function refreshDock(){
  document.documentElement.classList.toggle("has-selection",size>0);
  selectionBackdrop.classList.toggle("is-active",size>0&&!dockCollapsed);
  dockCount.textContent=size+" "+(size===1?"color":"colors")+" selected";
- dockPeekLabel.textContent=(dockCollapsed?"Show":"Hide")+" selection ("+size+")";
+ dockPeekLabel.textContent=(dockCollapsed?"Show":"Hide")+" selection";
+ dockBadge.textContent=String(size);
+ dockPeek.setAttribute("aria-label",(dockCollapsed?"Show":"Hide")+" selection, "+size+" colors");
  dockItems.replaceChildren();
  shownVariants.forEach(({i,j,name,color,hex})=>{
   const row=document.createElement("div");row.className="selection-dock-product";
