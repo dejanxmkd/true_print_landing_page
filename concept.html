@@ -1483,6 +1483,14 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
   min-height:0;
  }
 }
+
+/* Keep the final CTA supporting sentence on one line on desktop. */
+@media(min-width:1001px){
+ .close-section .close-main p{
+  max-width:none;
+  white-space:nowrap;
+ }
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
