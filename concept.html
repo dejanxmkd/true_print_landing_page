@@ -871,6 +871,13 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  box-shadow:0 -8px 24px rgba(0,0,0,.2);
 }
 .selection-dock .selection-dock-peek:hover{background:#1746e5}
+
+/* Mobile only: put the remove (X) control at the right edge of each selection */
+@media(max-width:700px){
+ .selection-dock-product .selection-dock-remove{order:3;margin-left:auto;flex-shrink:0}
+ .selection-dock-product .selection-dock-swatch{order:1}
+ .selection-dock-product .selection-dock-copy{order:2}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
