@@ -715,6 +715,18 @@ html.has-selection .toast{bottom:155px}
 }
 @media(max-width:350px){.color-sheet-options{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.color-sheet[open]{scroll-behavior:auto}}
+
+/* Mobile color picker: vertically stacked options and separate confirmation */
+@media(max-width:700px){
+ .color-sheet[open]{display:flex;flex-direction:column;overflow:hidden;max-height:min(86dvh,760px)}
+ .color-sheet-content{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:16px}
+ .color-sheet-options{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+ .color-sheet-option{min-height:58px}
+ .color-sheet-option icon-monks[hidden]{display:none}
+ .color-sheet-footer{flex:0 0 auto;padding:14px var(--gutter) max(20px,env(safe-area-inset-bottom));background:var(--ground2)}
+ .color-sheet-confirm{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:54px;background:var(--blue);border-color:var(--blue);color:#fff;font-size:15px;font-weight:600}
+ .color-sheet-confirm:disabled{opacity:.45;cursor:not-allowed}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -798,6 +810,7 @@ html.has-selection .toast{bottom:155px}
   <h2 id="colorSheetTitle"></h2>
   <div id="colorSheetOptions" class="color-sheet-options" role="group" aria-label="Available hat colors"></div>
  </div>
+ <div class="color-sheet-footer"><button class="btn btn-blue color-sheet-confirm" id="colorSheetConfirm" type="button" disabled>Confirm selection <icon-monks name="check" size="18" aria-hidden="true"></icon-monks></button></div>
 </dialog>
 <dialog id="quoteDialog" aria-labelledby="quoteTitle">
  <div class="dialog-top"><h2 id="quoteTitle">Get a quote</h2><button type="button" id="closeQuote" aria-label="Close dialog">×</button></div>
@@ -931,44 +944,62 @@ dockPeek.addEventListener("click",()=>setDockCollapsed(!dockCollapsed));
 const colorSheet=document.getElementById("colorSheet");
 const colorSheetTitle=document.getElementById("colorSheetTitle");
 const colorSheetOptions=document.getElementById("colorSheetOptions");
+const colorSheetConfirm=document.getElementById("colorSheetConfirm");
 const colorSheetGrab=document.getElementById("colorSheetGrab");
 const mobileColorScreen=matchMedia("(max-width:700px)");
 let colorSheetReturnFocus=null;
+let pendingHat=-1,pendingColor=-1;
 function closeColorSheet(){
  if(!colorSheet.open)return;
  colorSheet.close();
  colorSheet.style.removeProperty("--sheet-pull");
+ pendingHat=-1;pendingColor=-1;
  if(colorSheetReturnFocus?.isConnected)colorSheetReturnFocus.focus({preventScroll:true});
+}
+function markSheetColor(){
+ colorSheetOptions.querySelectorAll(".color-sheet-option").forEach((option,j)=>{
+  const selected=j===pendingColor;
+  option.classList.toggle("is-current",selected);
+  option.setAttribute("aria-pressed",String(selected));
+  const indicator=option.querySelector("icon-monks");
+  if(indicator)indicator.hidden=!selected;
+ });
+ colorSheetConfirm.disabled=pendingColor<0;
 }
 function openColorSheet(i,trigger){
  if(!mobileColorScreen.matches)return;
  if(colorSheet.open)closeColorSheet();
  colorSheetReturnFocus=trigger;
+ pendingHat=i;
+ pendingColor=selectedHats.has(i)?chosenColors[i]:-1;
  colorSheetTitle.textContent=hats[i].name;
  colorSheetOptions.replaceChildren();
  hats[i].colors.forEach(([name,hex],j)=>{
   const option=document.createElement("button");option.type="button";option.className="color-sheet-option";
   option.setAttribute("aria-label","Choose "+name);
+  option.setAttribute("aria-pressed","false");
   const dot=document.createElement("span");dot.className="color-sheet-dot";dot.style.backgroundColor=hex;
   const label=document.createElement("span");label.textContent=name;
-  option.append(dot,label);
-  if(selectedHats.has(i)&&chosenColors[i]===j){
-   option.classList.add("is-current");
-   const check=document.createElement("icon-monks");check.setAttribute("name","check");check.setAttribute("size","19");check.setAttribute("aria-hidden","true");option.append(check);
-  }
-  option.addEventListener("click",()=>{
-   const card=hatCards[i];
-   chosenColors[i]=j;
-   card.querySelector(".hat-visual").style.backgroundColor=hex;
-   card.querySelector(".hat-color-name").textContent=name;
-   card.querySelectorAll(".hat-swatch").forEach((sw,k)=>sw.setAttribute("aria-pressed",String(k===j)));
-   selectHat(i);
-   closeColorSheet();
-  });
+  const check=document.createElement("icon-monks");check.setAttribute("name","check");check.setAttribute("size","19");check.setAttribute("aria-hidden","true");
+  option.append(dot,label,check);
+  option.addEventListener("click",()=>{pendingColor=j;markSheetColor()});
   colorSheetOptions.append(option);
  });
+ markSheetColor();
  colorSheet.showModal();
 }
+colorSheetConfirm.addEventListener("click",()=>{
+ if(pendingHat<0||pendingColor<0)return;
+ const i=pendingHat,j=pendingColor;
+ const [name,hex]=hats[i].colors[j];
+ chosenColors[i]=j;
+ const card=hatCards[i];
+ card.querySelector(".hat-visual").style.backgroundColor=hex;
+ card.querySelector(".hat-color-name").textContent=name;
+ card.querySelectorAll(".hat-swatch").forEach((sw,k)=>sw.setAttribute("aria-pressed",String(k===j)));
+ closeColorSheet();
+ selectHat(i);
+});
 colorSheet.addEventListener("click",e=>{if(e.target===colorSheet)closeColorSheet()});
 let sheetStartY=0,sheetPulling=false;
 colorSheetGrab.addEventListener("touchstart",e=>{sheetStartY=e.touches[0].clientY;sheetPulling=true},{passive:true});
