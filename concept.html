@@ -1539,7 +1539,7 @@ function updateCardColors(i){
  const first=colors.values().next().value;
  const visual=card.querySelector(".hat-visual");
  visual.style.backgroundColor=first===undefined?"":hats[i].colors[first][1];
- card.querySelector(".hat-color-name").textContent=colors.size?colors.size+" "+(colors.size===1?"color":"colors"):"Pick one";
+
 }
 function selectHat(i,colors){
  current=i;
@@ -1663,9 +1663,8 @@ hats.forEach((hat,i)=>{
  const desc=document.createElement("p");desc.className="hat-description";desc.textContent=hat.description;
  const swatchPanel=document.createElement("div");swatchPanel.className="hat-color-panel";
  const swatchTop=document.createElement("div");swatchTop.className="hat-color-heading";
- const swatchCaption=document.createElement("span");swatchCaption.textContent="Choose color";
- const swatchName=document.createElement("span");swatchName.className="hat-color-name";swatchName.textContent="Pick one";
- swatchTop.append(swatchCaption,swatchName);
+ const swatchCaption=document.createElement("span");swatchCaption.className="hat-color-name";swatchCaption.textContent="Pick colors";
+ swatchTop.append(swatchCaption);
  const swatches=document.createElement("div");swatches.className="hat-swatches";swatches.setAttribute("role","group");swatches.setAttribute("aria-label","Choose color for "+hat.name);
  hat.colors.forEach(([name,hex],j)=>{
   const swatch=document.createElement("button");swatch.type="button";swatch.className="hat-swatch";
