@@ -1659,8 +1659,10 @@ dockPeek.addEventListener("animationend",()=>dockPeek.classList.remove("selectio
 function refreshDock(){
  const variants=selectedVariants(),size=variants.length;
  const desktopDrawer=window.innerWidth>700;
+ // Desktop: render in add order and prepend each row so the newest selection
+ // always ends up physically first. Mobile retains its existing order.
  const shownVariants=desktopDrawer?variants.slice().sort((a,b)=>
-  (selectionOrder.get(b.i+":"+b.j)||0)-(selectionOrder.get(a.i+":"+a.j)||0)
+  (selectionOrder.get(a.i+":"+a.j)||0)-(selectionOrder.get(b.i+":"+b.j)||0)
  ):variants;
  selectionDock.classList.toggle("is-visible",size>0);
  selectionDock.toggleAttribute("inert",size===0);
@@ -1689,7 +1691,7 @@ function refreshDock(){
    refreshDock();
   });
   row.append(remove,swatch,copy);
-  if(desktopDrawer)dockItems.append(row); // newest first
+  if(desktopDrawer)dockItems.prepend(row); // newest addition is always the first row
   else dockItems.prepend(row); // preserve existing mobile ordering
  });
  if(desktopDrawer)dockItems.scrollTop=0; // reveal the newest choice immediately
