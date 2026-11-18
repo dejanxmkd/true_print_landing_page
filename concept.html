@@ -1692,6 +1692,7 @@ function refreshDock(){
   if(desktopDrawer)dockItems.append(row); // newest first
   else dockItems.prepend(row); // preserve existing mobile ordering
  });
+ if(desktopDrawer)dockItems.scrollTop=0; // reveal the newest choice immediately
  hatCards.forEach((card,i)=>{
   const active=selectedColors[i].size>0;
   card.classList.toggle("is-selected",active);
