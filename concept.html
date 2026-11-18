@@ -879,21 +879,11 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  .selection-dock-product .selection-dock-copy{order:2}
 }
 
-/* The entire product card is a color-picker target, not just its image. */
+/* Whole card remains clickable, with a check on the photo rather than a card outline. */
 .hat-card .hat-info{cursor:pointer}
 @media(max-width:700px){
- /* Highlight the whole card (visual + name + description) on confirmed selection. */
- .hat-card.is-selected{
-  outline:2px solid var(--blue);
-  outline-offset:5px;
-  border-radius:3px;
- }
- .hat-card:has(.hat-card-select:focus-visible){
-  outline:2px solid var(--blue);
-  outline-offset:5px;
-  border-radius:3px;
- }
- /* Keep the screenshot's initial color-sheet state: nothing selected on open. */
+ .hat-card.is-selected{outline:0;border:0}
+ .hat-card:has(.hat-card-select:focus-visible){outline:0}
  .color-sheet-option:not(.is-current){border-color:transparent}
  .color-sheet-confirm:disabled{opacity:.45;cursor:not-allowed}
 }
@@ -1046,6 +1036,40 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
   gap:10px;
  }
 }
+
+/* Final mobile refinements: no card stroke; readable selection tab and full-width sheet action. */
+@media(max-width:700px){
+ .hat-card.is-selected,
+ .hat-card:has(.hat-card-select:focus-visible){outline:0;outline-offset:0;box-shadow:none}
+ .selection-dock .selection-dock-peek,
+ .selection-dock.is-collapsed .selection-dock-peek{
+  width:230px;
+  max-width:calc(100vw - 32px);
+  min-height:45px;
+  font-family:'Sora',sans-serif;
+  font-size:14px;
+  font-weight:500;
+  line-height:1.3;
+ }
+ .color-sheet-content #colorSheetTitle:focus{outline:none}
+ .color-sheet-option:not(.is-current){
+  border-color:transparent;
+  box-shadow:none;
+ }
+ .color-sheet-footer{display:block;width:100%;padding-inline:var(--gutter)}
+ .color-sheet-footer .color-sheet-confirm{
+  display:flex;
+  width:100%;
+  max-width:none;
+  min-width:0;
+  min-height:56px;
+  margin:0;
+  justify-content:center;
+  text-align:center;
+  font-size:15px;
+ }
+ .dialog-actions .btn{width:100%;justify-content:center}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -1103,7 +1127,7 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
 <!-- 06 Close -->
 <section class="close-section" id="contact" aria-labelledby="closeTitle">
  <div class="wrap">
-  <div class="close-main"><div><h2 class="reveal" id="closeTitle">Ready to make<br>your hats<span style="color:var(--blue)">?</span></h2><p class="reveal">Choose a style, share your artwork, and start your quote.</p></div><div class="close-actions reveal"><a class="btn" href="#hats">Explore styles <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></a><button class="btn btn-blue" data-quote>Get a free quote <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></button></div></div>
+  <div class="close-main"><div><h2 class="reveal" id="closeTitle">Ready to make<br>your hats<span style="color:var(--blue)">?</span></h2><p class="reveal">Choose a style, share your artwork, and start your quote.</p></div><div class="close-actions reveal"><a class="btn" href="#hats">Explore styles</a><button class="btn btn-blue" data-quote>Get a free quote</button></div></div>
   <div class="footer-line"><span>© <span id="year"></span></span><span>Custom embroidered hats</span><a href="#top">Back to top <icon-monks name="arrow-up" size="16" aria-hidden="true"></icon-monks></a></div>
  </div>
  
@@ -1127,7 +1151,7 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  <div class="color-sheet-scroll" id="colorSheetScroll">
   <div class="color-sheet-content" id="colorSheetContent">
    <p class="color-sheet-eyebrow">Choose color</p>
-   <h2 id="colorSheetTitle"></h2>
+   <h2 id="colorSheetTitle" tabindex="-1"></h2>
    <div id="colorSheetOptions" class="color-sheet-options" role="group" aria-label="Available hat colors"></div>
   </div>
  </div>
@@ -1340,6 +1364,7 @@ function openColorSheet(i,trigger){
  });
  markSheetColor();
  colorSheet.showModal();
+ colorSheetTitle.focus({preventScroll:true});
  colorSheetContent.scrollTop=0;
  requestAnimationFrame(updateSheetOverflow);
 }
