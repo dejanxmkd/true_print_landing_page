@@ -1243,6 +1243,104 @@ html.intro-done .site-loader{
   opacity:1;visibility:visible;pointer-events:auto;
  }
 }
+
+/* Desktop / tablet: selected products slide in as a right-hand drawer.
+   Mobile (700px and below) keeps its original bottom sheet untouched. */
+@media(min-width:701px){
+ html.has-selection body{padding-bottom:0}
+ .selection-backdrop{z-index:140}
+ .selection-dock{
+  position:fixed;
+  top:0;right:0;bottom:0;left:auto;
+  width:min(460px,calc(100vw - 76px));
+  height:100dvh;min-height:0;
+  display:flex;flex-direction:column;
+  z-index:141;
+  border:0;border-left:1px solid rgba(245,241,232,.11);
+  border-radius:0;
+  background:rgba(25,25,31,.98);
+  box-shadow:-24px 0 80px rgba(0,0,0,.3);
+  overflow:visible;
+  transform:translate3d(100%,0,0);
+  opacity:1;
+  transition:transform .52s var(--ease),visibility .52s;
+ }
+ .selection-dock.is-visible{transform:translate3d(0,0,0);opacity:1}
+ .selection-dock.is-visible.is-collapsed{
+  transform:translate3d(100%,0,0);
+  pointer-events:none;
+  height:100dvh;min-height:0;
+  background:rgba(25,25,31,.98);
+  border-left:1px solid rgba(245,241,232,.11);
+  box-shadow:none;
+ }
+ .selection-dock.is-visible.is-collapsed .selection-dock-peek{pointer-events:auto}
+ .selection-dock .selection-dock-peek{
+  position:absolute;
+  z-index:3;
+  top:26px;right:26px;bottom:auto;left:auto;
+  width:196px;min-height:46px;
+  max-width:none;
+  padding:11px 37px 11px 18px;
+  transform:none;
+  display:flex;align-items:center;justify-content:center;
+  border:0;border-radius:12px;
+  background:var(--blue);color:#fff;
+  font-family:'Sora',sans-serif;font-size:13px;font-weight:500;
+  text-align:center;
+  white-space:nowrap;
+  transition:background .25s ease,box-shadow .3s ease;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);
+ }
+ .selection-dock.is-collapsed .selection-dock-peek{
+  top:50%;right:auto;bottom:auto;left:-196px;
+  width:196px;min-height:52px;
+  transform:translateY(-50%);
+  border-radius:12px 0 0 12px;
+ }
+ .selection-dock .selection-dock-peek icon-monks{
+  right:13px;top:50%;transform:translateY(-50%);
+ }
+ .selection-dock .selection-dock-panel,
+ .selection-dock.is-collapsed .selection-dock-panel{
+  display:flex;flex-direction:column;
+  flex:1 1 auto;
+  height:100%;max-height:none;
+  min-height:0;
+  padding:100px 26px 26px;
+  opacity:1;transform:none;
+  pointer-events:auto;
+  grid-template-rows:none;
+  transition:none;
+ }
+ .selection-dock .selection-dock-panel>.selection-dock-inner,
+ .selection-dock.is-collapsed .selection-dock-panel>.selection-dock-inner{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:auto minmax(0,1fr) auto;
+  gap:18px;
+  width:100%;height:100%;min-height:0;
+  overflow:hidden;
+ }
+ .selection-dock-label{grid-column:1;grid-row:1;font-size:22px}
+ .selection-dock-scroll{grid-column:1;grid-row:2;min-height:0}
+ .selection-dock-scroll .selection-dock-items{
+  height:100%;
+  max-height:100%;
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+ }
+ .selection-dock .selection-dock-inner>.selection-dock-cta{
+  grid-column:1;grid-row:3;
+  width:100%;min-height:54px;
+  align-self:stretch;justify-self:stretch;
+  margin:0;
+ }
+}
+@media(min-width:701px) and (prefers-reduced-motion:reduce){
+ .selection-dock{transition:none}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -1486,7 +1584,7 @@ function setDockCollapsed(collapsed){
  selectionBackdrop.classList.toggle("is-active",!collapsed&&selectionCount()>0);
  dockPeek.setAttribute("aria-expanded",String(!collapsed));
  dockPeekLabel.textContent=(collapsed?"Show":"Hide")+" selection ("+selectionCount()+")";
- dockPeek.querySelector("icon-monks").setAttribute("name",collapsed?"chevron-up":"chevron-down");
+ dockPeek.querySelector("icon-monks").setAttribute("name",window.innerWidth>700?(collapsed?"chevron-left":"chevron-right"):(collapsed?"chevron-up":"chevron-down"));
  dockItems.inert=collapsed;
  document.getElementById("chooseSelected").disabled=collapsed;
  requestAnimationFrame(updateDockOverflow);
