@@ -878,6 +878,25 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  .selection-dock-product .selection-dock-swatch{order:1}
  .selection-dock-product .selection-dock-copy{order:2}
 }
+
+/* The entire product card is a color-picker target, not just its image. */
+.hat-card .hat-info{cursor:pointer}
+@media(max-width:700px){
+ /* Highlight the whole card (visual + name + description) on confirmed selection. */
+ .hat-card.is-selected{
+  outline:2px solid var(--blue);
+  outline-offset:5px;
+  border-radius:3px;
+ }
+ .hat-card:has(.hat-card-select:focus-visible){
+  outline:2px solid var(--blue);
+  outline-offset:5px;
+  border-radius:3px;
+ }
+ /* Keep the screenshot's initial color-sheet state: nothing selected on open. */
+ .color-sheet-option:not(.is-current){border-color:transparent}
+ .color-sheet-confirm:disabled{opacity:.45;cursor:not-allowed}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -1239,6 +1258,12 @@ hats.forEach((hat,i)=>{
  info.append(heading,desc);
  const select=document.createElement("button");select.className="hat-card-select";select.type="button";select.setAttribute("aria-label","Choose color for "+hat.name);select.addEventListener("click",()=>{if(mobileColorScreen.matches){openColorSheet(i,select);return}card.classList.toggle("is-choosing");select.setAttribute("aria-expanded",String(card.classList.contains("is-choosing")))});
  visual.insertBefore(select,visual.firstChild);
+ // The image button keeps keyboard access; clicking the title, price or
+ // description triggers that same action instead of selecting a hat directly.
+ card.addEventListener("click",e=>{
+  if(e.target.closest("button,.hat-color-panel"))return;
+  select.click();
+ });
  card.append(visual,info);hatGrid.append(card);hatCards.push(card);
 });
 document.getElementById("chooseSelected").addEventListener("click",()=>openQuote());
