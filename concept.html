@@ -828,6 +828,39 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  }
  .selection-dock .selection-dock-cta icon-monks{width:18px;height:18px}
 }
+
+/* Floating selection drawer: soft dark overlay instead of solid cobalt surface */
+.selection-dock{
+ background:rgba(25,25,31,.96);
+ color:var(--ink);
+ -webkit-backdrop-filter:blur(22px);
+ backdrop-filter:blur(22px);
+ border-top:1px solid rgba(245,241,232,.09);
+ box-shadow:0 -20px 70px rgba(0,0,0,.28);
+}
+.selection-dock-label,.selection-dock-name{color:var(--ink)}
+.selection-dock-details{color:rgba(245,241,232,.65)}
+.selection-dock-product+.selection-dock-product{border-top-color:rgba(245,241,232,.1)}
+.selection-dock-remove{background:rgba(245,241,232,.08);color:var(--ink)}
+.selection-dock-remove:hover{background:rgba(245,241,232,.15)}
+.selection-dock .selection-dock-peek,
+.selection-dock.is-collapsed .selection-dock-peek{
+ background:#19191F;
+ color:var(--ink);
+ border:0;
+ box-shadow:0 -8px 24px rgba(0,0,0,.2);
+}
+.selection-dock .selection-dock-cta{
+ background:var(--blue);
+ color:#fff;
+ border:1px solid var(--blue);
+}
+.selection-dock .selection-dock-cta:hover{
+ background:#1746e5;
+ border-color:#1746e5;
+ color:#fff;
+}
+.selection-dock.is-collapsed{background:transparent;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
