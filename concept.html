@@ -782,6 +782,23 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  text-align:center;
 }
 .selection-dock-peek #selectionDockPeekLabel{display:block;text-align:center;flex:1 1 auto}
+
+/* Selection feedback: drawer stays folded and tab pulses once on addition */
+.selection-dock-pulse{animation:selection-confirm-pulse .7s var(--ease) 1}
+@keyframes selection-confirm-pulse{
+ 0%,100%{filter:brightness(1);transform:translateX(-50%) scale(1)}
+ 45%{filter:brightness(1.28);transform:translateX(-50%) scale(1.065)}
+}
+@media(prefers-reduced-motion:reduce){.selection-dock-pulse{animation:none}}
+/* Real Icon Monks check only exists on selected color choices */
+@media(max-width:700px){
+ .color-sheet-option .color-sheet-selected-check{
+  display:inline-flex!important;align-items:center;justify-content:center;
+  width:19px;height:19px;margin-left:auto;flex-shrink:0;
+  color:var(--blue);
+ }
+ .color-sheet-option:not(.is-current) .color-sheet-selected-check{display:none!important}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -943,61 +960,83 @@ const dockItems=document.getElementById("selectionDockItems");
 const dockCount=document.getElementById("selectionDockCount");
 const dockPeek=document.getElementById("selectionDockPeek");
 const dockPeekLabel=document.getElementById("selectionDockPeekLabel");
-let current=-1;
-const chosenColors=hats.map(h=>0);
-const selectedHats=new Set();
+const selectedColors=hats.map(()=>new Set());
 const hatCards=[];
-let dockCollapsed=false;
-function getChosenColor(i){return hats[i].colors[chosenColors[i]][0]}
+let current=-1;
+let dockCollapsed=true;
+function selectedVariants(){
+ return hats.flatMap((hat,i)=>Array.from(selectedColors[i]).map(j=>({i,j,name:hat.name,color:hat.colors[j][0],hex:hat.colors[j][1]})));
+}
+function selectionCount(){return selectedColors.reduce((n,colors)=>n+colors.size,0)}
 function setDockCollapsed(collapsed){
  dockCollapsed=collapsed;
  selectionDock.classList.toggle("is-collapsed",collapsed);
  dockPeek.setAttribute("aria-expanded",String(!collapsed));
- dockPeekLabel.textContent=(collapsed?"Show":"Hide")+" selection ("+selectedHats.size+")";
+ dockPeekLabel.textContent=(collapsed?"Show":"Hide")+" selection ("+selectionCount()+")";
  dockPeek.querySelector("icon-monks").setAttribute("name",collapsed?"chevron-up":"chevron-down");
  dockItems.inert=collapsed;
  document.getElementById("chooseSelected").disabled=collapsed;
 }
+function pulseDock(){
+ dockPeek.classList.remove("selection-dock-pulse");
+ void dockPeek.offsetWidth;
+ dockPeek.classList.add("selection-dock-pulse");
+}
+dockPeek.addEventListener("animationend",()=>dockPeek.classList.remove("selection-dock-pulse"));
 function refreshDock(){
- const size=selectedHats.size;
+ const variants=selectedVariants(),size=variants.length;
  selectionDock.classList.toggle("is-visible",size>0);
  selectionDock.toggleAttribute("inert",size===0);
  selectionDock.setAttribute("aria-hidden",String(size===0));
  document.documentElement.classList.toggle("has-selection",size>0);
- dockCount.textContent=size+" "+(size===1?"hat":"hats")+" selected";
+ dockCount.textContent=size+" "+(size===1?"color":"colors")+" selected";
  dockPeekLabel.textContent=(dockCollapsed?"Show":"Hide")+" selection ("+size+")";
  dockItems.replaceChildren();
- selectedHats.forEach(i=>{
+ variants.forEach(({i,j,name,color,hex})=>{
   const row=document.createElement("div");row.className="selection-dock-product";
   const swatch=document.createElement("span");swatch.className="selection-dock-swatch";
-  swatch.style.backgroundColor=hats[i].colors[chosenColors[i]][1];swatch.setAttribute("aria-hidden","true");
+  swatch.style.backgroundColor=hex;swatch.setAttribute("aria-hidden","true");
   const copy=document.createElement("span");copy.className="selection-dock-copy";
-  const name=document.createElement("strong");name.className="selection-dock-name";name.textContent=hats[i].name;
-  const meta=document.createElement("span");meta.className="selection-dock-details";meta.textContent=getChosenColor(i)+"  ·  $12 / ea";
-  copy.append(name,meta);
+  const heading=document.createElement("strong");heading.className="selection-dock-name";heading.textContent=name;
+  const meta=document.createElement("span");meta.className="selection-dock-details";meta.textContent=color+"  ·  $12 / ea";
+  copy.append(heading,meta);
   const remove=document.createElement("button");remove.type="button";remove.className="selection-dock-remove";
-  remove.setAttribute("aria-label","Remove "+hats[i].name);remove.innerHTML='<icon-monks name="x" size="19" aria-hidden="true"></icon-monks>';
+  remove.setAttribute("aria-label","Remove "+name+" in "+color);
+  remove.innerHTML='<icon-monks name="x" size="19" aria-hidden="true"></icon-monks>';
   remove.addEventListener("click",()=>{
-   selectedHats.delete(i);
-   if(current===i)current=selectedHats.size?Array.from(selectedHats).at(-1):-1;
+   selectedColors[i].delete(j);
+   if(current===i&&!selectedColors[i].size)current=selectedVariants().at(-1)?.i??-1;
+   updateCardColors(i);
    refreshDock();
   });
   row.append(remove,swatch,copy);dockItems.prepend(row);
  });
  hatCards.forEach((card,i)=>{
-  const active=selectedHats.has(i);
+  const active=selectedColors[i].size>0;
   card.classList.toggle("is-selected",active);
   card.querySelector(".hat-card-select").setAttribute("aria-pressed",String(active));
  });
 }
-function selectHat(i){
+function updateCardColors(i){
+ const card=hatCards[i],colors=selectedColors[i];
+ card.querySelectorAll(".hat-swatch").forEach((sw,j)=>sw.setAttribute("aria-pressed",String(colors.has(j))));
+ const first=colors.values().next().value;
+ const visual=card.querySelector(".hat-visual");
+ visual.style.backgroundColor=first===undefined?"":hats[i].colors[first][1];
+ card.querySelector(".hat-color-name").textContent=colors.size?colors.size+" "+(colors.size===1?"color":"colors"):"Pick one";
+}
+function selectHat(i,colors){
  current=i;
- selectedHats.add(i);
- setDockCollapsed(false);
+ selectedColors[i]=new Set(colors);
+ updateCardColors(i);
  refreshDock();
- notify(hats[i].name+" selected");
+ if(selectionCount()){
+  if(dockCollapsed)pulseDock();
+  notify(hats[i].name+" added to selection");
+ }
 }
 dockPeek.addEventListener("click",()=>setDockCollapsed(!dockCollapsed));
+setDockCollapsed(true);
 const colorSheet=document.getElementById("colorSheet");
 const colorSheetTitle=document.getElementById("colorSheetTitle");
 const colorSheetOptions=document.getElementById("colorSheetOptions");
@@ -1007,36 +1046,39 @@ const colorSheetConfirm=document.getElementById("colorSheetConfirm");
 const colorSheetGrab=document.getElementById("colorSheetGrab");
 const mobileColorScreen=matchMedia("(max-width:700px)");
 let colorSheetReturnFocus=null;
-let pendingHat=-1,pendingColor=-1;
+let pendingHat=-1;
+let pendingColors=new Set();
 function closeColorSheet(){
  if(!colorSheet.open)return;
  colorSheet.close();
  colorSheet.style.removeProperty("--sheet-pull");
- pendingHat=-1;pendingColor=-1;
+ pendingHat=-1;
+ pendingColors.clear();
  if(colorSheetReturnFocus?.isConnected)colorSheetReturnFocus.focus({preventScroll:true});
 }
 function markSheetColor(){
  colorSheetOptions.querySelectorAll(".color-sheet-option").forEach((option,j)=>{
-  const selected=j===pendingColor;
+  const selected=pendingColors.has(j);
   option.classList.toggle("is-current",selected);
   option.setAttribute("aria-pressed",String(selected));
   option.querySelector(".color-sheet-selected-check")?.remove();
   if(selected){
-   const check=document.createElement("span");
+   const check=document.createElement("icon-monks");
    check.className="color-sheet-selected-check";
+   check.setAttribute("name","check");
+   check.setAttribute("size","19");
    check.setAttribute("aria-hidden","true");
-   check.textContent="✓";
    option.append(check);
   }
  });
- colorSheetConfirm.disabled=pendingColor<0;
+ colorSheetConfirm.disabled=pendingColors.size===0;
 }
 function openColorSheet(i,trigger){
  if(!mobileColorScreen.matches)return;
  if(colorSheet.open)closeColorSheet();
  colorSheetReturnFocus=trigger;
  pendingHat=i;
- pendingColor=selectedHats.has(i)?chosenColors[i]:-1;
+ pendingColors=new Set(); // Every sheet opening starts with no colors preselected.
  colorSheetTitle.textContent=hats[i].name;
  colorSheetOptions.replaceChildren();
  hats[i].colors.forEach(([name,hex],j)=>{
@@ -1046,7 +1088,10 @@ function openColorSheet(i,trigger){
   const dot=document.createElement("span");dot.className="color-sheet-dot";dot.style.backgroundColor=hex;
   const label=document.createElement("span");label.textContent=name;
   option.append(dot,label);
-  option.addEventListener("click",()=>{pendingColor=j;markSheetColor()});
+  option.addEventListener("click",()=>{
+   if(pendingColors.has(j))pendingColors.delete(j);else pendingColors.add(j);
+   markSheetColor();
+  });
   colorSheetOptions.append(option);
  });
  markSheetColor();
@@ -1055,16 +1100,11 @@ function openColorSheet(i,trigger){
  requestAnimationFrame(updateSheetOverflow);
 }
 colorSheetConfirm.addEventListener("click",()=>{
- if(pendingHat<0||pendingColor<0)return;
- const i=pendingHat,j=pendingColor;
- const [name,hex]=hats[i].colors[j];
- chosenColors[i]=j;
- const card=hatCards[i];
- card.querySelector(".hat-visual").style.backgroundColor=hex;
- card.querySelector(".hat-color-name").textContent=name;
- card.querySelectorAll(".hat-swatch").forEach((sw,k)=>sw.setAttribute("aria-pressed",String(k===j)));
+ if(pendingHat<0||!pendingColors.size)return;
+ const i=pendingHat;
+ const merged=new Set([...selectedColors[i],...pendingColors]);
  closeColorSheet();
- selectHat(i);
+ selectHat(i,merged);
 });
 function updateSheetOverflow(){
  if(!colorSheet.open)return;
@@ -1111,11 +1151,11 @@ hats.forEach((hat,i)=>{
   swatch.style.setProperty("--swatch",hex);swatch.title=name;swatch.setAttribute("aria-label",name);
   swatch.setAttribute("aria-pressed","false");
   swatch.addEventListener("click",e=>{
-   e.stopPropagation();chosenColors[i]=j;swatchName.textContent=name;
-   visual.style.backgroundColor=hex;
-   swatches.querySelectorAll(".hat-swatch").forEach((el,k)=>el.setAttribute("aria-pressed",String(k===j)));
+   e.stopPropagation();
+   const colors=new Set(selectedColors[i]);
+   if(colors.has(j))colors.delete(j);else colors.add(j);
    card.classList.remove("is-choosing");select.setAttribute("aria-expanded","false");
-   selectHat(i);
+   selectHat(i,colors);
   });
   swatches.append(swatch);
  });
@@ -1129,17 +1169,17 @@ document.getElementById("chooseSelected").addEventListener("click",()=>openQuote
 const dialog=document.getElementById("quoteDialog");
 const quoteHat=document.getElementById("quoteHat"),quoteColor=document.getElementById("quoteColor");
 hats.forEach(h=>quoteHat.add(new Option(h.name,h.name)));
-function loadColors(i){quoteColor.replaceChildren();hats[i].colors.forEach(([name])=>quoteColor.add(new Option(name,name)));quoteColor.selectedIndex=chosenColors[i]}
+function loadColors(i){quoteColor.replaceChildren();hats[i].colors.forEach(([name])=>quoteColor.add(new Option(name,name)));quoteColor.selectedIndex=0}
 function openQuote(){
  const i=current<0?0:current;quoteHat.selectedIndex=i;loadColors(i);
- const multi=selectedHats.size>0;
+ const multi=selectionCount()>0;
  const itemSummary=document.getElementById("quoteSelectedItems");
  const fields=document.getElementById("quoteSingleFields");
  itemSummary.hidden=!multi;fields.hidden=multi;
  if(multi){
   itemSummary.replaceChildren();
-  selectedHats.forEach(k=>{
-   const p=document.createElement("p");p.textContent=hats[k].name+" — "+getChosenColor(k);
+  selectedVariants().forEach(v=>{
+   const p=document.createElement("p");p.textContent=v.name+" — "+v.color;
    itemSummary.append(p);
   });
  }
@@ -1150,7 +1190,7 @@ quoteHat.addEventListener("change",()=>loadColors(quoteHat.selectedIndex));
 document.getElementById("closeQuote").addEventListener("click",()=>dialog.close());
 dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
 function quoteText(){
- const selected=selectedHats.size?Array.from(selectedHats).map(i=>"Hat: "+hats[i].name+" | Color: "+getChosenColor(i)):["Hat: "+quoteHat.value,"Color: "+quoteColor.value];
+ const selected=selectionCount()?selectedVariants().map(v=>"Hat: "+v.name+" | Color: "+v.color):["Hat: "+quoteHat.value,"Color: "+quoteColor.value];
  return ["TRUEPRINT SHOP — QUOTE DETAILS",...selected,"Quantity per style: "+document.getElementById("quoteQty").value,"Design details: "+(document.getElementById("quoteNotes").value||"Not specified")].join("\n");
 }
 const toast=document.getElementById("toast");
