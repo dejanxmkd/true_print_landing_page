@@ -799,6 +799,35 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  }
  .color-sheet-option:not(.is-current) .color-sheet-selected-check{display:none!important}
 }
+
+/* One prominent full-width quote action at the bottom of the selection drawer */
+.selection-dock-inner{
+ grid-template-columns:minmax(0,1fr);
+ grid-template-rows:auto minmax(0,auto) auto;
+ row-gap:14px;
+}
+.selection-dock-label{grid-column:1;grid-row:1}
+.selection-dock-items{grid-column:1;grid-row:2;width:100%}
+.selection-dock .selection-dock-cta{
+ grid-column:1;grid-row:3;
+ align-self:stretch;justify-self:stretch;
+ width:100%;max-width:none;min-height:58px;
+ margin:4px 0 0;padding:16px 28px;
+ justify-content:center;gap:14px;
+ font-size:16px;font-weight:600;
+}
+@media(max-width:700px){
+ .selection-dock-inner{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,auto) auto;row-gap:12px}
+ .selection-dock .selection-dock-cta{
+  grid-column:1;grid-row:3;
+  align-self:stretch;justify-self:stretch;
+  width:100%;max-width:none;min-height:56px;
+  margin:3px 0 0;padding:15px 22px;
+  justify-content:center;gap:12px;
+  font-size:16px;
+ }
+ .selection-dock .selection-dock-cta icon-monks{width:18px;height:18px}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
