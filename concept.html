@@ -727,6 +727,32 @@ html.has-selection .toast{bottom:155px}
  .color-sheet-confirm{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:54px;background:var(--blue);border-color:var(--blue);color:#fff;font-size:15px;font-weight:600}
  .color-sheet-confirm:disabled{opacity:.45;cursor:not-allowed}
 }
+
+/* Refined sheet: only selected color has an outline and a visible check */
+@media(max-width:700px){
+ .color-sheet-option{border:1px solid transparent;background:rgba(255,255,255,.035)}
+ .color-sheet-option.is-current{border-color:var(--blue);background:rgba(36,87,255,.10)}
+ .color-sheet-option icon-monks{display:none}
+ .color-sheet-option.is-current icon-monks:not([hidden]){display:inline-flex;margin-left:auto}
+ .color-sheet-scroll{position:relative;min-height:0;flex:1 1 auto;display:flex;flex-direction:column;overflow:hidden}
+ .color-sheet-content{flex:1 1 auto;min-height:0;overflow-y:auto;padding-bottom:20px}
+ .color-sheet-scroll::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:76px;
+  background:linear-gradient(to bottom,rgba(17,17,20,0),rgba(17,17,20,.62) 58%,#111114);
+  pointer-events:none;opacity:0;transition:opacity .2s ease;
+ }
+ .color-sheet-scroll.has-more::after{opacity:1}
+}
+/* Collapsed basket is ONLY the floating Show tab — no blue bottom strip */
+.selection-dock.is-collapsed{
+ height:0;min-height:0;padding:0;background:transparent;
+ box-shadow:none;border:0;
+}
+.selection-dock.is-collapsed .selection-dock-peek{
+ bottom:0;border-bottom:1px solid rgba(255,255,255,.45);
+ border-radius:12px 12px 0 0;
+}
+html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -805,10 +831,12 @@ html.has-selection .toast{bottom:155px}
 
 <dialog id="colorSheet" class="color-sheet" aria-labelledby="colorSheetTitle">
  <div class="color-sheet-grab" id="colorSheetGrab" aria-label="Swipe down to close"><span class="color-sheet-handle" aria-hidden="true"></span></div>
- <div class="color-sheet-content">
-  <p class="color-sheet-eyebrow">Choose color</p>
-  <h2 id="colorSheetTitle"></h2>
-  <div id="colorSheetOptions" class="color-sheet-options" role="group" aria-label="Available hat colors"></div>
+ <div class="color-sheet-scroll" id="colorSheetScroll">
+  <div class="color-sheet-content" id="colorSheetContent">
+   <p class="color-sheet-eyebrow">Choose color</p>
+   <h2 id="colorSheetTitle"></h2>
+   <div id="colorSheetOptions" class="color-sheet-options" role="group" aria-label="Available hat colors"></div>
+  </div>
  </div>
  <div class="color-sheet-footer"><button class="btn btn-blue color-sheet-confirm" id="colorSheetConfirm" type="button" disabled>Confirm selection <icon-monks name="check" size="18" aria-hidden="true"></icon-monks></button></div>
 </dialog>
@@ -944,6 +972,8 @@ dockPeek.addEventListener("click",()=>setDockCollapsed(!dockCollapsed));
 const colorSheet=document.getElementById("colorSheet");
 const colorSheetTitle=document.getElementById("colorSheetTitle");
 const colorSheetOptions=document.getElementById("colorSheetOptions");
+const colorSheetScroll=document.getElementById("colorSheetScroll");
+const colorSheetContent=document.getElementById("colorSheetContent");
 const colorSheetConfirm=document.getElementById("colorSheetConfirm");
 const colorSheetGrab=document.getElementById("colorSheetGrab");
 const mobileColorScreen=matchMedia("(max-width:700px)");
@@ -987,6 +1017,8 @@ function openColorSheet(i,trigger){
  });
  markSheetColor();
  colorSheet.showModal();
+ colorSheetContent.scrollTop=0;
+ requestAnimationFrame(updateSheetOverflow);
 }
 colorSheetConfirm.addEventListener("click",()=>{
  if(pendingHat<0||pendingColor<0)return;
@@ -1000,6 +1032,13 @@ colorSheetConfirm.addEventListener("click",()=>{
  closeColorSheet();
  selectHat(i);
 });
+function updateSheetOverflow(){
+ if(!colorSheet.open)return;
+ const more=colorSheetContent.scrollHeight-colorSheetContent.clientHeight-colorSheetContent.scrollTop>3;
+ colorSheetScroll.classList.toggle("has-more",more);
+}
+colorSheetContent.addEventListener("scroll",updateSheetOverflow,{passive:true});
+window.addEventListener("resize",updateSheetOverflow,{passive:true});
 colorSheet.addEventListener("click",e=>{if(e.target===colorSheet)closeColorSheet()});
 let sheetStartY=0,sheetPulling=false;
 colorSheetGrab.addEventListener("touchstart",e=>{sheetStartY=e.touches[0].clientY;sheetPulling=true},{passive:true});
