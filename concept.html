@@ -1070,6 +1070,27 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  }
  .dialog-actions .btn{width:100%;justify-content:center}
 }
+
+/* Full-width quote CTA inside the expanded selection panel on all screen sizes */
+.selection-dock .selection-dock-inner>.selection-dock-cta{
+ box-sizing:border-box;
+ display:flex;
+ width:100%;
+ max-width:none;
+ min-width:0;
+ justify-self:stretch;
+ align-self:stretch;
+ justify-content:center;
+ margin:8px 0 0;
+}
+@media(max-width:700px){
+ .selection-dock .selection-dock-inner>.selection-dock-cta{
+  width:100%;
+  max-width:none;
+  padding:14px 20px;
+  min-height:52px;
+ }
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
