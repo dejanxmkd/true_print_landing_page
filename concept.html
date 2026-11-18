@@ -1218,7 +1218,10 @@ html.intro-done .site-loader{
 @media(max-width:350px){
  .site-loader-number{font-size:7vw}
 }
-html.intro-loading,html.intro-loading body{overflow:hidden}
+/* Keep the page scrollable during the loader so Safari/Chrome can restore its
+   actual position on refresh; the fixed loader still covers all page content. */
+html.intro-loading{scroll-behavior:auto}
+html.intro-loading .site-loader{touch-action:none;overscroll-behavior:contain}
 html.intro-done .site-loader{
  opacity:0;visibility:hidden;pointer-events:none;
  transition:opacity .58s var(--ease),visibility 0s linear .58s;
@@ -1457,6 +1460,29 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
  }
  .selection-dock .selection-dock-product{flex:0 0 auto}
 }
+
+/* Desktop drawer: selected products occupy the TOP of the scroll viewport,
+   regardless of the available space below the last item. */
+@media(min-width:701px){
+ .selection-dock .selection-dock-panel>.selection-dock-inner{
+  align-items:stretch;
+  justify-items:stretch;
+ }
+ .selection-dock .selection-dock-scroll{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  height:100%;
+  min-height:0;
+ }
+ .selection-dock .selection-dock-scroll .selection-dock-items{
+  flex:1 1 auto;
+  align-items:stretch;
+  justify-content:flex-start;
+  min-height:0;
+ }
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -1477,7 +1503,8 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
   if(isReload){
    const stored=sessionStorage.getItem(scrollKey);
    if(stored!==null&&Number.isFinite(Number(stored)))savedScrollY=Math.max(0,Number(stored));
-   history.scrollRestoration="manual";
+   // Take over restoration only when we have an actual saved position.
+   if(savedScrollY!==null)history.scrollRestoration="manual";
   }
  }catch{}
  const rememberScroll=()=>{
@@ -1505,11 +1532,19 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
     finished=true;
     root.classList.remove("intro-loading");
     if(savedScrollY!==null){
-     const previousBehavior=root.style.scrollBehavior;
-     root.style.scrollBehavior="auto";
-     const maxScroll=Math.max(0,root.scrollHeight-window.innerHeight);
-     window.scrollTo(0,Math.min(savedScrollY,maxScroll));
-     root.style.scrollBehavior=previousBehavior;
+     const restorePosition=()=>{
+      const previousBehavior=root.style.scrollBehavior;
+      root.style.scrollBehavior="auto";
+      const maxScroll=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+      window.scrollTo({top:Math.min(savedScrollY,maxScroll),left:0,behavior:"instant"});
+      root.style.scrollBehavior=previousBehavior;
+     };
+     restorePosition();
+     // A second pass catches late font/image layout adjustments after the loader.
+     requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      if(Math.abs(window.scrollY-Math.min(savedScrollY,Math.max(0,root.scrollHeight-window.innerHeight)))>2)restorePosition();
+      history.scrollRestoration="auto";
+     }));
     }
     root.classList.add("intro-done");
     const cleanup=()=>{loader.remove();root.classList.remove("intro-done")};
