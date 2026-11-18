@@ -1352,6 +1352,53 @@ html.intro-done .site-loader{
   45%{filter:brightness(1.2);transform:translateY(-50%) scale(1.045)}
  }
 }
+
+/* Desktop: the Show / Hide handle remains VERTICAL on the drawer's left edge
+   in BOTH states; the entire drawer translates as one connected unit. */
+@media(min-width:701px){
+ .selection-dock .selection-dock-peek,
+ .selection-dock.is-collapsed .selection-dock-peek{
+  position:absolute;
+  top:50%;left:-49px;right:auto;bottom:auto;
+  width:49px;height:206px;
+  min-height:0;max-width:none;
+  padding:16px 9px 30px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:0;
+  transform:translateY(-50%);
+  border:0;border-radius:12px 0 0 12px;
+  background:var(--blue);color:#fff;
+  box-shadow:-8px 0 24px rgba(0,0,0,.18);
+  font-family:'Sora',sans-serif;font-size:13px;font-weight:500;line-height:1.25;
+  writing-mode:vertical-rl;text-orientation:mixed;text-align:center;
+ }
+ .selection-dock .selection-dock-peek #selectionDockPeekLabel{
+  writing-mode:vertical-rl;
+  display:block;flex:0 1 auto;
+  width:auto;white-space:nowrap;text-align:center;
+ }
+ .selection-dock .selection-dock-peek icon-monks{
+  position:absolute;
+  top:auto;bottom:12px;left:50%;right:auto;
+  width:17px;height:17px;
+  transform:translateX(-50%);
+ }
+ .selection-dock .selection-dock-panel,
+ .selection-dock.is-collapsed .selection-dock-panel{
+  padding-top:34px;
+ }
+ .selection-dock.is-collapsed .selection-dock-peek.selection-dock-pulse{
+  animation:desktop-side-tab-pulse .7s var(--ease) 1;
+ }
+ @keyframes desktop-side-tab-pulse{
+  0%,100%{filter:brightness(1);transform:translateY(-50%) scale(1)}
+  45%{filter:brightness(1.18);transform:translateY(-50%) scale(1.045)}
+ }
+}
+@media(min-width:701px) and (prefers-reduced-motion:reduce){
+ .selection-dock.is-collapsed .selection-dock-peek.selection-dock-pulse{animation:none}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -1582,6 +1629,9 @@ const dockPeek=document.getElementById("selectionDockPeek");
 const dockPeekLabel=document.getElementById("selectionDockPeekLabel");
 const selectionBackdrop=document.getElementById("selectionBackdrop");
 const selectedColors=hats.map(()=>new Set());
+// Track when each hat/color combination is newly added, independently of the catalog order.
+const selectionOrder=new Map();
+let selectionOrderCounter=0;
 const hatCards=[];
 let current=-1;
 let dockCollapsed=true;
@@ -1608,6 +1658,10 @@ function pulseDock(){
 dockPeek.addEventListener("animationend",()=>dockPeek.classList.remove("selection-dock-pulse"));
 function refreshDock(){
  const variants=selectedVariants(),size=variants.length;
+ const desktopDrawer=window.innerWidth>700;
+ const shownVariants=desktopDrawer?variants.slice().sort((a,b)=>
+  (selectionOrder.get(b.i+":"+b.j)||0)-(selectionOrder.get(a.i+":"+a.j)||0)
+ ):variants;
  selectionDock.classList.toggle("is-visible",size>0);
  selectionDock.toggleAttribute("inert",size===0);
  selectionDock.setAttribute("aria-hidden",String(size===0));
@@ -1616,7 +1670,7 @@ function refreshDock(){
  dockCount.textContent=size+" "+(size===1?"color":"colors")+" selected";
  dockPeekLabel.textContent=(dockCollapsed?"Show":"Hide")+" selection ("+size+")";
  dockItems.replaceChildren();
- variants.forEach(({i,j,name,color,hex})=>{
+ shownVariants.forEach(({i,j,name,color,hex})=>{
   const row=document.createElement("div");row.className="selection-dock-product";
   const swatch=document.createElement("span");swatch.className="selection-dock-swatch";
   swatch.style.backgroundColor=hex;swatch.setAttribute("aria-hidden","true");
@@ -1629,11 +1683,14 @@ function refreshDock(){
   remove.innerHTML='<icon-monks name="x" size="19" aria-hidden="true"></icon-monks>';
   remove.addEventListener("click",()=>{
    selectedColors[i].delete(j);
+   selectionOrder.delete(i+":"+j);
    if(current===i&&!selectedColors[i].size)current=selectedVariants().at(-1)?.i??-1;
    updateCardColors(i);
    refreshDock();
   });
-  row.append(remove,swatch,copy);dockItems.prepend(row);
+  row.append(remove,swatch,copy);
+  if(desktopDrawer)dockItems.append(row); // newest first
+  else dockItems.prepend(row); // preserve existing mobile ordering
  });
  hatCards.forEach((card,i)=>{
   const active=selectedColors[i].size>0;
@@ -1652,7 +1709,10 @@ function updateCardColors(i){
 }
 function selectHat(i,colors){
  current=i;
- selectedColors[i]=new Set(colors);
+ const previous=selectedColors[i],next=new Set(colors);
+ for(const j of previous)if(!next.has(j))selectionOrder.delete(i+":"+j);
+ for(const j of next)if(!previous.has(j))selectionOrder.set(i+":"+j,++selectionOrderCounter);
+ selectedColors[i]=next;
  updateCardColors(i);
  refreshDock();
  if(selectionCount()&&dockCollapsed)pulseDock();
