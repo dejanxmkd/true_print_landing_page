@@ -1019,6 +1019,33 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
   padding:10px 32px;
  }
 }
+
+/* Compact, standard-sized quote action inside the expanded selection drawer */
+.selection-dock .selection-dock-cta{
+ width:auto;
+ max-width:100%;
+ min-height:48px;
+ padding:12px 24px;
+ margin:6px 0 0;
+ align-self:center;
+ justify-self:center;
+ font-size:14px;
+ font-weight:500;
+ gap:12px;
+}
+@media(max-width:700px){
+ .selection-dock .selection-dock-cta{
+  width:auto;
+  max-width:100%;
+  min-height:46px;
+  padding:11px 22px;
+  margin:4px 0 0;
+  align-self:center;
+  justify-self:center;
+  font-size:14px;
+  gap:10px;
+ }
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
