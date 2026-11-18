@@ -1205,12 +1205,18 @@ html.intro-done .site-loader{
  display:block;
  min-width:4ch;
  font-family:'Syne',sans-serif;
- font-size:clamp(60px,11vw,152px);
- font-weight:700;
- line-height:1;
- letter-spacing:-.055em;
+ font-size:clamp(36px,8.9vw,158px);
+ font-weight:800;
+ line-height:.92;
+ letter-spacing:-.06em;
  font-variant-numeric:tabular-nums;
  text-align:center;
+}
+@media(max-width:700px){
+ .site-loader-number{font-size:clamp(25px,7.2vw,48px);line-height:1}
+}
+@media(max-width:350px){
+ .site-loader-number{font-size:7vw}
 }
 html.intro-loading,html.intro-loading body{overflow:hidden}
 html.intro-done .site-loader{
