@@ -972,6 +972,53 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
 @media(prefers-reduced-motion:reduce){
  .burger-lines span,.nav-links,.nav-links>a,.nav-links>.mobile-nav-quote{transition:none!important}
 }
+
+/* Precisely centered, compact Show/Hide selection tab */
+.selection-dock .selection-dock-peek,
+.selection-dock.is-collapsed .selection-dock-peek{
+ left:50%;
+ right:auto;
+ transform:translateX(-50%);
+ width:220px;
+ max-width:calc(100vw - 40px);
+ min-height:42px;
+ padding:10px 34px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border:0;
+ border-radius:12px 12px 0 0;
+ font-family:'Sora',sans-serif;
+ font-size:13px;
+ font-weight:500;
+ line-height:1.3;
+ letter-spacing:0;
+ text-align:center;
+ white-space:nowrap;
+}
+.selection-dock-peek #selectionDockPeekLabel{
+ display:block;
+ flex:none;
+ width:auto;
+ text-align:center;
+}
+.selection-dock .selection-dock-peek icon-monks{
+ position:absolute;
+ right:13px;
+ top:50%;
+ transform:translateY(-50%);
+ width:16px;
+ height:16px;
+}
+@media(max-width:700px){
+ .selection-dock .selection-dock-peek,
+ .selection-dock.is-collapsed .selection-dock-peek{
+  width:210px;
+  font-size:12px;
+  min-height:42px;
+  padding:10px 32px;
+ }
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
