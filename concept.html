@@ -1226,18 +1226,35 @@ html.intro-done .site-loader{
 @media(prefers-reduced-motion:reduce){
  html.intro-done .site-loader{transition:opacity .18s linear,visibility 0s linear .18s}
 }
+
+/* Loader: blue percent sign, white numerals — matching the hero blue period. */
+.site-loader-number .site-loader-percent{color:var(--blue)}
+/* Desktop swatches exist only while hovering the image/color block.
+   Pointer exit closes the drawer even if a color swatch retains mouse focus.
+   Keyboard focus-visible may still open it for accessibility. */
+@media (min-width:701px) and (hover:hover) and (pointer:fine){
+ .hat-card .hat-visual:not(:hover):not(:has(:focus-visible)) .hat-color-panel{
+  height:0;min-height:0;padding:0 22px;
+  opacity:0;visibility:hidden;pointer-events:none;
+ }
+ .hat-card .hat-visual:hover .hat-color-panel,
+ .hat-card .hat-visual:has(:focus-visible) .hat-color-panel{
+  height:132px;padding:22px 22px 24px;
+  opacity:1;visibility:visible;pointer-events:auto;
+ }
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
 <body>
 <div class="site-loader" id="siteLoader" role="progressbar" aria-label="Loading TruePrint Shop" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
- <span class="site-loader-number" id="siteLoaderNumber" aria-hidden="true">0%</span>
+ <span class="site-loader-number" id="siteLoaderNumber" aria-hidden="true"><span id="siteLoaderDigits">0</span><span class="site-loader-percent">%</span></span>
 </div>
 <script>
 (()=>{
  const root=document.documentElement;
  const loader=document.getElementById("siteLoader");
- const number=document.getElementById("siteLoaderNumber");
+ const number=document.getElementById("siteLoaderDigits");
  const start=performance.now();
  let ready=document.readyState==="complete";
  let endStart=0,endFrom=0,finished=false;
@@ -1251,7 +1268,7 @@ html.intro-done .site-loader{
    if(!endStart){endStart=now;endFrom=warmup}
    const t=Math.min((now-endStart)/280,1);
    const progress=Math.min(100,Math.round(endFrom+(100-endFrom)*t));
-   number.textContent=progress+"%";
+   number.textContent=String(progress);
    loader.setAttribute("aria-valuenow",String(progress));
    if(t>=1){
     finished=true;
@@ -1263,7 +1280,7 @@ html.intro-done .site-loader{
     return;
    }
   }else{
-   number.textContent=warmup+"%";
+   number.textContent=String(warmup);
    loader.setAttribute("aria-valuenow",String(warmup));
   }
   requestAnimationFrame(tick);
@@ -1665,7 +1682,7 @@ hats.forEach((hat,i)=>{
  });
  swatchPanel.append(swatchTop,swatches);visual.append(swatchPanel);
  info.append(heading,desc);
- const select=document.createElement("button");select.className="hat-card-select";select.type="button";select.setAttribute("aria-label","Choose color for "+hat.name);select.addEventListener("click",()=>{if(mobileColorScreen.matches){openColorSheet(i,select);return}card.classList.toggle("is-choosing");select.setAttribute("aria-expanded",String(card.classList.contains("is-choosing")))});
+ const select=document.createElement("button");select.className="hat-card-select";select.type="button";select.setAttribute("aria-label","Choose color for "+hat.name);select.addEventListener("click",()=>{if(mobileColorScreen.matches){openColorSheet(i,select);return}/* Desktop palette is hover-only; clicking never locks it open. */});
  visual.insertBefore(select,visual.firstChild);
  // The image button keeps keyboard access; clicking the title, price or
  // description triggers that same action instead of selecting a hat directly.
