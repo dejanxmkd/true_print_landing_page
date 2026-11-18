@@ -1030,10 +1030,7 @@ function selectHat(i,colors){
  selectedColors[i]=new Set(colors);
  updateCardColors(i);
  refreshDock();
- if(selectionCount()){
-  if(dockCollapsed)pulseDock();
-  notify(hats[i].name+" added to selection");
- }
+ if(selectionCount()&&dockCollapsed)pulseDock();
 }
 dockPeek.addEventListener("click",()=>setDockCollapsed(!dockCollapsed));
 setDockCollapsed(true);
