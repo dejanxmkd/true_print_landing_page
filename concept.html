@@ -775,6 +775,13 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  padding-inline:20px;
 }
 .selection-dock.is-collapsed .selection-dock-peek{bottom:0}
+/* Center the Show/Hide selection label within the floating tab */
+.selection-dock .selection-dock-peek,
+.selection-dock.is-collapsed .selection-dock-peek{
+ justify-content:center;
+ text-align:center;
+}
+.selection-dock-peek #selectionDockPeekLabel{display:block;text-align:center;flex:1 1 auto}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
