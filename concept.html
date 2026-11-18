@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0A0A0D">
+<script>document.documentElement.classList.add("intro-loading")</script>
 <meta name="description" content="TruePrint Shop — custom embroidered hats. Choose a style, share your logo, and make it yours.">
 <title>TruePrint Shop — A different way to make hats</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1188,10 +1189,82 @@ html.mobile-nav-open .selection-backdrop{opacity:0;visibility:hidden;pointer-eve
 @media(prefers-reduced-motion:reduce){
  .selection-dock-panel,.selection-backdrop{transition:none}
 }
+
+/* Opening sequence: only a centered 0–100% number, no extra elements. */
+.site-loader{display:none}
+html.intro-loading .site-loader,
+html.intro-done .site-loader{
+ display:grid;
+ position:fixed;inset:0;z-index:10000;
+ place-items:center;
+ background:var(--ground);
+ color:var(--ink);
+ padding:24px;
+}
+.site-loader-number{
+ display:block;
+ min-width:4ch;
+ font-family:'Syne',sans-serif;
+ font-size:clamp(60px,11vw,152px);
+ font-weight:700;
+ line-height:1;
+ letter-spacing:-.055em;
+ font-variant-numeric:tabular-nums;
+ text-align:center;
+}
+html.intro-loading,html.intro-loading body{overflow:hidden}
+html.intro-done .site-loader{
+ opacity:0;visibility:hidden;pointer-events:none;
+ transition:opacity .58s var(--ease),visibility 0s linear .58s;
+}
+@media(prefers-reduced-motion:reduce){
+ html.intro-done .site-loader{transition:opacity .18s linear,visibility 0s linear .18s}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
 <body>
+<div class="site-loader" id="siteLoader" role="progressbar" aria-label="Loading TruePrint Shop" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+ <span class="site-loader-number" id="siteLoaderNumber" aria-hidden="true">0%</span>
+</div>
+<script>
+(()=>{
+ const root=document.documentElement;
+ const loader=document.getElementById("siteLoader");
+ const number=document.getElementById("siteLoaderNumber");
+ const start=performance.now();
+ let ready=document.readyState==="complete";
+ let endStart=0,endFrom=0,finished=false;
+ window.addEventListener("load",()=>{ready=true},{once:true});
+ function tick(now){
+  if(finished)return;
+  const elapsed=now-start;
+  // Advance smoothly while assets load; never display 100% before the reveal.
+  const warmup=Math.min(96,Math.floor(96*Math.min(elapsed/1500,1)));
+  if((ready&&elapsed>=1450)||elapsed>=4200){
+   if(!endStart){endStart=now;endFrom=warmup}
+   const t=Math.min((now-endStart)/280,1);
+   const progress=Math.min(100,Math.round(endFrom+(100-endFrom)*t));
+   number.textContent=progress+"%";
+   loader.setAttribute("aria-valuenow",String(progress));
+   if(t>=1){
+    finished=true;
+    root.classList.add("intro-done");
+    root.classList.remove("intro-loading");
+    const cleanup=()=>{loader.remove();root.classList.remove("intro-done")};
+    loader.addEventListener("transitionend",e=>{if(e.propertyName==="opacity")cleanup()},{once:true});
+    setTimeout(()=>{if(loader.isConnected)cleanup()},1000);
+    return;
+   }
+  }else{
+   number.textContent=warmup+"%";
+   loader.setAttribute("aria-valuenow",String(warmup));
+  }
+  requestAnimationFrame(tick);
+ }
+ requestAnimationFrame(tick);
+})();
+</script>
 <header>
  <div class="header-inner">
   <a href="#top" class="brand" aria-label="TruePrint Shop homepage"><img src="logo_true_blue.svg" alt="TruePrint Shop"></a>
