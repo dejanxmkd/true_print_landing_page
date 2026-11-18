@@ -1118,6 +1118,17 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
 }
 .selection-dock-scroll.has-more::after{opacity:1}
 @media(prefers-reduced-motion:reduce){.selection-dock-scroll::after{transition:none}}
+
+/* Taller selection drawer: room for roughly eight color variants before scrolling */
+.selection-dock-scroll .selection-dock-items{
+ max-height:min(66dvh,650px,calc(100dvh - 185px));
+}
+@media(max-width:700px){
+ .selection-dock-scroll .selection-dock-items{
+  max-height:min(72dvh,620px,calc(100dvh - 172px));
+ }
+ .selection-dock-product{padding-block:7px}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
