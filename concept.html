@@ -1091,6 +1091,33 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
   min-height:52px;
  }
 }
+
+/* Selected products: scroll fade identical in behavior to the mobile color sheet. */
+.selection-dock-scroll{
+ position:relative;
+ grid-column:1;
+ grid-row:2;
+ min-width:0;
+ min-height:0;
+ overflow:hidden;
+}
+.selection-dock-scroll .selection-dock-items{
+ grid-column:auto;
+ grid-row:auto;
+ width:100%;
+}
+.selection-dock-scroll::after{
+ content:"";
+ position:absolute;
+ inset:auto 0 0;
+ height:clamp(52px,8vh,80px);
+ pointer-events:none;
+ background:linear-gradient(to bottom,rgba(25,25,31,0),rgba(25,25,31,.74) 58%,rgba(25,25,31,.98));
+ opacity:0;
+ transition:opacity .2s ease;
+}
+.selection-dock-scroll.has-more::after{opacity:1}
+@media(prefers-reduced-motion:reduce){.selection-dock-scroll::after{transition:none}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -1161,7 +1188,7 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  <div class="selection-dock-panel" id="selectionDockPanel">
   <div class="selection-dock-inner">
    <span class="selection-dock-label" id="selectionDockCount">Your selection</span>
-   <div class="selection-dock-items" id="selectionDockItems" aria-live="polite" aria-relevant="additions removals"></div>
+   <div class="selection-dock-scroll" id="selectionDockScroll"><div class="selection-dock-items" id="selectionDockItems" aria-live="polite" aria-relevant="additions removals"></div></div>
    <button class="btn selection-dock-cta" id="chooseSelected" type="button">Get a quote <icon-monks name="arrow-right" size="18" aria-hidden="true"></icon-monks></button>
   </div>
  </div>
@@ -1249,6 +1276,13 @@ if(!prefersReduced.matches){
 const hatGrid=document.getElementById("hatGrid");
 const selectionDock=document.getElementById("selectionDock");
 const dockItems=document.getElementById("selectionDockItems");
+const dockScroll=document.getElementById("selectionDockScroll");
+function updateDockOverflow(){
+ const hasMore=selectionDock.classList.contains("is-visible")&&!selectionDock.classList.contains("is-collapsed")&&dockItems.scrollHeight-dockItems.clientHeight-dockItems.scrollTop>3;
+ dockScroll.classList.toggle("has-more",hasMore);
+}
+dockItems.addEventListener("scroll",updateDockOverflow,{passive:true});
+window.addEventListener("resize",updateDockOverflow,{passive:true});
 const dockCount=document.getElementById("selectionDockCount");
 const dockPeek=document.getElementById("selectionDockPeek");
 const dockPeekLabel=document.getElementById("selectionDockPeekLabel");
@@ -1268,6 +1302,7 @@ function setDockCollapsed(collapsed){
  dockPeek.querySelector("icon-monks").setAttribute("name",collapsed?"chevron-up":"chevron-down");
  dockItems.inert=collapsed;
  document.getElementById("chooseSelected").disabled=collapsed;
+ requestAnimationFrame(updateDockOverflow);
 }
 function pulseDock(){
  dockPeek.classList.remove("selection-dock-pulse");
@@ -1308,6 +1343,7 @@ function refreshDock(){
   card.classList.toggle("is-selected",active);
   card.querySelector(".hat-card-select").setAttribute("aria-pressed",String(active));
  });
+ requestAnimationFrame(updateDockOverflow);
 }
 function updateCardColors(i){
  const card=hatCards[i],colors=selectedColors[i];
