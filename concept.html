@@ -1399,6 +1399,40 @@ html.intro-done .site-loader{
 @media(min-width:701px) and (prefers-reduced-motion:reduce){
  .selection-dock.is-collapsed .selection-dock-peek.selection-dock-pulse{animation:none}
 }
+
+/* Compact floating back-to-top control: present after scrolling, never in footer. */
+.back-to-top{
+ position:fixed;
+ z-index:92;
+ right:clamp(18px,3.25vw,58px);
+ bottom:max(24px,env(safe-area-inset-bottom));
+ width:52px;height:52px;
+ display:grid;place-items:center;
+ border:0;border-radius:50%;
+ background:var(--blue);color:#fff;
+ box-shadow:0 12px 32px rgba(0,0,0,.26);
+ opacity:0;visibility:hidden;pointer-events:none;
+ transform:translateY(14px) scale(.88);
+ transition:opacity .32s ease,transform .42s var(--ease),visibility 0s linear .42s,background .25s ease;
+}
+.back-to-top.is-visible{
+ opacity:1;visibility:visible;pointer-events:auto;
+ transform:translateY(0) scale(1);
+ transition:opacity .32s ease,transform .42s var(--ease),visibility 0s,background .25s ease;
+}
+.back-to-top:hover{background:#1746e5;transform:translateY(-3px) scale(1)}
+.back-to-top icon-monks{display:flex;align-items:center;justify-content:center;width:21px;height:21px}
+body:has(dialog[open]) .back-to-top,
+html.mobile-nav-open .back-to-top,
+body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden;pointer-events:none}
+@media(max-width:700px){
+ .back-to-top{right:18px;bottom:max(22px,env(safe-area-inset-bottom));width:48px;height:48px}
+ /* Footer is now just two editorial text items. */
+ .footer-line{grid-template-columns:1fr;gap:8px}
+ .footer-line span:nth-child(2){grid-column:1;grid-row:1}
+ .footer-line span:first-child{grid-column:1;grid-row:2}
+}
+@media(prefers-reduced-motion:reduce){.back-to-top{transition:none}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -1498,11 +1532,12 @@ html.intro-done .site-loader{
 <section class="close-section" id="contact" aria-labelledby="closeTitle">
  <div class="wrap">
   <div class="close-main"><div><h2 class="reveal" id="closeTitle">Ready to make<br>your hats<span style="color:var(--blue)">?</span></h2><p class="reveal">Choose a style, share your artwork, and start your quote.</p></div><div class="close-actions reveal"><a class="btn" href="#hats">Explore styles</a><button class="btn btn-blue" data-quote>Get a free quote</button></div></div>
-  <div class="footer-line"><span>© <span id="year"></span></span><span>Custom embroidered hats</span><a href="#top">Back to top <icon-monks name="arrow-up" size="16" aria-hidden="true"></icon-monks></a></div>
+  <div class="footer-line"><span>© <span id="year"></span></span><span>Custom embroidered hats</span></div>
  </div>
  
 </section>
 </main>
+<a href="#top" class="back-to-top" id="backToTop" aria-label="Back to top" aria-hidden="true" tabindex="-1"><icon-monks name="arrow-up" size="21" aria-hidden="true"></icon-monks></a>
 <div class="selection-backdrop" id="selectionBackdrop" aria-hidden="true"></div>
 <aside class="selection-dock" id="selectionDock" aria-label="Selected products" aria-hidden="true" inert>
  <button class="selection-dock-peek" id="selectionDockPeek" type="button" aria-controls="selectionDockPanel" aria-expanded="true">
@@ -1934,6 +1969,19 @@ document.addEventListener("click",e=>{if(links.classList.contains("open")&&!e.ta
 mobileNavMedia.addEventListener("change",closeMobileNav);
 closeMobileNav();
 
+const backToTop=document.getElementById("backToTop");
+let backToTopFrame=false;
+function updateBackToTop(){
+ backToTopFrame=false;
+ const visible=window.scrollY>220;
+ backToTop.classList.toggle("is-visible",visible);
+ backToTop.setAttribute("aria-hidden",String(!visible));
+ backToTop.tabIndex=visible?0:-1;
+}
+window.addEventListener("scroll",()=>{
+ if(!backToTopFrame){backToTopFrame=true;requestAnimationFrame(updateBackToTop)}
+},{passive:true});
+updateBackToTop();
 document.getElementById("year").textContent=new Date().getFullYear();
 </script>
 </body>
