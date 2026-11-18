@@ -753,6 +753,28 @@ html.has-selection .toast{bottom:155px}
  border-radius:12px 12px 0 0;
 }
 html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
+
+/* Color picker: selected item alone receives a real check node (never hidden checks) */
+@media(max-width:700px){
+ .color-sheet-option .color-sheet-selected-check{
+  display:inline-flex;margin-left:auto;align-items:center;justify-content:center;
+  color:var(--blue);font-family:'Sora',sans-serif;font-size:24px;font-weight:600;line-height:1;
+ }
+ .color-sheet-option:not(.is-current) .color-sheet-selected-check{display:none}
+ .color-sheet-confirm{gap:0}
+}
+/* Centered, solid-blue Show/Hide tab: no white borders on either state */
+.selection-dock .selection-dock-peek,
+.selection-dock.is-collapsed .selection-dock-peek{
+ left:50%;right:auto;transform:translateX(-50%);
+ display:flex;align-items:center;justify-content:center;
+ gap:10px;text-align:center;
+ background:var(--blue);color:#fff;
+ border:0;border-radius:12px 12px 0 0;
+ box-shadow:none;
+ padding-inline:20px;
+}
+.selection-dock.is-collapsed .selection-dock-peek{bottom:0}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -838,7 +860,7 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
    <div id="colorSheetOptions" class="color-sheet-options" role="group" aria-label="Available hat colors"></div>
   </div>
  </div>
- <div class="color-sheet-footer"><button class="btn btn-blue color-sheet-confirm" id="colorSheetConfirm" type="button" disabled>Confirm selection <icon-monks name="check" size="18" aria-hidden="true"></icon-monks></button></div>
+ <div class="color-sheet-footer"><button class="btn btn-blue color-sheet-confirm" id="colorSheetConfirm" type="button" disabled>Confirm selection</button></div>
 </dialog>
 <dialog id="quoteDialog" aria-labelledby="quoteTitle">
  <div class="dialog-top"><h2 id="quoteTitle">Get a quote</h2><button type="button" id="closeQuote" aria-label="Close dialog">×</button></div>
@@ -991,8 +1013,14 @@ function markSheetColor(){
   const selected=j===pendingColor;
   option.classList.toggle("is-current",selected);
   option.setAttribute("aria-pressed",String(selected));
-  const indicator=option.querySelector("icon-monks");
-  if(indicator)indicator.hidden=!selected;
+  option.querySelector(".color-sheet-selected-check")?.remove();
+  if(selected){
+   const check=document.createElement("span");
+   check.className="color-sheet-selected-check";
+   check.setAttribute("aria-hidden","true");
+   check.textContent="✓";
+   option.append(check);
+  }
  });
  colorSheetConfirm.disabled=pendingColor<0;
 }
@@ -1010,8 +1038,7 @@ function openColorSheet(i,trigger){
   option.setAttribute("aria-pressed","false");
   const dot=document.createElement("span");dot.className="color-sheet-dot";dot.style.backgroundColor=hex;
   const label=document.createElement("span");label.textContent=name;
-  const check=document.createElement("icon-monks");check.setAttribute("name","check");check.setAttribute("size","19");check.setAttribute("aria-hidden","true");
-  option.append(dot,label,check);
+  option.append(dot,label);
   option.addEventListener("click",()=>{pendingColor=j;markSheetColor()});
   colorSheetOptions.append(option);
  });
