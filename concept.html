@@ -1536,7 +1536,7 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
       const previousBehavior=root.style.scrollBehavior;
       root.style.scrollBehavior="auto";
       const maxScroll=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
-      window.scrollTo({top:Math.min(savedScrollY,maxScroll),left:0,behavior:"instant"});
+      window.scrollTo(0,Math.min(savedScrollY,maxScroll));
       root.style.scrollBehavior=previousBehavior;
      };
      restorePosition();
