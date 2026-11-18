@@ -1433,6 +1433,30 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
  .footer-line span:first-child{grid-column:1;grid-row:2}
 }
 @media(prefers-reduced-motion:reduce){.back-to-top{transition:none}}
+
+/* Desktop selection rows must begin immediately under the heading.
+   An older grid 'align-items:end' was pinning a short list to the drawer bottom. */
+@media(min-width:701px){
+ .selection-dock .selection-dock-panel>.selection-dock-inner,
+ .selection-dock.is-collapsed .selection-dock-panel>.selection-dock-inner{
+  align-items:stretch;
+  align-content:stretch;
+ }
+ .selection-dock .selection-dock-scroll{
+  align-self:stretch;
+  justify-self:stretch;
+ }
+ .selection-dock .selection-dock-scroll .selection-dock-items{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-content:flex-start;
+  align-items:stretch;
+  overflow-anchor:none;
+  scroll-behavior:auto;
+ }
+ .selection-dock .selection-dock-product{flex:0 0 auto}
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -1445,6 +1469,23 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
  const root=document.documentElement;
  const loader=document.getElementById("siteLoader");
  const number=document.getElementById("siteLoaderDigits");
+ // The loading overlay must not reset the user's scroll position on refresh.
+ const scrollKey="trueprint:concept:scroll-y";
+ const isReload=performance.getEntriesByType("navigation")[0]?.type==="reload";
+ let savedScrollY=null;
+ try{
+  if(isReload){
+   const stored=sessionStorage.getItem(scrollKey);
+   if(stored!==null&&Number.isFinite(Number(stored)))savedScrollY=Math.max(0,Number(stored));
+   history.scrollRestoration="manual";
+  }
+ }catch{}
+ const rememberScroll=()=>{
+  if(root.classList.contains("intro-loading"))return;
+  try{sessionStorage.setItem(scrollKey,String(Math.round(window.scrollY)))}catch{}
+ };
+ window.addEventListener("scroll",rememberScroll,{passive:true});
+ window.addEventListener("pagehide",rememberScroll);
  const start=performance.now();
  let ready=document.readyState==="complete";
  let endStart=0,endFrom=0,finished=false;
@@ -1462,8 +1503,15 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
    loader.setAttribute("aria-valuenow",String(progress));
    if(t>=1){
     finished=true;
-    root.classList.add("intro-done");
     root.classList.remove("intro-loading");
+    if(savedScrollY!==null){
+     const previousBehavior=root.style.scrollBehavior;
+     root.style.scrollBehavior="auto";
+     const maxScroll=Math.max(0,root.scrollHeight-window.innerHeight);
+     window.scrollTo(0,Math.min(savedScrollY,maxScroll));
+     root.style.scrollBehavior=previousBehavior;
+    }
+    root.classList.add("intro-done");
     const cleanup=()=>{loader.remove();root.classList.remove("intro-done")};
     loader.addEventListener("transitionend",e=>{if(e.propertyName==="opacity")cleanup()},{once:true});
     setTimeout(()=>{if(loader.isConnected)cleanup()},1000);
