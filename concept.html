@@ -1129,6 +1129,13 @@ html.has-selection:has(.selection-dock.is-collapsed) body{padding-bottom:0}
  }
  .selection-dock-product{padding-block:7px}
 }
+/* Selection drawer: exactly six full entries plus half the next one on mobile.
+   The actual row heights are measured in JS; short lists keep their natural height. */
+@media(max-width:700px){
+ .selection-dock-scroll .selection-dock-items{
+  max-height:min(var(--dock-six-half-height, 390px),calc(100dvh - 184px));
+ }
+}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
@@ -1288,7 +1295,14 @@ const hatGrid=document.getElementById("hatGrid");
 const selectionDock=document.getElementById("selectionDock");
 const dockItems=document.getElementById("selectionDockItems");
 const dockScroll=document.getElementById("selectionDockScroll");
+function updateDockRevealHeight(){
+ const rows=[...dockItems.children];
+ const six=rows.slice(0,6).reduce((total,row)=>total+row.getBoundingClientRect().height,0);
+ const halfSeventh=rows[6]?rows[6].getBoundingClientRect().height/2:0;
+ dockItems.style.setProperty("--dock-six-half-height",Math.ceil(six+halfSeventh+1)+"px");
+}
 function updateDockOverflow(){
+ updateDockRevealHeight();
  const hasMore=selectionDock.classList.contains("is-visible")&&!selectionDock.classList.contains("is-collapsed")&&dockItems.scrollHeight-dockItems.clientHeight-dockItems.scrollTop>3;
  dockScroll.classList.toggle("has-more",hasMore);
 }
