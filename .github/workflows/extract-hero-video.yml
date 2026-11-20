@@ -20,8 +20,9 @@ jobs:
           set -euo pipefail
           mkdir -p /tmp/trueprint-video
           unzip -oq 'assets/Seamless_infinite_loop_video_5a764ca2_2K_upscaled.mp4.zip' -d /tmp/trueprint-video
-          video="$(find /tmp/trueprint-video -type f -iname '*.mp4' | head -n 1)"
+          video="$(find /tmp/trueprint-video -type f -iname '*.mp4' ! -path '*/__MACOSX/*' ! -name '._*' -printf '%s %p\n' | sort -nr | head -n 1 | cut -d' ' -f2-)"
           test -n "$video"
+          test "$(stat -c%s "$video")" -gt 100000
           cp "$video" assets/trueprint_hero_video.mp4
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
