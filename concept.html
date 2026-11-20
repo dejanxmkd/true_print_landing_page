@@ -1625,7 +1625,26 @@ body:has(.selection-backdrop.is-active) .back-to-top{opacity:0;visibility:hidden
  object-position:center center;
  pointer-events:none;
 }
-.portal-image .portal-image-label{z-index:1}
+/* Four-sided dark vignette uses the site's own #0A0A0D background.
+   The transparent center keeps the moving hat visible and the gradient
+   softly blends all four edges into the surrounding sections. */
+.portal-image::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:1;
+ pointer-events:none;
+ background:
+  linear-gradient(to right,
+   #0A0A0D 0%,rgba(10,10,13,.82) 8%,
+   rgba(10,10,13,0) 29%,rgba(10,10,13,0) 71%,
+   rgba(10,10,13,.82) 92%,#0A0A0D 100%),
+  linear-gradient(to bottom,
+   #0A0A0D 0%,rgba(10,10,13,.76) 10%,
+   rgba(10,10,13,0) 30%,rgba(10,10,13,0) 69%,
+   rgba(10,10,13,.76) 90%,#0A0A0D 100%);
+}
+.portal-image .portal-image-label{z-index:2}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@icon-monks/web@0.4.3"></script>
 </head>
